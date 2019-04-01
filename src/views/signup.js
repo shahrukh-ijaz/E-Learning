@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 export default class Signup extends Component {
   constructor(props) {
@@ -10,8 +10,23 @@ export default class Signup extends Component {
   render() {
     return (
       <View>
-        <Text> textInComponent </Text>
+        <Text> Signup </Text>
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 7,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  header: {
+    flex: 3,
+    backgroundColor: "grey",
+    alignItems: "center",
+    justifyContent: "center"
+  }
+});
