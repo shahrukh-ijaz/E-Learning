@@ -1,7 +1,15 @@
 import React, { Component } from "react";
-import { Container, Header, Content, Item, Input, Button, CardItem, Image } from 'native-base';
-import { StyleSheet, Text, View } from "react-native";
-import {styles} from "../styles/signup.styles";
+import {
+  Container,
+  Header,
+  Content,
+  Item,
+  Input,
+  Button,
+  CardItem
+} from "native-base";
+import { StyleSheet, Text, View, Image } from "react-native";
+import { styles } from "../styles/signup.styles";
 
 export default class Signup extends Component {
   constructor(props) {
@@ -13,9 +21,13 @@ export default class Signup extends Component {
     return (
       <React.Fragment>
         <Container style={styles.header}>
-            <Text>This is Header</Text>
+          <Image
+            style={{ width: 50, height: 50 }}
+            source={require("../../assets/icon.png")}
+          />
+          <Text>This is Header</Text>
         </Container>
-      
+
         <Container style={styles.container}>
           <Content style={styles.content}>
             <Item style={styles.inputFields}>
@@ -23,7 +35,7 @@ export default class Signup extends Component {
             </Item>
             <Item style={styles.inputFields}>
               <Input placeholder="Username" />
-            </Item> 
+            </Item>
             <Item style={styles.inputFields}>
               <Input placeholder="Email" />
             </Item>
@@ -33,14 +45,14 @@ export default class Signup extends Component {
             <Item style={styles.inputFields}>
               <Input placeholder="Confirm Password" />
             </Item>
-            <Button style={[styles.inputFields , {width: 320}]}> 
-              <Text style={styles.button}>
-                Create Account
-              </Text>
-            </Button>
+            <View style={styles.buttonView}>
+              <Button style={[styles.button]}>
+                <Text style={{ color: "white" }}>Create Account</Text>
+              </Button>
+            </View>
           </Content>
         </Container>
-      </React.Fragment>  
+      </React.Fragment>
     );
   }
 }
