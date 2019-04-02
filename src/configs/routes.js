@@ -22,7 +22,7 @@ const AuthStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: "Signin"
+    initialRouteName: "Signup"
   }
 );
 
