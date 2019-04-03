@@ -22,14 +22,15 @@ export default class Dashboard extends Component {
       <React.Fragment>
         <Container style={styles.header}>
           <Image
-            source={require("../../assets/signUp.png")}
+            style={{ width: 180, height: 180 }}
+            source={require("../../assets/avatar.png")}
           />
         </Container>
 
         <Container style={styles.surname}>
-          <Text style={{fontSize: 20,color: "gray"}}>SURNAME</Text>
+          <Text style={{ fontSize: 20, color: "gray" }}>SURNAME</Text>
         </Container>
-        
+
         <Container style={styles.body}>
           <Content style={styles.content}>
             <View style={styles.buttonView}>
