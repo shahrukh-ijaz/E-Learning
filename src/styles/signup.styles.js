@@ -6,13 +6,13 @@ export const styles = StyleSheet.create({
     flex: 7
   },
   header: {
-    flex: 3,
+    flex: 4,
     backgroundColor: "white",
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flexDirection: "row",
+    flexWrap: "wrap",
     alignItems: "center",
     justifyContent: "center",
-    paddingTop:30,
+    paddingTop: 30
   },
   content: {
     marginTop: 30,
