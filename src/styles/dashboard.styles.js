@@ -28,6 +28,20 @@ export const styles = StyleSheet.create({
     justifyContent: "center"
   },
   buttonView: {
-    flexDirection: "row"
+    flexDirection: "row",
+    marginVertical: 6, 
+  },
+  surname: {
+      flex: 1,
+      backgroundColor: 'white',
+      alignItems: 'center',
+      justifyContent: 'center',
+  },
+  body: {
+      flex: 5
+  },
+  buttonText: {
+      color: "white",
+      fontSize: 18,
   }
 });

@@ -22,10 +22,9 @@ export default class Signup extends Component {
       <React.Fragment>
         <Container style={styles.header}>
           <Image
-            style={{ width: 50, height: 50 }}
-            source={require("../../assets/icon.png")}
+            source={require("../../assets/signUp.png")}
           />
-          <Text>This is Header</Text>
+          
         </Container>
 
         <Container style={styles.container}>
@@ -46,7 +45,7 @@ export default class Signup extends Component {
               <Input placeholder="Confirm Password" />
             </Item>
             <View style={styles.buttonView}>
-              <Button style={[styles.button]}>
+              <Button style={[styles.button]}  onPress={()=>this.props.navigation.goBack()}>
                 <Text style={{ color: "white" }}>Create Account</Text>
               </Button>
             </View>

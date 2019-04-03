@@ -19,10 +19,16 @@ const AuthStack = createStackNavigator(
       navigationOptions: {
         header: null
       }
+    },
+    Dashboard: {
+      screen: Dashboard,
+      navigationOptions: {
+        header: null
+      }
     }
   },
   {
-    initialRouteName: "Signup"
+    initialRouteName: "Signin"
   }
 );
 
