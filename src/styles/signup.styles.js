@@ -7,13 +7,13 @@ export const styles = StyleSheet.create({
   },
   header: {
     flex: 4,
-    backgroundColor: "white",
+    backgroundColor: "gray",
     flexDirection: "row",
     flexWrap: "wrap",
     alignItems: "center",
     justifyContent: "center",
     paddingTop: 30
-  },
+  }, 
   content: {
     marginTop: 30,
     marginHorizontal: 30

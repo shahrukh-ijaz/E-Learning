@@ -25,8 +25,7 @@ class Signin extends Component {
       <React.Fragment>
         <Container style={styles.header}>
           <Image
-            style={{ width: 300, height: 175 }}
-            style={styles.logo}
+            style={{ width: 360, height: 200 }}
             source={require("../../assets/signUp.png")}
           />
         </Container>

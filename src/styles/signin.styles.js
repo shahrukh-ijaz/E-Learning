@@ -6,15 +6,12 @@ export const styles = StyleSheet.create({
   header: {
     flex: 4,
     paddingTop:30,
-    backgroundColor: "white"    
-  },
-  logo: {
-      flex: 1,
-      alignItems: 'center',
-      justifyContent: 'center'
+    backgroundColor: "white",
+    alignItems: 'center',
+    justifyContent: 'center',    
   },
   body: {
-    flex: 5,
+    flex: 6,
     backgroundColor: "green",
   },
   content: {

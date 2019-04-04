@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
     flex: 7
   },
   header: {
-    flex: 3,
+    flex: 4,
     backgroundColor: "gray",
     flexDirection: "row",
     flexWrap: "wrap",
