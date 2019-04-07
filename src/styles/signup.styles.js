@@ -3,16 +3,15 @@ import { Left } from "native-base";
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 7
+    flex: 6
   },
   header: {
-    flex: 3,
-    backgroundColor: "white",
-    flexDirection: 'row',
-    flexWrap: 'wrap',
+    flex: 4,
+    paddingTop: 28
+  },
+  logo: {
     alignItems: "center",
-    justifyContent: "center",
-    paddingTop:30,
+    justifyContent: "center"
   },
   content: {
     marginTop: 30,
@@ -20,6 +19,19 @@ export const styles = StyleSheet.create({
   },
   inputFields: {
     borderRadius: 7
+  },
+  signupButton: {
+    flex: 1,
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "transparent",
+    borderWidth: 2,
+    borderColor: "#012060",
+    marginHorizontal: 4
+  },
+  buttonView: {
+    flexDirection: "row"
   },
   button: {
     flex: 1,
