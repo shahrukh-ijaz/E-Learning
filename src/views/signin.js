@@ -7,44 +7,83 @@ import {
   Form,
   Item,
   Input,
+  Spinner,
   Button
 } from "native-base";
 import { styles } from "../styles/signin.styles";
+import { Avatar } from "react-native-elements";
 
 class Signin extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isLoading: false,
+      email: "",
+      password: ""
+    };
   }
 
   _signin = async () => {
-    try {
-      let x = await fetch("https://www.gorporbyken.com/api/login", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          email: this.state.email,
-          password: this.state.password
-        })
-      });
-      if (x.success.token) {
-        console.log("token", token);
+    if (this.state.email.trim() === "") {
+      this.setState(() => ({ emailError: "Email is required." }));
+    } else {
+      this.setState(() => ({ emailError: null }));
+      if (this.state.password.length < 6) {
+        this.setState(() => ({
+          passwordError: "Password should atleast be 6 characters long "
+        }));
+      } else {
+        this.setState(() => ({ passwordError: null }));
+        this.setState({ isLoading: true });
+        try {
+          let response = await fetch("https://www.gorporbyken.com/api/login", {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              email: this.state.email,
+              password: this.state.password
+            })
+          });
+          let responseJson = await response.json();
+          if (responseJson.success) {
+            this.setState(() => ({ loginError: null, isLoading: false }));
+            this.props.navigation.navigate("Dashboard");
+            console.log("token", responseJson.success.token);
+          } else {
+            this.setState(() => ({
+              loginError: "Email or Password doesn't match",
+              isLoading: false
+            }));
+          }
+        } catch (error) {
+          console.log("error", error);
+          this.setState(() => ({
+            loginError: "Email or Password doesn't match",
+            isLoading: false
+          }));
+        }
       }
-    } catch (error) {
-      console.log("error", error);
     }
   };
 
   render() {
-    return (
+    return this.state.isLoading ? (
+      <Container
+        style={{
+          alignItems: "center",
+          justifyContent: "center"
+        }}
+      >
+        <Spinner />
+      </Container>
+    ) : (
       <React.Fragment>
         <Container style={styles.header}>
           <Image
-            resizeMode="contain"
-            style={{ width: "100%", height: "100%" }}
+            style={{ width: 200, height: 200, borderRadius: 100 }}
             source={require("../../assets/logo.jpeg")}
           />
         </Container>
@@ -53,17 +92,30 @@ class Signin extends Component {
           <Container style={styles.container}>
             <Content style={styles.content}>
               <Item style={styles.inputFields}>
-                <Input placeholder="Username" />
+                <Input
+                  placeholder="Email"
+                  onChangeText={email => this.setState({ email })}
+                />
               </Item>
+              {!!this.state.emailError && (
+                <Text style={{ color: "red" }}>{this.state.emailError}</Text>
+              )}
               <Item style={styles.inputFields}>
-                <Input placeholder="Password" />
+                <Input
+                  secureTextEntry={true}
+                  placeholder="Password"
+                  onChangeText={password => this.setState({ password })}
+                />
               </Item>
+              {!!this.state.passwordError && (
+                <Text style={{ color: "red" }}>{this.state.passwordError}</Text>
+              )}
+              {!!this.state.loginError && (
+                <Text style={{ color: "red" }}>{this.state.loginError}</Text>
+              )}
 
               <View style={styles.buttonView}>
-                <Button
-                  style={[styles.button]}
-                  onPress={() => this.props.navigation.navigate("Dashboard")}
-                >
+                <Button style={[styles.button]} onPress={() => this._signin()}>
                   <Text style={{ color: "white" }}>Sign In</Text>
                 </Button>
               </View>

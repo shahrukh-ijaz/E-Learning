@@ -6,7 +6,8 @@ import {
   Item,
   Input,
   Button,
-  CardItem
+  CardItem,
+  Spinner
 } from "native-base";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { styles } from "../styles/signup.styles";
@@ -15,6 +16,7 @@ export default class Signup extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoading: false,
       name: "",
       email: "",
       password: "",
@@ -32,35 +34,49 @@ export default class Signup extends Component {
         this.setState(() => ({ emailError: "Email is required." }));
       } else {
         this.setState(() => ({ emailError: null }));
-        if (this.state.password.length < 6) {
+        if (this.state.password.length < 8) {
           this.setState(() => ({
-            passwordError: "Password should atleast be 6 characters long "
+            passwordError: "Password should atleast be 8 characters long "
           }));
         } else {
           this.setState(() => ({ passwordError: null }));
-          if (this.state.password.localeCompare(password_confirmation)) {
+          if (
+            this.state.password.localeCompare(this.state.password_confirmation)
+          ) {
             this.setState(() => ({
-              confirmPasswordError: "Password don't match"
+              confirmPasswordError: "Password doesn't match"
             }));
           } else {
             this.setState(() => ({ confirmPasswordError: null }));
-
+            this.setState({ isLoading: true });
             try {
-              let x = await fetch("https://www.gorporbyken.com/api/register", {
-                method: "POST",
-                headers: {
-                  Accept: "application/json",
-                  "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                  email: this.state.email,
-                  name: this.state.name,
-                  password: this.state.password,
-                  password_confirmation: this.state.password_confirmation
-                })
-              });
-              if (x.success.token) {
-                console.log("token", token);
+              let response = await fetch(
+                "https://www.gorporbyken.com/api/register",
+                {
+                  method: "POST",
+                  headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify({
+                    email: this.state.email,
+                    name: this.state.name,
+                    password: this.state.password,
+                    password_confirmation: this.state.password_confirmation
+                  })
+                }
+              );
+              let responseJson = await response.json();
+              // console.log("response", responseJson);
+              if (responseJson.success) {
+                this.setState(() => ({ signUpError: null, isLoading: false }));
+                this.props.navigation.navigate("Dashboard");
+                // console.log("token", responseJson.success.token);
+              } else {
+                this.setState(() => ({
+                  signUpError: responseJson.error,
+                  isLoading: false
+                }));
               }
             } catch (error) {
               console.log("error", error);
@@ -71,12 +87,20 @@ export default class Signup extends Component {
     }
   };
   render() {
-    return (
+    return this.state.isLoading ? (
+      <Container
+        style={{
+          alignItems: "center",
+          justifyContent: "center"
+        }}
+      >
+        <Spinner />
+      </Container>
+    ) : (
       <React.Fragment>
         <Container style={styles.header}>
           <Image
-            resizeMode="contain"
-            style={{ width: "100%", height: "100%" }}
+            style={{ width: 200, height: 200, borderRadius: 100 }}
             source={require("../../assets/logo.jpeg")}
           />
         </Container>
@@ -103,6 +127,7 @@ export default class Signup extends Component {
             )}
             <Item style={styles.inputFields}>
               <Input
+                secureTextEntry={true}
                 placeholder="Password"
                 onChangeText={password => this.setState({ password })}
               />
@@ -112,6 +137,7 @@ export default class Signup extends Component {
             )}
             <Item style={styles.inputFields}>
               <Input
+                secureTextEntry={true}
                 placeholder="Confirm Password"
                 onChangeText={password_confirmation =>
                   this.setState({ password_confirmation })
@@ -122,6 +148,9 @@ export default class Signup extends Component {
               <Text style={{ color: "red" }}>
                 {this.state.confirmPasswordError}
               </Text>
+            )}
+            {!!this.state.signUpError && (
+              <Text style={{ color: "red" }}>{this.state.signUpError}</Text>
             )}
             <View style={styles.buttonView}>
               <Button style={[styles.button]} onPress={() => this._signup()}>

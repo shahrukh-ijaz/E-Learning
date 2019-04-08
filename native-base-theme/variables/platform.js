@@ -229,7 +229,7 @@ export default {
   segmentBorderColorMain: platform === "ios" ? "#a7a6ab" : "#3F51B5",
 
   // Spinner
-  defaultSpinnerColor: "#45D56E",
+  defaultSpinnerColor: "#012060",
   inverseSpinnerColor: "#1A191B",
 
   // Tab

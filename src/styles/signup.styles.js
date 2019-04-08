@@ -7,7 +7,9 @@ export const styles = StyleSheet.create({
   },
   header: {
     flex: 4,
-    paddingTop: 28
+    paddingTop: 28,
+    alignItems: "center",
+    justifyContent: "center"
   },
   logo: {
     alignItems: "center",
