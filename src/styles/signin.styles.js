@@ -5,21 +5,24 @@ import { red } from "ansi-colors";
 export const styles = StyleSheet.create({
   header: {
     flex: 4,
-    paddingTop:30,
-    backgroundColor: "white",
-    alignItems: 'center',
-    justifyContent: 'center',    
+    paddingTop: 28,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  logo: {
+    alignItems: "center",
+    justifyContent: "center"
   },
   body: {
-    flex: 6,
-    backgroundColor: "green",
+    flex: 5,
+    backgroundColor: "green"
   },
   content: {
     marginTop: 30,
     marginHorizontal: 30
   },
   footer: {
-      flex: 1,
+    flex: 1
   },
   button: {
     flex: 1,
@@ -27,14 +30,15 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
   },
-  signupButton:{
+  signupButton: {
     flex: 1,
     borderRadius: 8,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor:'transparent',
-    borderWidth:2,
-    borderColor: "grey",
+    backgroundColor: "transparent",
+    borderWidth: 2,
+    borderColor: "#012060",
+    marginHorizontal: 4
   },
   buttonView: {
     flexDirection: "row"
@@ -44,12 +48,12 @@ export const styles = StyleSheet.create({
   },
   forgotPasswordView: {
     flex: 1,
-    alignItems: 'flex-end',
-    justifyContent: 'flex-end'
+    alignItems: "flex-end",
+    justifyContent: "flex-end"
   },
   forgotPasswordText: {
-      fontSize: 14,
-      marginTop: 8,
-      color: "gray"
+    fontSize: 14,
+    marginTop: 8,
+    color: "gray"
   }
 });

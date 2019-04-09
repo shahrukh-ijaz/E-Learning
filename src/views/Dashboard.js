@@ -10,6 +10,7 @@ import {
 } from "native-base";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { styles } from "../styles/dashboard.styles";
+import bookingETest from "./bookingETest";
 
 export default class Dashboard extends Component {
   constructor(props) {
@@ -34,12 +35,12 @@ export default class Dashboard extends Component {
         <Container style={styles.body}>
           <Content style={styles.content}>
             <View style={styles.buttonView}>
-              <Button style={[styles.button]}>
+              <Button style={[styles.button]} onPress={() => this.props.navigation.navigate("bookingETest")}>
                 <Text style={styles.buttonText}>Booking E-Test</Text>
               </Button>
             </View>
             <View style={styles.buttonView}>
-              <Button style={[styles.button]}>
+              <Button style={[styles.button]} onPress={() => this.props.navigation.navigate("onlineLesson")}>
                 <Text style={styles.buttonText}>Online Lesson</Text>
               </Button>
             </View>

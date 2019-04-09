@@ -6,8 +6,8 @@ export const styles = StyleSheet.create({
     flex: 7
   },
   header: {
-    flex: 4,
-    backgroundColor: "gray",
+    flex: 3,
+    backgroundColor: "#012060",                                                     
     flexDirection: "row",
     flexWrap: "wrap",
     alignItems: "center",
