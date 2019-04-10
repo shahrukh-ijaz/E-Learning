@@ -3,9 +3,11 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 
 import Signup from "../views/signup";
 import Signin from "../views/signin";
-import Dashboard from "../views/Dashboard";
+import dashboard from "../views/dashboard";
 import onlineLesson from "../views/onlineLesson";
-import bookingETest from "../views/bookingETest"; 
+import bookingETest from "../views/bookingETest";
+import level from "../views/level";
+import afterLevel from "../views/afterLevel";
 // import Profile from "./src/screens/Profile";
 
 const AuthStack = createStackNavigator(
@@ -22,8 +24,8 @@ const AuthStack = createStackNavigator(
         header: null
       }
     },
-    Dashboard: {
-      screen: Dashboard,
+    dashboard: {
+      screen: dashboard,
       navigationOptions: {
         header: null
       }
@@ -39,10 +41,22 @@ const AuthStack = createStackNavigator(
       navigationOptions: {
         header: null
       }
+    },
+    level: {
+      screen: level,
+      navigationOptions: {
+        header: null
+      }
+    },
+    afterLevel: {
+      screen: afterLevel,
+      navigationOptions: {
+        header: null
+      }
     }
   },
   {
-    initialRouteName: "bookingETest"
+    initialRouteName: "Signin"
   }
 );
 

@@ -49,7 +49,7 @@ class Signin extends Component {
           let responseJson = await response.json();
           if (responseJson.success) {
             this.setState(() => ({ loginError: null, isLoading: false }));
-            this.props.navigation.navigate("Dashboard");
+            this.props.navigation.navigate("dashboard");
             console.log("token", responseJson.success.token);
           } else {
             this.setState(() => ({

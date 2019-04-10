@@ -56,7 +56,9 @@ export default class bookingETest extends Component {
                             </Text>
                         </View>
                         <View style={styles.buttonView}>
-                            <Button style={styles.button}>
+                            <Button 
+                            style={styles.button}
+                            onPress = {() => this.props.navigation.navigate("level")}>
                                 <Text style = {styles.buttonText}>
                                     Booking
                                 </Text>
