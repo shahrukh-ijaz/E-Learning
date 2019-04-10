@@ -8,6 +8,8 @@ import onlineLesson from "../views/onlineLesson";
 import bookingETest from "../views/bookingETest";
 import level from "../views/level";
 import afterLevel from "../views/afterLevel";
+import footer from "../views/components/footer";
+import header from "../views/components/header";
 // import Profile from "./src/screens/Profile";
 
 const AuthStack = createStackNavigator(
@@ -53,10 +55,22 @@ const AuthStack = createStackNavigator(
       navigationOptions: {
         header: null
       }
+    },
+    footer: {
+      screen: footer,
+      navigationOptions: {
+        header: null
+      }
+    },
+    header: {
+      screen: header,
+      navigationOptions: {
+        header: null
+      }
     }
   },
   {
-    initialRouteName: "Signin"
+    initialRouteName: "footer"
   }
 );
 
