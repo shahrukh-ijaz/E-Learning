@@ -10,7 +10,7 @@ import {
   Spinner,
   Button
 } from "native-base";
-import { styles } from "../styles/signin.styles";
+import { styles } from "../../styles/signin.styles";
 
 class Signin extends Component {
   constructor(props) {
@@ -83,7 +83,7 @@ class Signin extends Component {
         <Container style={styles.header}>
           <Image
             style={{ width: 200, height: 200, borderRadius: 100 }}
-            source={require("../../assets/logo.jpeg")}
+            source={require("../../../assets/logo.jpeg")}
           />
         </Container>
 

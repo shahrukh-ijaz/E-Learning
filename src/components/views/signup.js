@@ -10,7 +10,7 @@ import {
   Spinner
 } from "native-base";
 import { StyleSheet, Text, View, Image } from "react-native";
-import { styles } from "../styles/signup.styles";
+import { styles } from "../../styles/signup.styles";
 
 export default class Signup extends Component {
   constructor(props) {
@@ -101,7 +101,7 @@ export default class Signup extends Component {
         <Container style={styles.header}>
           <Image
             style={{ width: 200, height: 200, borderRadius: 100 }}
-            source={require("../../assets/logo.jpeg")}
+            source={require("../../../assets/logo.jpeg")}
           />
         </Container>
 

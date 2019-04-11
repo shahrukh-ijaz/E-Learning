@@ -12,7 +12,7 @@ import {
   ListItem
 } from "native-base";
 import { StyleSheet, Text, View, Image } from "react-native";
-import { styles } from "../styles/onlineLesson.styles";
+import { styles } from "../../styles/onlineLesson.styles";
 
 export default class onlineLesson extends Component {
   constructor(props) {

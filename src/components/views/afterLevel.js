@@ -13,7 +13,7 @@ import {
   SwipeRow
 } from "native-base";
 import { StyleSheet, Text, View, Image } from "react-native";
-import { styles } from "../styles/afterLevel.styles";
+import { styles } from "../../styles/afterLevel.styles";
 import Swiper from "react-native-swiper";
 import { CheckBox } from "react-native-elements";
 export default class afterLevel extends Component {
@@ -39,7 +39,14 @@ export default class afterLevel extends Component {
           <Swiper>
             <View style={{ flex: 1 }}>
               <Text style={styles.bodyHeading}>Date: 25th May 2019</Text>
-              <CheckBox style={styles.checkBox} title="Round 1: 9:00-11:50" />
+              <CheckBox
+                checked={this.state.checkbox1}
+                onPress={() =>
+                  this.setState({ checkbox1: !this.state.checkbox1 })
+                }
+                style={styles.checkBox}
+                title="Round 1: 9:00-11:50"
+              />
               <CheckBox style={styles.checkBox} title="Round 2: 13:00-15:50" />
               <Text style={styles.bodyHeading}>Date: 26th May 2019</Text>
               <CheckBox style={styles.checkBox} title="Round 1: 9:00-11:50" />

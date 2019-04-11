@@ -9,7 +9,7 @@ import {
   CardItem
 } from "native-base";
 import { StyleSheet, Text, View, Image } from "react-native";
-import { styles } from "../styles/dashboard.styles";
+import { styles } from "../../styles/dashboard.styles";
 
 export default class dashboard extends Component {
   constructor(props) {
@@ -23,7 +23,7 @@ export default class dashboard extends Component {
         <Container style={styles.header}>
           <Image
             style={{ width: 180, height: 180 }}
-            source={require("../../assets/avatar.png")}
+            source={require("../../../assets/avatar.png")}
           />
         </Container>
 
@@ -36,7 +36,7 @@ export default class dashboard extends Component {
             <View style={styles.buttonView}>
               <Button
                 style={[styles.button]}
-                onPress={() => this.props.navigation.navigate("bookingETest")}
+                onPress={() => this.props.navigation.navigate("BookingETest")}
               >
                 <Text style={styles.buttonText}>Booking E-Test</Text>
               </Button>
@@ -44,7 +44,7 @@ export default class dashboard extends Component {
             <View style={styles.buttonView}>
               <Button
                 style={[styles.button]}
-                onPress={() => this.props.navigation.navigate("onlineLesson")}
+                onPress={() => this.props.navigation.navigate("OnlineLesson")}
               >
                 <Text style={styles.buttonText}>Online Lesson</Text>
               </Button>

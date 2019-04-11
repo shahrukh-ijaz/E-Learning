@@ -13,7 +13,7 @@ import {
   SwipeRow
 } from "native-base";
 import { StyleSheet, Text, View, Image } from "react-native";
-import { styles } from "../styles/level.styles";
+import { styles } from "../../styles/level.styles";
 import Swiper from "react-native-swiper";
 
 export default class level extends Component {
@@ -33,18 +33,18 @@ export default class level extends Component {
           <List>
             <ListItem
               style={styles.itemView}
-              onPress={() => this.props.navigation.navigate("afterLevel")}
+              onPress={() => this.props.navigation.navigate("AfterLevel")}
             >
               <Text style={styles.itemText}>LEVEL 1</Text>
             </ListItem>
             <ListItem style={styles.itemView}>
-              <Text style={styles.itemText}>LEVEL 1</Text>
+              <Text style={styles.itemText}>LEVEL 2</Text>
             </ListItem>
             <ListItem style={styles.itemView}>
-              <Text style={styles.itemText}>LEVEL 1</Text>
+              <Text style={styles.itemText}>LEVEL 3</Text>
             </ListItem>
             <ListItem style={styles.itemView}>
-              <Text style={styles.itemText}>LEVEL 1</Text>
+              <Text style={styles.itemText}>LEVEL 4</Text>
             </ListItem>
           </List>
         </View>
