@@ -1,25 +1,16 @@
 import React, { Component } from "react";
 import {
   Container,
-  Header,
   Content,
-  Item,
-  Input,
   Button,
-  CardItem,
-  Title,
-  List,
-  ListItem,
-  SwipeRow,
   Footer,
   FooterTab,
   Icon
 } from "native-base";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { styles } from "../../styles/components/footer.components.styles";
-import Swiper from "react-native-swiper";
-import { CheckBox } from "react-native-elements";
-export default class footer extends Component {
+
+export default class Footer extends Component {
   constructor(props) {
     super(props);
     this.state = {};

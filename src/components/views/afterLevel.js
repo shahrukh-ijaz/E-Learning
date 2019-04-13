@@ -16,7 +16,7 @@ import { StyleSheet, Text, View, Image } from "react-native";
 import { styles } from "../../styles/afterLevel.styles";
 import Swiper from "react-native-swiper";
 import { CheckBox } from "react-native-elements";
-export default class afterLevel extends Component {
+export default class AfterLevel extends Component {
   constructor(props) {
     super(props);
     this.state = {};

@@ -14,7 +14,7 @@ import {
 import { StyleSheet, Text, View, Image } from "react-native";
 import { styles } from "../../styles/onlineLesson.styles";
 
-export default class onlineLesson extends Component {
+export default class OnlineLesson extends Component {
   constructor(props) {
     super(props);
     this.state = {};

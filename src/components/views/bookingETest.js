@@ -16,7 +16,7 @@ import { StyleSheet, Text, View, Image } from "react-native";
 import { styles } from "../../styles/bookingETest.styles";
 import Swiper from "react-native-swiper";
 
-export default class bookingETest extends Component {
+export default class BookingETest extends Component {
   constructor(props) {
     super(props);
     this.state = {};

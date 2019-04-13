@@ -16,7 +16,7 @@ import { StyleSheet, Text, View, Image } from "react-native";
 import { styles } from "../../styles/level.styles";
 import Swiper from "react-native-swiper";
 
-export default class level extends Component {
+export default class Level extends Component {
   constructor(props) {
     super(props);
     this.state = {};

@@ -11,7 +11,7 @@ import {
 import { StyleSheet, Text, View, Image } from "react-native";
 import { styles } from "../../styles/dashboard.styles";
 
-export default class dashboard extends Component {
+export default class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {};

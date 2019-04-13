@@ -3,13 +3,13 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 
 import Signup from "../components/views/signup";
 import Signin from "../components/views/signin";
-import dashboard from "../components/views/dashboard";
-import onlineLesson from "../components/views/onlineLesson";
-import bookingETest from "../components/views/bookingETest";
-import level from "../components/views/level";
-import afterLevel from "../components/views/afterLevel";
-import footer from "../components/customComponents/footer";
-import header from "../components/customComponents/header";
+import Dashboard from "../components/views/dashboard";
+import OnlineLesson from "../components/views/onlineLesson";
+import BookingETest from "../components/views/bookingETest";
+import Level from "../components/views/level";
+import AfterLevel from "../components/views/afterLevel";
+import Footer from "../components/customComponents/footer";
+import Header from "../components/customComponents/header";
 // import Profile from "./src/screens/Profile";
 
 const AuthStack = createStackNavigator(
@@ -27,43 +27,43 @@ const AuthStack = createStackNavigator(
       }
     },
     Dashboard: {
-      screen: dashboard,
+      screen: Dashboard,
       navigationOptions: {
         header: null
       }
     },
     OnlineLesson: {
-      screen: onlineLesson,
+      screen: OnlineLesson,
       navigationOptions: {
         header: null
       }
     },
     BookingETest: {
-      screen: bookingETest,
+      screen: BookingETest,
       navigationOptions: {
         header: null
       }
     },
     Level: {
-      screen: level,
+      screen: Level,
       navigationOptions: {
         header: null
       }
     },
     AfterLevel: {
-      screen: afterLevel,
+      screen: AfterLevel,
       navigationOptions: {
         header: null
       }
     },
     Footer: {
-      screen: footer,
+      screen: Footer,
       navigationOptions: {
         header: null
       }
     },
     Header: {
-      screen: header,
+      screen: Header,
       navigationOptions: {
         header: null
       }
