@@ -10,7 +10,7 @@ import {
 import { StyleSheet, Text, View, Image } from "react-native";
 import { styles } from "../../styles/components/footer.components.styles";
 
-export default class Footer extends Component {
+export default class CustomFooter extends Component {
   constructor(props) {
     super(props);
     this.state = {};

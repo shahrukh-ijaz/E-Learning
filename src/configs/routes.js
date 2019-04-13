@@ -8,7 +8,7 @@ import OnlineLesson from "../components/views/onlineLesson";
 import BookingETest from "../components/views/bookingETest";
 import Level from "../components/views/level";
 import AfterLevel from "../components/views/afterLevel";
-import Footer from "../components/customComponents/footer";
+import CustomFooter from "../components/customComponents/footer";
 import Header from "../components/customComponents/header";
 // import Profile from "./src/screens/Profile";
 
@@ -57,7 +57,7 @@ const AuthStack = createStackNavigator(
       }
     },
     Footer: {
-      screen: Footer,
+      screen: CustomFooter,
       navigationOptions: {
         header: null
       }

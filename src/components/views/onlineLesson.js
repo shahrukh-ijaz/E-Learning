@@ -1,23 +1,21 @@
 import React, { Component } from "react";
 import {
-  Container,
   Header,
   Content,
-  Item,
-  Input,
-  Button,
-  CardItem,
-  Title,
   List,
   ListItem
 } from "native-base";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { Text, View } from "react-native";
 import { styles } from "../../styles/onlineLesson.styles";
 
 export default class OnlineLesson extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+  }
+
+  async componentDidMount(){
+
   }
 
   render() {

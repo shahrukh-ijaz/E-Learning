@@ -2,15 +2,14 @@ import React, { Component } from "react";
 import { View, Text, Image } from "react-native";
 import {
   Container,
-  Header,
   Content,
-  Form,
   Item,
   Input,
   Spinner,
   Button
 } from "native-base";
 import { styles } from "../../styles/signin.styles";
+import { AsyncStorage } from 'react-native';
 
 class Signin extends Component {
   constructor(props) {
@@ -48,7 +47,9 @@ class Signin extends Component {
           });
           let responseJson = await response.json();
           if (responseJson.success) {
-            this.setState(() => ({ loginError: null, isLoading: false }));
+            this.setState((state) => ({ ...state, loginError: null, isLoading: false }, () => {
+              AsyncStorage.setItem('authToken', responseJson.success.token);
+            }));
             this.props.navigation.navigate("dashboard");
             console.log("token", responseJson.success.token);
           } else {
