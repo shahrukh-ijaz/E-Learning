@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
   },
   header: {
     flex: 3,
-    backgroundColor: "#012060",                                                     
+    backgroundColor: "#012060",
     flexDirection: "row",
     flexWrap: "wrap",
     alignItems: "center",
@@ -38,7 +38,7 @@ export const styles = StyleSheet.create({
     justifyContent: "center"
   },
   body: {
-    flex: 6
+    flex: 5
   },
   buttonText: {
     color: "white",

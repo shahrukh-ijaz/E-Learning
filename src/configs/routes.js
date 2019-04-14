@@ -8,6 +8,7 @@ import OnlineLesson from "../components/views/onlineLesson";
 import BookingETest from "../components/views/bookingETest";
 import Level from "../components/views/level";
 import AfterLevel from "../components/views/afterLevel";
+import Quiz from "../components/views/Quiz";
 import CustomFooter from "../components/customComponents/footer";
 import Header from "../components/customComponents/header";
 import LessonVideo from '../components/views/lessonVideo';
@@ -48,6 +49,12 @@ const AuthStack = createStackNavigator(
     },
     BookingETest: {
       screen: BookingETest,
+      navigationOptions: {
+        header: null
+      }
+    },
+    Quiz: {
+      screen: Quiz,
       navigationOptions: {
         header: null
       }

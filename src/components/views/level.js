@@ -15,6 +15,7 @@ import {
 import { StyleSheet, Text, View, Image } from "react-native";
 import { styles } from "../../styles/level.styles";
 import Swiper from "react-native-swiper";
+import CustomFooter from "../customComponents/footer";
 
 export default class Level extends Component {
   constructor(props) {
@@ -48,6 +49,7 @@ export default class Level extends Component {
             </ListItem>
           </List>
         </View>
+        <CustomFooter navigation={this.props.navigation} />
       </React.Fragment>
     );
   }

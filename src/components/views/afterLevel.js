@@ -16,6 +16,8 @@ import { StyleSheet, Text, View, Image } from "react-native";
 import { styles } from "../../styles/afterLevel.styles";
 import Swiper from "react-native-swiper";
 import { CheckBox } from "react-native-elements";
+import CustomFooter from "../customComponents/footer";
+
 export default class AfterLevel extends Component {
   constructor(props) {
     super(props);
@@ -55,6 +57,7 @@ export default class AfterLevel extends Component {
             <View style={{ flex: 1 }} />
           </Swiper>
         </View>
+        <CustomFooter navigation={this.props.navigation} />
       </React.Fragment>
     );
   }

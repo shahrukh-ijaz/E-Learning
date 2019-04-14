@@ -10,13 +10,25 @@ import {
 } from "native-base";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { styles } from "../../styles/dashboard.styles";
+import { AsyncStorage } from "react-native";
+import CustomFooter from "../customComponents/footer";
 
 export default class Dashboard extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      token: "",
+      name: ""
+    };
   }
 
+  async componentDidMount() {
+    name = await AsyncStorage.getItem("userName");
+    // console.log("name", name);
+    this.setState({
+      name: name
+    });
+  }
   render() {
     return (
       <React.Fragment>
@@ -28,7 +40,7 @@ export default class Dashboard extends Component {
         </Container>
 
         <Container style={styles.surname}>
-          <Text style={{ fontSize: 20, color: "gray" }}>SURNAME</Text>
+          <Text style={{ fontSize: 20, color: "gray" }}>{this.state.name}</Text>
         </Container>
 
         <Container style={styles.body}>
@@ -50,12 +62,16 @@ export default class Dashboard extends Component {
               </Button>
             </View>
             <View style={styles.buttonView}>
-              <Button style={[styles.button]}>
+              <Button
+                style={[styles.button]}
+                onPress={() => this.props.navigation.navigate("Quiz")}
+              >
                 <Text style={styles.buttonText}>Quiz</Text>
               </Button>
             </View>
           </Content>
         </Container>
+        <CustomFooter navigation={this.props.navigation} />
       </React.Fragment>
     );
   }

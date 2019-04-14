@@ -15,6 +15,7 @@ import {
 import { StyleSheet, Text, View, Image } from "react-native";
 import { styles } from "../../styles/bookingETest.styles";
 import Swiper from "react-native-swiper";
+import CustomFooter from "../customComponents/footer";
 
 export default class BookingETest extends Component {
   constructor(props) {
@@ -72,6 +73,7 @@ export default class BookingETest extends Component {
             <View style={{ flex: 1 }} />
           </Swiper>
         </View>
+        <CustomFooter navigation={this.props.navigation} />
       </React.Fragment>
     );
   }

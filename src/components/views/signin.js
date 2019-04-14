@@ -1,15 +1,8 @@
 import React, { Component } from "react";
 import { View, Text, Image } from "react-native";
-import {
-  Container,
-  Content,
-  Item,
-  Input,
-  Spinner,
-  Button
-} from "native-base";
+import { Container, Content, Item, Input, Spinner, Button } from "native-base";
 import { styles } from "../../styles/signin.styles";
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage } from "react-native";
 
 class Signin extends Component {
   constructor(props) {
@@ -47,8 +40,12 @@ class Signin extends Component {
           });
           let responseJson = await response.json();
           if (responseJson.success) {
-            this.setState((state) => ({ ...state, loginError: null, isLoading: false }));
-            await AsyncStorage.setItem('authToken', responseJson.success.token);
+            this.setState(state => ({
+              ...state,
+              loginError: null,
+              isLoading: false
+            }));
+            await AsyncStorage.setItem("authToken", responseJson.success.token);
             this.props.navigation.navigate("Dashboard");
             console.log("token", responseJson.success.token);
           } else {
