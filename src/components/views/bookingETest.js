@@ -1,28 +1,48 @@
 import React, { Component } from "react";
 import {
-  Container,
-  Header,
-  Content,
-  Item,
-  Input,
-  Button,
-  CardItem,
-  Title,
-  List,
-  ListItem,
-  SwipeRow
+  Button
 } from "native-base";
-import { StyleSheet, Text, View, Image } from "react-native";
+import {  Text, View,AsyncStorage } from "react-native";
 import { styles } from "../../styles/bookingETest.styles";
 import Swiper from "react-native-swiper";
 
 export default class BookingETest extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      exams: null
+    };
+  }
+  async componentDidMount(){
+    try {
+      const authToken = await AsyncStorage.getItem('authToken');
+      const response = await fetch("https://www.gorporbyken.com/api/exam", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${authToken}`
+        }
+      });
+      const responseJson = await response.json();
+      if(responseJson.success.length){
+        this.setState((state) => ({
+          ...state,
+          exams: responseJson.success
+        }))
+      }
+    }
+    catch(error){
+      console.log("errorrrrrrrr",error);
+    }
   }
 
   render() {
+    const {
+      state:{
+        exams
+      }
+    } = this;
     return (
       <React.Fragment>
         <View style={styles.instructionsView}>
@@ -36,41 +56,33 @@ export default class BookingETest extends Component {
           <Text style={styles.instructionsText}>5. xxxxxxxxxx</Text>
         </View>
         <View style={styles.body}>
-          <Swiper>
-            <View style={{ flex: 1 }}>
-              <View style={styles.titleView}>
-                <Text style={styles.title}>E-Exam SET 1</Text>
+        {exams && <Swiper>
+            {exams && exams.map((object, index) => {
+            console.log(object);
+            return(
+              <View key={index} style={{ flex: 1 }}>
+                <View style={styles.titleView}>
+                  <Text style={styles.title}>{object.name}</Text>
+                </View>
+                <View style={styles.textView}>
+                  <Text style={styles.text}>Round For {`${object.name}\n`}</Text>
+                  <Text style={styles.text}>
+                    {`Date: ${new Date(object.start_date)}\nStart Time: ${object.start_time}\nEnd Time:
+                    ${object.end_time}\n`}
+                  </Text>
+                </View>
+                <View style={styles.buttonView}>
+                  <Button
+                    style={styles.button}
+                    onPress={() => this.props.navigation.navigate("Level",{exam: object})}
+                  >
+                    <Text style={styles.buttonText}>Booking</Text>
+                  </Button>
+                </View>
+                <View style={styles.buttonView} />
               </View>
-              <View style={styles.textView}>
-                <Text style={styles.text}>Round For E-Exam SET 1{"\n"}</Text>
-                <Text style={styles.text}>
-                  Date: 25th may 2019{"\n"}Round 1: 9:00-11:50{"\n"}Round 2:
-                  13:00-15:50{"\n"}
-                </Text>
-                <Text style={styles.text}>
-                  Date: 26th may 2019{"\n"}Round 1: 9:00-11:50{"\n"}Round 2:
-                  13:00-15:50{"\n"}
-                </Text>
-                <Text style={styles.text}>
-                  Details:{"\n"}Part 1: xxxxxxx 120 min{"\n"}Part 2: xxxxxx 40
-                  min{"\n"}
-                </Text>
-              </View>
-              <View style={styles.buttonView}>
-                <Button
-                  style={styles.button}
-                  onPress={() => this.props.navigation.navigate("Level")}
-                >
-                  <Text style={styles.buttonText}>Booking</Text>
-                </Button>
-              </View>
-              <View style={styles.buttonView} />
-            </View>
-
-            <View style={{ flex: 1 }} />
-
-            <View style={{ flex: 1 }} />
-          </Swiper>
+            )})}
+          </Swiper>}
         </View>
       </React.Fragment>
     );

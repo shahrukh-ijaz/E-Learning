@@ -1,28 +1,68 @@
 import React, { Component } from "react";
 import {
-  Container,
   Header,
-  Content,
-  Item,
-  Input,
-  Button,
-  CardItem,
-  Title,
-  List,
-  ListItem,
-  SwipeRow
+  Button
 } from "native-base";
-import { StyleSheet, Text, View, Image } from "react-native";
+import { Text, View, AsyncStorage } from "react-native";
 import { styles } from "../../styles/afterLevel.styles";
 import Swiper from "react-native-swiper";
 import { CheckBox } from "react-native-elements";
+
 export default class AfterLevel extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
 
+  _bookExam = async () => {
+    const {
+      props:{
+        navigation: {
+          state: {
+            params: {
+              exam,
+              level
+            }
+          }
+        }
+      }
+    } = this;
+
+    try {
+      const authToken = await AsyncStorage.getItem('authToken');
+      const response = await fetch("https://www.gorporbyken.com/api/exam/booking", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: `Bearer ${authToken}`
+        },
+        body: JSON.stringify({
+          exam: exam.id,
+          level: level
+        })
+      });
+      const responseJson = await response.json();
+      console.log('responseJson',responseJson)
+    }
+    catch(error){
+      console.log("errorrrrrrrr",error);
+    }
+  }
+
+
   render() {
+    const {
+      props:{
+        navigation: {
+          state: {
+            params: {
+              exam
+            }
+          }
+        }
+      }
+    } = this;
     return (
       <React.Fragment>
         <Header style={{ paddingTop: 30, flex: 1 }} />
@@ -33,26 +73,27 @@ export default class AfterLevel extends Component {
           </Text>
         </View>
         <View style={styles.titleView}>
-          <Text style={styles.titleText}>E-Exam SET 1</Text>
+          <Text style={styles.titleText}>{exam.name}</Text>
         </View>
         <View style={styles.body}>
           <Swiper>
             <View style={{ flex: 1 }}>
-              <Text style={styles.bodyHeading}>Date: 25th May 2019</Text>
+              <Text style={styles.bodyHeading}>Date: {exam.start_date}</Text>
               <CheckBox
                 checked={this.state.checkbox1}
                 onPress={() =>
                   this.setState({ checkbox1: !this.state.checkbox1 })
                 }
                 style={styles.checkBox}
-                title="Round 1: 9:00-11:50"
+                title={`${exam.start_time} - ${exam.end_time}`}
               />
-              <CheckBox style={styles.checkBox} title="Round 2: 13:00-15:50" />
-              <Text style={styles.bodyHeading}>Date: 26th May 2019</Text>
-              <CheckBox style={styles.checkBox} title="Round 1: 9:00-11:50" />
-              <CheckBox style={styles.checkBox} title="Round 2: 13:00-15:50" />
+              <Button
+              style={styles.button}
+              onPress={this._bookExam}
+            >
+              <Text style={styles.buttonText}>Book Now</Text>
+            </Button>
             </View>
-            <View style={{ flex: 1 }} />
           </Swiper>
         </View>
       </React.Fragment>
