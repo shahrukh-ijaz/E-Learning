@@ -1,30 +1,41 @@
-import React , { Component } from 'react';
-import { WebView } from 'react-native';
+import React, { Component } from "react";
+import { WebView } from "react-native";
+
 export default class LessonVideo extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {};
   }
- 
-  render(){
+
+  render() {
     const {
-      props:{
+      props: {
         navigation: {
           state: {
-            params: {
-              link
-            }
+            params: { link }
           }
         }
       }
     } = this;
-    console.log("links",link)
+    console.log("links", link);
     return (
-      <WebView 
-        style={{flex: 1 }} 
+      <WebView
+        style={{ flex: 1 }}
         javaScriptEnabled={true}
-        source={{uri: `https://www.gorporbyken.com${link}`}}
+        source={{ uri: `https://www.gorporbyken.com${link}` }}
       />
-    )
+      // <VideoPlayer
+      //   videoProps={{
+      //     shouldPlay: true,
+      //     resizeMode: Video.RESIZE_MODE_CONTAIN,
+      //     source: {
+      //       uri: "https://www.youtube.com/watch?v=dyi-Qh_HeTI"
+      //     }
+      //   }}
+      //   isPortrait={true}
+      //   playFromPositionMillis={0}
+      //   playThroughEarpieceAndroid={true}
+      // />
+    );
   }
 }

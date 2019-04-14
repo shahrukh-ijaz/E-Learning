@@ -7,6 +7,7 @@ import { Text, View, AsyncStorage } from "react-native";
 import { styles } from "../../styles/afterLevel.styles";
 import Swiper from "react-native-swiper";
 import { CheckBox } from "react-native-elements";
+import CustomFooter from "../customComponents/footer";
 
 export default class AfterLevel extends Component {
   constructor(props) {
@@ -96,6 +97,7 @@ export default class AfterLevel extends Component {
             </View>
           </Swiper>
         </View>
+        <CustomFooter navigation={this.props.navigation} />
       </React.Fragment>
     );
   }

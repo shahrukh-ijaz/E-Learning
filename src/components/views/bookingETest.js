@@ -5,6 +5,7 @@ import {
 import {  Text, View,AsyncStorage } from "react-native";
 import { styles } from "../../styles/bookingETest.styles";
 import Swiper from "react-native-swiper";
+import CustomFooter from "../customComponents/footer";
 
 export default class BookingETest extends Component {
   constructor(props) {
@@ -84,6 +85,7 @@ export default class BookingETest extends Component {
             )})}
           </Swiper>}
         </View>
+        <CustomFooter navigation={this.props.navigation} />
       </React.Fragment>
     );
   }

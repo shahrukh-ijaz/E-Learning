@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Text } from "react-native";
 import {
   Container,
   Content,
@@ -7,7 +8,6 @@ import {
   FooterTab,
   Icon
 } from "native-base";
-import { StyleSheet, Text, View, Image } from "react-native";
 import { styles } from "../../styles/components/footer.components.styles";
 
 export default class CustomFooter extends Component {
@@ -19,7 +19,6 @@ export default class CustomFooter extends Component {
   render() {
     return (
       <React.Fragment>
-        <View style={styles.body} />
         <Container style={styles.footer}>
           <Content />
           <Button
@@ -39,24 +38,27 @@ export default class CustomFooter extends Component {
             }}
             active
           >
-            <Icon active name="add" style={{ color: "darkgrey" }} />
+            <Icon active name="home" style={{ color: "black", fontSize: 32 }} />
           </Button>
           <Footer>
-            <FooterTab>
-              <Button>
-                <Icon name="apps" />
+            <FooterTab style={{ backgroundColor: "white" }}>
+              <Button
+                onPress={() => this.props.navigation.navigate("Dashboard")}
+              >
+                <Icon name="ios-stats" />
+                <Text>Report</Text>
               </Button>
-              <Button>
-                <Icon name="camera" />
-              </Button>
-              <Button style={{ flex: 0, width: 70 }}>
+              <Button
+                style={{ flex: 0, width: 70 }}
+                onPress={() => this.props.navigation.navigate("Dashboard")}
+              >
                 <Icon active name="navigate" />
               </Button>
-              <Button>
-                <Icon name="camera" />
-              </Button>
-              <Button>
-                <Icon name="person" />
+              <Button
+                onPress={() => this.props.navigation.navigate("Dashboard")}
+              >
+                <Icon name="ios-person" />
+                <Text>Profile</Text>
               </Button>
             </FooterTab>
           </Footer>
