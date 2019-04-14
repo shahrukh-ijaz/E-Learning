@@ -1,11 +1,9 @@
 import React, { Component } from "react";
-import { Video } from "expo";
-// import VideoPlayer from '@expo/videoplayer';
+import { WebView } from "react-native";
 
 export default class LessonVideo extends Component {
   constructor(props) {
     super(props);
-    console.log("this.propse", this.props.navigation.state.params.source);
     this.state = {};
   }
 
@@ -20,18 +18,11 @@ export default class LessonVideo extends Component {
       }
     } = this;
 
-    console.log("this.props.source", link);
-
     return (
-      <Video
-        source={{ uri: "https://www.youtube.com/embed/r7CWEE3ZAWs" }}
-        rate={1.0}
-        volume={1.0}
-        isMuted={false}
-        resizeMode="cover"
-        shouldPlay
-        isLooping
-        style={{ width: 300, height: 300 }}
+      <WebView
+        style={{ flex: 1 }}
+        javaScriptEnabled={true}
+        source={{ uri: link }}
       />
       // <VideoPlayer
       //   videoProps={{
