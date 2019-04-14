@@ -2,33 +2,36 @@ import React, { Component } from "react";
 import { Text, View, AsyncStorage } from "react-native";
 import { styles } from "../../styles/quiz.styles";
 import CustomFooter from "../customComponents/footer";
+import { Button, Content } from "native-base";
 
 export default class Quiz extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      quizes: []
+    };
   }
 
   async componentDidMount() {
     const authToken = await AsyncStorage.getItem("authToken");
     console.log("fetching quizes");
     try {
-      let response = await fetch("https://www.gorporbyken.com/api/quiz", {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authToken}`
+      let response = await fetch(
+        "https://www.gorporbyken.com/api/quiz-category",
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${authToken}`
+          }
         }
-      });
+      );
       let responseJson = await response.json();
       console.log("QuizResponse", responseJson);
       if (responseJson.success) {
-        // this.setState({ loginError: null, isLoading: false });
-        // await AsyncStorage.setItem("authToken", responseJson.success.token);
-        // await AsyncStorage.setItem("userName", responseJson.success.name);
-        // this.props.navigation.navigate("Dashboard");
         console.log("QuizResponse", responseJson);
+        this.setState({ quizes: responseJson.success });
       } else {
         // this.setState(() => ({
         //   loginError: "Email or Password doesn't match",
@@ -42,11 +45,25 @@ export default class Quiz extends Component {
   }
 
   render() {
+    let quizCategories = this.state.quizes.map(cat => {
+      return (
+        <View key={cat.id} style={styles.buttonView}>
+          <Button
+            style={[styles.button]}
+            onPress={() =>
+              this.props.navigation.navigate("TakeQuiz", { id: cat.id })
+            }
+          >
+            <Text style={styles.buttonText}>{cat.name}</Text>
+          </Button>
+        </View>
+      );
+    });
     return (
       <React.Fragment>
         <View style={styles.instructionsView}>
           <Text style={styles.instructionsText}>
-            Rule and Conditions For E-Exam{"\n\n"}
+            Rule and Conditions For Quizes{"\n\n"}
           </Text>
           <Text style={styles.instructionsText}>1. xxxxxxxxxx</Text>
           <Text style={styles.instructionsText}>2. xxxxxxxxxx</Text>
@@ -54,7 +71,9 @@ export default class Quiz extends Component {
           <Text style={styles.instructionsText}>4. xxxxxxxxxx</Text>
           <Text style={styles.instructionsText}>5. xxxxxxxxxx</Text>
         </View>
-        <View style={styles.body} />
+        <View style={styles.body}>
+          <Content style={styles.content}>{quizCategories}</Content>
+        </View>
         <CustomFooter navigation={this.props.navigation} />
       </React.Fragment>
     );

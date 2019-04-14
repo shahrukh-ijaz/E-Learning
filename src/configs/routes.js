@@ -9,9 +9,10 @@ import BookingETest from "../components/views/bookingETest";
 import Level from "../components/views/level";
 import AfterLevel from "../components/views/afterLevel";
 import Quiz from "../components/views/Quiz";
+import TakeQuiz from "../components/views/TakeQuiz";
 import CustomFooter from "../components/customComponents/footer";
 import Header from "../components/customComponents/header";
-import LessonVideo from '../components/views/lessonVideo';
+import LessonVideo from "../components/views/lessonVideo";
 
 // import Profile from "./src/screens/Profile";
 
@@ -55,6 +56,12 @@ const AuthStack = createStackNavigator(
     },
     Quiz: {
       screen: Quiz,
+      navigationOptions: {
+        header: null
+      }
+    },
+    TakeQuiz: {
+      screen: TakeQuiz,
       navigationOptions: {
         header: null
       }
