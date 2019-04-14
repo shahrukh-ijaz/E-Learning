@@ -5,7 +5,7 @@ export default class LessonVideo extends Component {
     super(props);
     this.state = {}
   }
-
+ 
   render(){
     const {
       props:{
@@ -18,12 +18,12 @@ export default class LessonVideo extends Component {
         }
       }
     } = this;
-
+    console.log("links",link)
     return (
       <WebView 
         style={{flex: 1 }} 
         javaScriptEnabled={true}
-        source={{uri: link}}
+        source={{uri: `https://www.gorporbyken.com${link}`}}
       />
     )
   }
