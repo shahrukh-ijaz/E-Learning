@@ -47,10 +47,9 @@ class Signin extends Component {
           });
           let responseJson = await response.json();
           if (responseJson.success) {
-            this.setState((state) => ({ ...state, loginError: null, isLoading: false }, () => {
-              AsyncStorage.setItem('authToken', responseJson.success.token);
-            }));
-            this.props.navigation.navigate("dashboard");
+            this.setState((state) => ({ ...state, loginError: null, isLoading: false }));
+            await AsyncStorage.setItem('authToken', responseJson.success.token);
+            this.props.navigation.navigate("Dashboard");
             console.log("token", responseJson.success.token);
           } else {
             this.setState(() => ({

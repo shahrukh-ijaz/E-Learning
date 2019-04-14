@@ -10,6 +10,8 @@ import Level from "../components/views/level";
 import AfterLevel from "../components/views/afterLevel";
 import CustomFooter from "../components/customComponents/footer";
 import Header from "../components/customComponents/header";
+import LessonVideo from '../components/views/lessonVideo';
+
 // import Profile from "./src/screens/Profile";
 
 const AuthStack = createStackNavigator(
@@ -28,6 +30,12 @@ const AuthStack = createStackNavigator(
     },
     Dashboard: {
       screen: Dashboard,
+      navigationOptions: {
+        header: null
+      }
+    },
+    LessonVideo: {
+      screen: LessonVideo,
       navigationOptions: {
         header: null
       }
