@@ -8,13 +8,13 @@ export default class Quiz extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      quizes: []
+      categories: []
     };
   }
 
   async componentDidMount() {
     const authToken = await AsyncStorage.getItem("authToken");
-    console.log("fetching quizes");
+    console.log("fetching categories");
     try {
       let response = await fetch(
         "https://www.gorporbyken.com/api/quiz-category",
@@ -28,10 +28,9 @@ export default class Quiz extends Component {
         }
       );
       let responseJson = await response.json();
-      console.log("QuizResponse", responseJson);
+      // console.log("QuizResponse", responseJson);
       if (responseJson.success) {
-        console.log("QuizResponse", responseJson);
-        this.setState({ quizes: responseJson.success });
+        this.setState({ categories: responseJson.success });
       } else {
         // this.setState(() => ({
         //   loginError: "Email or Password doesn't match",
@@ -45,13 +44,13 @@ export default class Quiz extends Component {
   }
 
   render() {
-    let quizCategories = this.state.quizes.map(cat => {
+    let quizCategories = this.state.categories.map(cat => {
       return (
         <View key={cat.id} style={styles.buttonView}>
           <Button
             style={[styles.button]}
             onPress={() =>
-              this.props.navigation.navigate("TakeQuiz", { id: cat.id })
+              this.props.navigation.navigate("TakeQuiz", { category: cat.id })
             }
           >
             <Text style={styles.buttonText}>{cat.name}</Text>

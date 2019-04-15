@@ -4,11 +4,11 @@ import { styles } from "../../styles/quiz.styles";
 import CustomFooter from "../customComponents/footer";
 import { Button, Content, Title } from "native-base";
 
-export default class TakeQuiz extends Component {
+export default class Exam extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      quizes: []
+      questions: []
     };
   }
 
@@ -18,14 +18,15 @@ export default class TakeQuiz extends Component {
       props: {
         navigation: {
           state: {
-            params: { category }
+            params: { id, type }
           }
         }
       }
     } = this;
+    // console.log(id, type);
     try {
       let response = await fetch(
-        "https://www.gorporbyken.com/api/quiz?category=" + category,
+        "https://www.gorporbyken.com/api/quiz/details?id=" + id,
         {
           method: "GET",
           headers: {
@@ -36,9 +37,9 @@ export default class TakeQuiz extends Component {
         }
       );
       let responseJson = await response.json();
-      // console.log("Quizes", responseJson);
+      console.log("Quizes", responseJson.success.questions);
       if (responseJson.success) {
-        this.setState({ quizes: responseJson.success });
+        this.setState({ questions: responseJson.success.questions });
       } else {
         // this.setState(() => ({
         //   loginError: "Email or Password doesn't match",
@@ -52,28 +53,28 @@ export default class TakeQuiz extends Component {
   }
 
   render() {
-    let quizes = this.state.quizes.map(quiz => {
-      return (
-        <View key={quiz.id} style={styles.buttonView}>
-          <Button
-            style={[styles.button]}
-            onPress={() =>
-              this.props.navigation.navigate("Exam", {
-                id: quiz.id,
-                type: "quiz"
-              })
-            }
-          >
-            <Text style={styles.buttonText}>{quiz.name}</Text>
-          </Button>
-        </View>
-      );
-    });
+    // let quizes = this.state.quizes.map(quiz => {
+    //   return (
+    //     <View key={quiz.id} style={styles.buttonView}>
+    //       <Button
+    //         style={[styles.button]}
+    //         onPress={() =>
+    //           this.props.navigation.navigate("Exam", {
+    //             id: quiz.id,
+    //             type: "quiz"
+    //           })
+    //         }
+    //       >
+    //         <Text style={styles.buttonText}>{quiz.name}</Text>
+    //       </Button>
+    //     </View>
+    //   );
+    // });
     return (
       <React.Fragment>
         <View style={styles.body}>
-          <Text>Select Quiz</Text>
-          <Content style={styles.content}>{quizes}</Content>
+          <Text>Take Quiz</Text>
+          {/* <Content style={styles.content}>{quizes}</Content> */}
         </View>
         <CustomFooter navigation={this.props.navigation} />
       </React.Fragment>
