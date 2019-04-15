@@ -1,16 +1,32 @@
 import React, { Component } from "react";
 import { Text, View, AsyncStorage } from "react-native";
-import { styles } from "../../styles/quiz.styles";
+import { styles } from "../../styles/exam.styles";
 import CustomFooter from "../customComponents/footer";
 import { Button, Content, Title } from "native-base";
+import RadioGroup from "react-native-radio-buttons-group";
 
 export default class Exam extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      questions: []
+      questions: [
+        {
+          label: "Option 1"
+        },
+        {
+          label: "Option 2"
+        },
+        {
+          label: "Option 3"
+        },
+        {
+          label: "Option 4"
+        }
+      ]
     };
   }
+
+  onPress = questions => this.setState({ questions });
 
   async componentDidMount() {
     const authToken = await AsyncStorage.getItem("authToken");
@@ -72,9 +88,20 @@ export default class Exam extends Component {
     // });
     return (
       <React.Fragment>
-        <View style={styles.body}>
-          <Text>Take Quiz</Text>
-          {/* <Content style={styles.content}>{quizes}</Content> */}
+        <View style={styles.instructionView}>
+          <Text style={{ fontSize: 16 }}>
+            Carefuly read these instructions before starting the exam!
+          </Text>
+        </View>
+        <View style={styles.questionView}>
+          <Text style={{ fontSize: 16 }}>
+            what is the correct answer to this question?{"\n\n"}
+          </Text>
+          <RadioGroup
+            style={{ fontSize: 16 }}
+            radioButtons={this.state.questions}
+            onPress={this.onPress}
+          />
         </View>
         <CustomFooter navigation={this.props.navigation} />
       </React.Fragment>
