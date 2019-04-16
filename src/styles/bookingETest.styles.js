@@ -5,10 +5,9 @@ export const styles = StyleSheet.create({
   instructionsView: {
     flex: 3,
     margin: 10,
-    marginTop: 30,
     borderWidth: 2,
     paddingLeft: 30,
-    paddingTop: 30
+    paddingTop: 5
   },
   body: {
     flex: 7

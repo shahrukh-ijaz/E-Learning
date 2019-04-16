@@ -3,6 +3,7 @@ import { Text, View, AsyncStorage } from "react-native";
 import { styles } from "../../styles/quiz.styles";
 import CustomFooter from "../customComponents/footer";
 import { Button, Content } from "native-base";
+import { Header } from "react-native-elements";
 
 export default class Quiz extends Component {
   constructor(props) {
@@ -60,9 +61,16 @@ export default class Quiz extends Component {
     });
     return (
       <React.Fragment>
+        <Header
+          containerStyle={{ backgroundColor: "#012060" }}
+          centerComponent={{
+            text: "GOR. POR. By KEN",
+            style: { color: "yellow", fontSize: 28 }
+          }}
+        />
         <View style={styles.instructionsView}>
           <Text style={styles.instructionsText}>
-            Rule and Conditions For Quizes{"\n\n"}
+            Rule and Conditions For Quizes{"\n"}
           </Text>
           <Text style={styles.instructionsText}>1. xxxxxxxxxx</Text>
           <Text style={styles.instructionsText}>2. xxxxxxxxxx</Text>

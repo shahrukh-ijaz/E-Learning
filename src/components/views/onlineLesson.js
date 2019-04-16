@@ -1,8 +1,9 @@
 import React, { Component, Fragment } from "react";
-import { Header, Content, List, ListItem } from "native-base";
+import { Content, List, ListItem } from "native-base";
 import { Text, View, AsyncStorage } from "react-native";
 import { styles } from "../../styles/onlineLesson.styles";
 import CustomFooter from "../customComponents/footer";
+import { Header } from "react-native-elements";
 
 export default class OnlineLesson extends Component {
   constructor(props) {
@@ -41,7 +42,13 @@ export default class OnlineLesson extends Component {
 
     return (
       <React.Fragment>
-        <Header style={styles.header} />
+        <Header
+          containerStyle={{ backgroundColor: "#012060" }}
+          centerComponent={{
+            text: "GOR. POR. By KEN",
+            style: { color: "yellow", fontSize: 28 }
+          }}
+        />
 
         <View style={styles.titleView}>
           <Text style={styles.title}>ONLINE LESSONS</Text>

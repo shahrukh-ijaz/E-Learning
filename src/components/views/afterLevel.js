@@ -1,13 +1,11 @@
 import React, { Component } from "react";
-import {
-  Header,
-  Button
-} from "native-base";
+import { Button } from "native-base";
 import { Text, View, AsyncStorage } from "react-native";
 import { styles } from "../../styles/afterLevel.styles";
 import Swiper from "react-native-swiper";
 import { CheckBox } from "react-native-elements";
 import CustomFooter from "../customComponents/footer";
+import { Header } from "react-native-elements";
 
 export default class AfterLevel extends Component {
   constructor(props) {
@@ -17,56 +15,58 @@ export default class AfterLevel extends Component {
 
   _bookExam = async () => {
     const {
-      props:{
+      props: {
         navigation: {
           state: {
-            params: {
-              exam,
-              level
-            }
+            params: { exam, level }
           }
         }
       }
     } = this;
 
     try {
-      const authToken = await AsyncStorage.getItem('authToken');
-      const response = await fetch("https://www.gorporbyken.com/api/exam/booking", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/x-www-form-urlencoded",
-          Authorization: `Bearer ${authToken}`
-        },
-        body: JSON.stringify({
-          exam: exam.id,
-          level: level
-        })
-      });
+      const authToken = await AsyncStorage.getItem("authToken");
+      const response = await fetch(
+        "https://www.gorporbyken.com/api/exam/booking",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: `Bearer ${authToken}`
+          },
+          body: JSON.stringify({
+            exam: exam.id,
+            level: level
+          })
+        }
+      );
       const responseJson = await response.json();
-      console.log('responseJson',responseJson)
+      console.log("responseJson", responseJson);
+    } catch (error) {
+      console.log("errorrrrrrrr", error);
     }
-    catch(error){
-      console.log("errorrrrrrrr",error);
-    }
-  }
-
+  };
 
   render() {
     const {
-      props:{
+      props: {
         navigation: {
           state: {
-            params: {
-              exam
-            }
+            params: { exam }
           }
         }
       }
     } = this;
     return (
       <React.Fragment>
-        <Header style={{ paddingTop: 30, flex: 1 }} />
+        <Header
+          containerStyle={{ backgroundColor: "#012060" }}
+          centerComponent={{
+            text: "GOR. POR. By KEN",
+            style: { color: "yellow", fontSize: 28 }
+          }}
+        />
         <View style={styles.textView}>
           <Text>
             BOOKING E-EXAM{"\n"}Plaese select the E-Exam round{"\n"}Select only
@@ -88,12 +88,9 @@ export default class AfterLevel extends Component {
                 style={styles.checkBox}
                 title={`${exam.start_time} - ${exam.end_time}`}
               />
-              <Button
-              style={styles.button}
-              onPress={this._bookExam}
-            >
-              <Text style={styles.buttonText}>Book Now</Text>
-            </Button>
+              <Button style={styles.button} onPress={this._bookExam}>
+                <Text style={styles.buttonText}>Book Now</Text>
+              </Button>
             </View>
           </Swiper>
         </View>

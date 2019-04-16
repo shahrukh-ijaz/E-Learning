@@ -3,6 +3,7 @@ import { Text, View, AsyncStorage } from "react-native";
 import { styles } from "../../styles/quiz.styles";
 import CustomFooter from "../customComponents/footer";
 import { Button, Content, Title } from "native-base";
+import { Header } from "react-native-elements";
 
 export default class TakeQuiz extends Component {
   constructor(props) {
@@ -54,19 +55,28 @@ export default class TakeQuiz extends Component {
   render() {
     let quizes = this.state.quizes.map(quiz => {
       return (
-        <View key={quiz.id} style={styles.buttonView}>
-          <Button
-            style={[styles.button]}
-            onPress={() =>
-              this.props.navigation.navigate("Exam", {
-                id: quiz.id,
-                type: "quiz"
-              })
-            }
-          >
-            <Text style={styles.buttonText}>{quiz.name}</Text>
-          </Button>
-        </View>
+        <React.Fragment>
+          <Header
+            containerStyle={{ backgroundColor: "#012060" }}
+            centerComponent={{
+              text: "GOR. POR. By KEN",
+              style: { color: "yellow", fontSize: 28 }
+            }}
+          />
+          <View key={quiz.id} style={styles.buttonView}>
+            <Button
+              style={[styles.button]}
+              onPress={() =>
+                this.props.navigation.navigate("Exam", {
+                  id: quiz.id,
+                  type: "quiz"
+                })
+              }
+            >
+              <Text style={styles.buttonText}>{quiz.name}</Text>
+            </Button>
+          </View>
+        </React.Fragment>
       );
     });
     return (

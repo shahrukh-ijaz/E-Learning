@@ -14,6 +14,7 @@ import TakeQuiz from "../components/views/TakeQuiz";
 import CustomFooter from "../components/customComponents/footer";
 import Header from "../components/customComponents/header";
 import LessonVideo from "../components/views/lessonVideo";
+import Profile from "../components/views/Profile";
 
 // import Profile from "./src/screens/Profile";
 
@@ -93,6 +94,12 @@ const AuthStack = createStackNavigator(
     },
     Header: {
       screen: Header,
+      navigationOptions: {
+        header: null
+      }
+    },
+    Profile: {
+      screen: Profile,
       navigationOptions: {
         header: null
       }

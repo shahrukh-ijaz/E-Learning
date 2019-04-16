@@ -4,6 +4,7 @@ import { styles } from "../../styles/exam.styles";
 import CustomFooter from "../customComponents/footer";
 import { Button, Content, Title } from "native-base";
 import RadioGroup from "react-native-radio-buttons-group";
+import { Header } from "react-native-elements";
 
 export default class Exam extends Component {
   constructor(props) {
@@ -88,6 +89,13 @@ export default class Exam extends Component {
     // });
     return (
       <React.Fragment>
+        <Header
+          containerStyle={{ backgroundColor: "#012060" }}
+          centerComponent={{
+            text: "GOR. POR. By KEN",
+            style: { color: "yellow", fontSize: 28 }
+          }}
+        />
         <View style={styles.instructionView}>
           <Text style={{ fontSize: 16 }}>
             Carefuly read these instructions before starting the exam!

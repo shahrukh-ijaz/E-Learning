@@ -1,13 +1,14 @@
 import React, { Component } from "react";
 import {
   Container,
-  Header,
   Content,
   Item,
   Input,
   Button,
-  CardItem
+  CardItem,
+  Title
 } from "native-base";
+import { Header } from "react-native-elements";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { styles } from "../../styles/dashboard.styles";
 import { AsyncStorage } from "react-native";
@@ -32,9 +33,16 @@ export default class Dashboard extends Component {
   render() {
     return (
       <React.Fragment>
+        <Header
+          containerStyle={{ backgroundColor: "#012060" }}
+          centerComponent={{
+            text: "GOR. POR. By KEN",
+            style: { color: "yellow", fontSize: 28 }
+          }}
+        />
         <Container style={styles.header}>
           <Image
-            style={{ width: 180, height: 180 }}
+            style={{ width: 165, height: 165 }}
             source={require("../../../assets/avatar.png")}
           />
         </Container>
