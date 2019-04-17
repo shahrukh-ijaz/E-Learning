@@ -10,7 +10,8 @@ export default class BookingETest extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      exams: null
+      exams: null,
+      bookedExams: null
     };
   }
   async componentDidMount() {
@@ -34,11 +35,38 @@ export default class BookingETest extends Component {
     } catch (error) {
       console.log("errorrrrrrrr", error);
     }
+    //////////////////////////////////
+    try {
+      const authToken = await AsyncStorage.getItem("authToken");
+      const response = await fetch(
+        "https://www.gorporbyken.com/api/exam/booked",
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: `Bearer ${authToken}`
+          }
+        }
+      );
+      const responseJson = await response.json();
+      // console.log("Booked Exam", responseJson);
+      if (responseJson.success.length) {
+        // let exs = this.state.exams;
+        // exs = exs.concat(responseJson.success);
+        // console.log(exs);
+        // await this.setState({
+        //   exams: exs
+        // });
+      }
+    } catch (error) {
+      console.log("errorrrrrrrr", error);
+    }
   }
 
   render() {
     const {
-      state: { exams }
+      state: { exams, bookedExams }
     } = this;
     return (
       <React.Fragment>
@@ -64,7 +92,6 @@ export default class BookingETest extends Component {
             <Swiper>
               {exams &&
                 exams.map((object, index) => {
-                  console.log(object);
                   return (
                     <View key={index} style={{ flex: 1 }}>
                       <View style={styles.titleView}>
@@ -77,8 +104,7 @@ export default class BookingETest extends Component {
                         <Text style={styles.text}>
                           {`Date: ${new Date(object.start_date)}\nStart Time: ${
                             object.start_time
-                          }\nEnd Time:
-                    ${object.end_time}\n`}
+                          }\nEnd Time:${object.end_time}\n`}
                         </Text>
                       </View>
                       <View style={styles.buttonView}>
@@ -90,7 +116,9 @@ export default class BookingETest extends Component {
                             })
                           }
                         >
-                          <Text style={styles.buttonText}>Booking</Text>
+                          <Text style={styles.buttonText}>
+                            {Object.exam ? "Booked" : "Booking"}
+                          </Text>
                         </Button>
                       </View>
                       <View style={styles.buttonView} />

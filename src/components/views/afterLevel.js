@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { Header, Button } from "native-base";
+import { Button } from "native-base";
 import { Text, View, AsyncStorage } from "react-native";
 import { styles } from "../../styles/afterLevel.styles";
 import Swiper from "react-native-swiper";
 import { CheckBox } from "react-native-elements";
 import CustomFooter from "../customComponents/footer";
+import { Header } from "react-native-elements";
 
 export default class AfterLevel extends Component {
   constructor(props) {
@@ -43,14 +44,16 @@ export default class AfterLevel extends Component {
       );
       const responseJson = await response.json();
       console.log("responseJson", responseJson);
-      if (responseJson.success) {
-        alert("Booking Successful");
+      if (responseJson.success == "Already Booked") {
+        alert(responseJson.success);
         this.props.navigation.navigate("Dashboard");
-      } else {
-        alert("Booking Failed");
+      } else if (responseJson.success.id) {
+        alert("Booking Successful!");
+        this.props.navigation.navigate("Dashboard");
       }
     } catch (error) {
       console.log("errorrrrrrrr", error);
+      alert("Booking Failed! Try again Later!");
     }
   };
 

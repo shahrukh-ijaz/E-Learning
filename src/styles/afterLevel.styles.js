@@ -36,7 +36,7 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     margin: 10,
     paddingTop: 15,
-    paddingLeft: 30
+    paddingHorizontal: 30
   },
   bodyHeading: {
     fontWeight: "bold",
