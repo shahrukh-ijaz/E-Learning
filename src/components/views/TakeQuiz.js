@@ -79,14 +79,6 @@ export default class TakeQuiz extends Component {
             style: { color: "yellow", fontSize: 28 }
           }}
         />
-        <View style={styles.instructionsView}>
-          <Text style={styles.instructionsText}>Select Quiz{"\n\n"}</Text>
-          <Text style={styles.instructionsText}>1. xxxxxxxxxx</Text>
-          <Text style={styles.instructionsText}>2. xxxxxxxxxx</Text>
-          <Text style={styles.instructionsText}>3. xxxxxxxxxx</Text>
-          <Text style={styles.instructionsText}>4. xxxxxxxxxx</Text>
-          <Text style={styles.instructionsText}>5. xxxxxxxxxx</Text>
-        </View>
         <View style={styles.body}>
           <Content style={styles.content}>{quizes}</Content>
         </View>
