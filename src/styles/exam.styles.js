@@ -16,5 +16,19 @@ export const styles = StyleSheet.create({
     padding: 20,
     alignItems: "flex-start",
     justifyContent: "flex-start"
+  },
+  button: {
+    flex: 1,
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  buttonView: {
+    flexDirection: "row",
+    marginVertical: 6
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 18
   }
 });

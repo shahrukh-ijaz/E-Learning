@@ -54,9 +54,7 @@ export default class CustomFooter extends Component {
               >
                 <Icon active name="navigate" />
               </Button>
-              <Button
-                onPress={() => this.props.navigation.navigate("Dashboard")}
-              >
+              <Button onPress={() => this.props.navigation.navigate("Profile")}>
                 <Icon name="ios-person" />
                 <Text>Profile</Text>
               </Button>

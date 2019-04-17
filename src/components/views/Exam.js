@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Text, View, AsyncStorage } from "react-native";
 import { styles } from "../../styles/exam.styles";
 import CustomFooter from "../customComponents/footer";
-import { Button, Content, Title } from "native-base";
+import { Button, Content, Title, Radio, Spinner } from "native-base";
 import RadioGroup from "react-native-radio-buttons-group";
 import { Header } from "react-native-elements";
 
@@ -10,24 +10,14 @@ export default class Exam extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      questions: [
-        {
-          label: "Option 1"
-        },
-        {
-          label: "Option 2"
-        },
-        {
-          label: "Option 3"
-        },
-        {
-          label: "Option 4"
-        }
-      ]
+      questions: [],
+      answers: [],
+      index: null,
+      totalQuestions: null,
+      quizCompleted: false,
+      isLoading: false
     };
   }
-
-  onPress = questions => this.setState({ questions });
 
   async componentDidMount() {
     const authToken = await AsyncStorage.getItem("authToken");
@@ -54,9 +44,14 @@ export default class Exam extends Component {
         }
       );
       let responseJson = await response.json();
-      console.log("Quizes", responseJson.success.questions);
+      // console.log("Questions", responseJson.success.questions);
       if (responseJson.success) {
         this.setState({ questions: responseJson.success.questions });
+        console.log(this.state.questions.length);
+        this.setState({
+          totalQuestions: this.state.questions.length - 1,
+          index: 0
+        });
       } else {
         // this.setState(() => ({
         //   loginError: "Email or Password doesn't match",
@@ -69,24 +64,86 @@ export default class Exam extends Component {
     }
   }
 
+  answerQuestion = async (answer, index) => {
+    let ans = this.state.answers;
+    ans[index] = answer;
+    await this.setState({
+      answers: ans
+    });
+    console.log(ans);
+    // console.log(this.state);
+  };
+
+  evaluateQuiz = () => {
+    let questions = this.state.questions;
+    let answers = this.state.answers;
+    let marks = 0;
+    for (i = 0; i < this.state.answers.length; i++) {
+      if (questions[i].answer == answers[i]) {
+        marks++;
+      }
+    }
+    if (this.state.index == this.state.totalQuestions) {
+      return <Text>You obtained {marks} marks</Text>;
+    } else {
+      return null;
+    }
+  };
+
+  getQuestion = (question, index) => {
+    // console.log(question);
+    if (question) {
+      return (
+        <React.Fragment key={question.id}>
+          <Text style={{ fontSize: 16 }}>
+            {"Q. " + question.question}
+            {"\n\n Answers: \n"}
+          </Text>
+          {question.options.map(opt => {
+            return (
+              <React.Fragment key={opt.id}>
+                <View style={{ flexDirection: "row" }}>
+                  <Radio
+                    id={opt.row + question.id}
+                    key={opt.id}
+                    style={{ flex: 1 }}
+                    onPress={() => this.answerQuestion(opt.row, index)}
+                    selected={
+                      this.state.answers[index] == opt.row ? true : false
+                    }
+                  />
+                  <Text style={{ flex: 7 }}>{opt.option}</Text>
+                </View>
+              </React.Fragment>
+            );
+          })}
+          <View style={styles.buttonView}>
+            <Button
+              style={styles.button}
+              key={question.id}
+              title="Submit Answer"
+              onPress={() =>
+                index < this.state.totalQuestions
+                  ? this.setState({ index: index + 1 })
+                  : this.setState({ quizCompleted: true })
+              }
+            >
+              <Text style={styles.buttonText}>Submit Answer</Text>
+            </Button>
+          </View>
+        </React.Fragment>
+      );
+    } else {
+      return null;
+    }
+  };
+
   render() {
-    // let quizes = this.state.quizes.map(quiz => {
-    //   return (
-    //     <View key={quiz.id} style={styles.buttonView}>
-    //       <Button
-    //         style={[styles.button]}
-    //         onPress={() =>
-    //           this.props.navigation.navigate("Exam", {
-    //             id: quiz.id,
-    //             type: "quiz"
-    //           })
-    //         }
-    //       >
-    //         <Text style={styles.buttonText}>{quiz.name}</Text>
-    //       </Button>
-    //     </View>
-    //   );
-    // });
+    let questions = this.getQuestion(
+      this.state.questions[this.state.index],
+      this.state.index
+    );
+    let result = this.evaluateQuiz();
     return (
       <React.Fragment>
         <Header
@@ -102,14 +159,13 @@ export default class Exam extends Component {
           </Text>
         </View>
         <View style={styles.questionView}>
-          <Text style={{ fontSize: 16 }}>
-            what is the correct answer to this question?{"\n\n"}
-          </Text>
-          <RadioGroup
-            style={{ fontSize: 16 }}
-            radioButtons={this.state.questions}
-            onPress={this.onPress}
-          />
+          {this.state.isLoading ? (
+            <Spinner />
+          ) : this.state.quizCompleted ? (
+            result
+          ) : (
+            questions
+          )}
         </View>
         <CustomFooter navigation={this.props.navigation} />
       </React.Fragment>

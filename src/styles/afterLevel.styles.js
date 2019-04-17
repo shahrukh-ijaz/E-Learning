@@ -21,6 +21,16 @@ export const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 18
   },
+  button: {
+    flex: 1,
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  buttonView: {
+    flexDirection: "row",
+    marginVertical: 6
+  },
   body: {
     flex: 7,
     borderWidth: 1,
@@ -36,6 +46,10 @@ export const styles = StyleSheet.create({
   checkBox: {
     margin: 10,
     backgroundColor: "#a09d97",
+    fontSize: 18
+  },
+  buttonText: {
+    color: "white",
     fontSize: 18
   }
 });

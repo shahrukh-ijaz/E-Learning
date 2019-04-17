@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import { Button } from "native-base";
+import { Header, Button } from "native-base";
 import { Text, View, AsyncStorage } from "react-native";
 import { styles } from "../../styles/afterLevel.styles";
 import Swiper from "react-native-swiper";
 import { CheckBox } from "react-native-elements";
 import CustomFooter from "../customComponents/footer";
-import { Header } from "react-native-elements";
 
 export default class AfterLevel extends Component {
   constructor(props) {
@@ -25,6 +24,10 @@ export default class AfterLevel extends Component {
     } = this;
 
     try {
+      var formData = new FormData({ x: "abc" });
+      formData.append("exam", exam.id);
+      formData.append("level", level);
+      console.log("formData", formData);
       const authToken = await AsyncStorage.getItem("authToken");
       const response = await fetch(
         "https://www.gorporbyken.com/api/exam/booking",
@@ -32,17 +35,20 @@ export default class AfterLevel extends Component {
           method: "POST",
           headers: {
             Accept: "application/json",
-            "Content-Type": "application/x-www-form-urlencoded",
+            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${authToken}`
           },
-          body: JSON.stringify({
-            exam: exam.id,
-            level: level
-          })
+          body: formData
         }
       );
       const responseJson = await response.json();
       console.log("responseJson", responseJson);
+      if (responseJson.success) {
+        alert("Booking Successful");
+        this.props.navigation.navigate("Dashboard");
+      } else {
+        alert("Booking Failed");
+      }
     } catch (error) {
       console.log("errorrrrrrrr", error);
     }
@@ -88,9 +94,11 @@ export default class AfterLevel extends Component {
                 style={styles.checkBox}
                 title={`${exam.start_time} - ${exam.end_time}`}
               />
-              <Button style={styles.button} onPress={this._bookExam}>
-                <Text style={styles.buttonText}>Book Now</Text>
-              </Button>
+              <View style={styles.buttonView}>
+                <Button style={styles.button} onPress={this._bookExam}>
+                  <Text style={styles.buttonText}>Book Now</Text>
+                </Button>
+              </View>
             </View>
           </Swiper>
         </View>
