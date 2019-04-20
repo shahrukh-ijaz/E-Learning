@@ -15,7 +15,8 @@ export const styles = StyleSheet.create({
     margin: 5,
     padding: 20,
     alignItems: "flex-start",
-    justifyContent: "flex-start"
+    justifyContent: "flex-start",
+    flexDirection: "column"
   },
   button: {
     flex: 1,
