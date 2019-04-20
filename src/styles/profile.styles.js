@@ -41,15 +41,18 @@ export const styles = StyleSheet.create({
   },
   buttonView: {
     flexDirection: "row",
-    marginTop: 20
+    marginBottom: 40
   },
   button: {
     flex: 1,
     borderRadius: 8,
+    backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center"
   },
-  buttonView: {
-    flexDirection: "row"
+  buttonText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#012060"
   }
 });

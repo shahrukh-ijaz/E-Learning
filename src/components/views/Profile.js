@@ -1,6 +1,13 @@
 import React, { Component } from "react";
-import { Container, Content, Item } from "native-base";
-import { StyleSheet, Text, View, Image, AsyncStorage } from "react-native";
+import { Container, Content, Item, Button, Icon } from "native-base";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  AsyncStorage,
+  Linking
+} from "react-native";
 import { styles } from "../../styles/profile.styles";
 import CustomFooter from "../customComponents/footer";
 import { Header } from "react-native-elements";
@@ -77,6 +84,18 @@ export default class Profile extends Component {
               </Text>
             </Item>
           </Content>
+          <View style={styles.buttonView}>
+            <Button
+              style={[styles.button]}
+              onPress={() => Linking.openURL("https://gorporbyken.com/payment")}
+            >
+              <Text style={styles.buttonText}>
+                <Icon style={styles.buttonText} name="ios-cash" />
+                {"  "}
+                Get Premium!
+              </Text>
+            </Button>
+          </View>
         </Container>
         <CustomFooter navigation={this.props.navigation} />
       </React.Fragment>

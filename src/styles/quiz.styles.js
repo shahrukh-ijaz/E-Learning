@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     paddingTop: 5
   },
   body: {
-    flex: 7
+    flex: 10
   },
   instructionsText: {
     fontSize: 18
