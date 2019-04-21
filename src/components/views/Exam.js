@@ -4,13 +4,13 @@ import { styles } from "../../styles/exam.styles";
 import CustomFooter from "../customComponents/footer";
 import {
   Button,
-  Content,
-  Title,
   Radio,
   Spinner,
-  Item,
-  CardItem
+  List,
+  ListItem,
+  Content
 } from "native-base";
+
 import { Header } from "react-native-elements";
 
 export default class Exam extends Component {
@@ -152,33 +152,32 @@ export default class Exam extends Component {
     let { answers, questions } = this.state;
     let keyView = (
       // <View style={{ flexDirection: "column", flex: 5 }}>
-      <React.Fragment>
+      <View>
         {result}
-        <Item style={{ flexDirection: "row", flex: 1 }}>
-          <Text style={{ flex: 4, borderWidth: 1, padding: 5 }}>Question</Text>
-          <Text style={{ flex: 1, borderWidth: 1, padding: 5 }}>Answer</Text>
-          <Text style={{ flex: 1, borderWidth: 1, padding: 5 }}>Correct</Text>
-        </Item>
-        {questions.map(function(question, i) {
-          return (
-            <Item
-              key={question.id}
-              style={{ flexDirection: "row", flex: 1, borderWidth: 1 }}
-            >
-              <Text key={question.question} style={{ flex: 4, padding: 5 }}>
-                {question.question}
-              </Text>
-              <Text key={answers[i]} style={{ flex: 1, padding: 5 }}>
-                {answers[i]}
-              </Text>
-              <Text key={question.id} style={{ flex: 1, padding: 5 }}>
-                {question.answer}
-              </Text>
-            </Item>
-          );
-        })}
-      </React.Fragment>
-      // </View>
+        <Content>
+          <List>
+          
+          {questions.map(function(question, i) {
+            return (
+              <ListItem
+                key={question.id}
+                style={{ flexDirection: "column", flex: 1, borderWidth: 1 , justifyContent: 'space-between'}}
+              >
+                <Text key={question.question}>
+                  Question: {question.question}
+                </Text>
+                <Text key={answers[i]}>
+                  Answer: {answers[i]}
+                </Text>
+                <Text key={question.id}>
+                  Correct: {question.answer}
+                </Text>
+              </ListItem>
+            );
+          })}
+          </List>
+        </Content>
+      </View>
     );
     return keyView;
   };
