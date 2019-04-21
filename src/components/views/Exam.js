@@ -2,14 +2,7 @@ import React, { Component } from "react";
 import { Text, View, AsyncStorage, ScrollView } from "react-native";
 import { styles } from "../../styles/exam.styles";
 import CustomFooter from "../customComponents/footer";
-import {
-  Button,
-  Radio,
-  Spinner,
-  List,
-  ListItem,
-  Content
-} from "native-base";
+import { Button, Radio, Spinner, List, ListItem, Content } from "native-base";
 
 import { Header } from "react-native-elements";
 
@@ -105,7 +98,7 @@ export default class Exam extends Component {
       return (
         <React.Fragment key={question.id}>
           <Text style={{ fontSize: 16 }}>
-            {"Q. " + question.question}
+            {"Q." + index + " " + question.question}
             {"\n\n Answers: \n"}
           </Text>
           {question.options.map(opt => {
@@ -137,7 +130,7 @@ export default class Exam extends Component {
                   : this.setState({ quizCompleted: true })
               }
             >
-              <Text style={styles.buttonText}>Submit Answer</Text>
+              <Text style={styles.buttonText}>Next</Text>
             </Button>
           </View>
         </React.Fragment>
@@ -156,25 +149,25 @@ export default class Exam extends Component {
         {result}
         <Content>
           <List>
-          
-          {questions.map(function(question, i) {
-            return (
-              <ListItem
-                key={question.id}
-                style={{ flexDirection: "column", flex: 1, borderWidth: 1 , justifyContent: 'space-between'}}
-              >
-                <Text key={question.question}>
-                  Question: {question.question}
-                </Text>
-                <Text key={answers[i]}>
-                  Answer: {answers[i]}
-                </Text>
-                <Text key={question.id}>
-                  Correct: {question.answer}
-                </Text>
-              </ListItem>
-            );
-          })}
+            {questions.map(function(question, i) {
+              return (
+                <ListItem
+                  key={question.id}
+                  style={{
+                    flexDirection: "column",
+                    flex: 1,
+                    borderWidth: 1,
+                    justifyContent: "space-between"
+                  }}
+                >
+                  <Text key={question.question}>
+                    Question: {question.question}
+                  </Text>
+                  <Text key={answers[i]}>Answer: {answers[i]}</Text>
+                  <Text key={question.id}>Correct: {question.answer}</Text>
+                </ListItem>
+              );
+            })}
           </List>
         </Content>
       </View>

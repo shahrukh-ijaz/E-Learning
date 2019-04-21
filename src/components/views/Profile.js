@@ -38,9 +38,10 @@ export default class Profile extends Component {
         }
       );
       let responseJson = await response.json();
-      console.log("Quizes", responseJson);
+      // console.log("Profile", responseJson);
       if (responseJson.success) {
         this.setState({ user: responseJson.success });
+        await AsyncStorage.setItem("Member", responseJson.success.paid);
       } else {
         // this.setState(() => ({
         //   loginError: "Email or Password doesn't match",
@@ -81,6 +82,14 @@ export default class Profile extends Component {
               <Text style={{ fontSize: 20, color: "#012060" }}>Email: </Text>
               <Text style={{ fontSize: 22, color: "#012060" }}>
                 {this.state.user.email}
+              </Text>
+            </Item>
+            <Item style={styles.inputFields}>
+              <Text style={{ fontSize: 20, color: "#012060" }}>
+                Membership:{" "}
+              </Text>
+              <Text style={{ fontSize: 22, color: "#012060" }}>
+                {this.state.user.paid == 0 ? "Free" : "Premium"}
               </Text>
             </Item>
           </Content>

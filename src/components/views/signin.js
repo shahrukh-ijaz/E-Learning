@@ -40,12 +40,41 @@ class Signin extends Component {
           });
           let responseJson = await response.json();
           if (responseJson.success) {
+            // console.log("Signed In");
+            // await AsyncStorage.setItem("Member", responseJson.success.paid);
+            let token = responseJson.success.token;
+            await AsyncStorage.setItem("authToken", responseJson.success.token);
+            try {
+              let response = await fetch(
+                "https://www.gorporbyken.com/api/user/details",
+                {
+                  method: "POST",
+                  headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                  }
+                }
+              );
+              let responseJson = await response.json();
+              // console.log("Profile", responseJson);
+              if (responseJson.success) {
+                await AsyncStorage.setItem("Member", responseJson.success.paid);
+              } else {
+                // this.setState(() => ({
+                //   loginError: "Email or Password doesn't match",
+                //   isLoading: false
+                // }));
+              }
+            } catch (error) {
+              console.log("error", error);
+              this.props.navigation.navigate("Signin");
+            }
             this.setState(state => ({
               ...state,
               loginError: null,
               isLoading: false
             }));
-            await AsyncStorage.setItem("authToken", responseJson.success.token);
             this.props.navigation.navigate("Dashboard");
             console.log("token", responseJson.success.token);
           } else {

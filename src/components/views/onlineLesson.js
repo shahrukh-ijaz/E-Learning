@@ -8,10 +8,13 @@ import { Header } from "react-native-elements";
 export default class OnlineLesson extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      membershipStatus: 0
+    };
   }
 
   async componentDidMount() {
+    this.setState({ membershipStatus: await AsyncStorage.getItem("Member") });
     try {
       const authToken = await AsyncStorage.getItem("authToken");
       const response = await fetch("https://www.gorporbyken.com/api/lesson", {
@@ -24,6 +27,7 @@ export default class OnlineLesson extends Component {
         body: JSON.stringify({})
       });
       const responseJson = await response.json();
+      // console.log(responseJson);
       if (responseJson.success.length) {
         this.setState(state => ({
           ...state,
@@ -74,11 +78,24 @@ export default class OnlineLesson extends Component {
                       object.videos[0].map((videoObject, key) => (
                         <ListItem
                           key={key}
-                          onPress={() =>
-                            this.props.navigation.navigate("LessonVideo", {
-                              link: videoObject.link
-                            })
-                          }
+                          onPress={() => {
+                            console.log(
+                              object.paid,
+                              this.state.membershipStatus
+                            );
+                            if (
+                              object.paid == 1 &&
+                              this.state.membershipStatus == 1
+                            ) {
+                              this.props.navigation.navigate("LessonVideo", {
+                                link: videoObject.link
+                              });
+                            } else {
+                              alert(
+                                "This is a premium lecture. To buy a premium account proceed to Profile -> Membership."
+                              );
+                            }
+                          }}
                         >
                           <Text style={styles.itemText}>
                             {videoObject.title}

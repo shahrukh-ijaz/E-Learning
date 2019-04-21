@@ -2,12 +2,7 @@ import React, { Component } from "react";
 import { Text, View, AsyncStorage, ScrollView } from "react-native";
 import { styles } from "../../styles/liveExam.styles";
 import CustomFooter from "../customComponents/footer";
-import {
-  Button,
-  Radio,
-  Spinner,
-  Item,
-} from "native-base";
+import { Button, Radio, Spinner, Item } from "native-base";
 import { Header } from "react-native-elements";
 
 export default class LiveExam extends Component {
@@ -52,7 +47,7 @@ export default class LiveExam extends Component {
         }
       );
       let responseJson = await examStartResponse.json();
-      if(responseJson.success){
+      if (responseJson.success) {
         let response = await fetch(
           `https://www.gorporbyken.com/api/exam/details?id=${exam.id}&level=1`,
           {
@@ -67,9 +62,11 @@ export default class LiveExam extends Component {
         let responseJson = await response.json();
         console.log("Questions", responseJson.success.portions);
         if (responseJson.success) {
-          this.setState({ 
+          this.setState({
             portions: responseJson.success.portions,
-            questions: responseJson.success.portions && responseJson.success.portions[0].questions,
+            questions:
+              responseJson.success.portions &&
+              responseJson.success.portions[0].questions,
             portionIndex: 0,
             index: 0,
             isLoading: false
@@ -90,7 +87,7 @@ export default class LiveExam extends Component {
 
   answerQuestion = async (answer, index, questionId) => {
     let ans = this.state.answers;
-    ans.push({[questionId]: answer})
+    ans.push({ [questionId]: answer });
     await this.setState({
       answers: ans
     });
@@ -120,7 +117,7 @@ export default class LiveExam extends Component {
       return (
         <React.Fragment key={question.id}>
           <Text style={{ fontSize: 16 }}>
-            {"Q. " + question.question}
+            {"Q." + index + " " + question.question}
             {"\n\n Answers: \n"}
           </Text>
           {question.options.map(opt => {
@@ -131,9 +128,16 @@ export default class LiveExam extends Component {
                     id={opt.row + question.id}
                     key={opt.id}
                     style={{ flex: 1 }}
-                    onPress={() => this.answerQuestion(opt.row, index, question.id)}
+                    onPress={() =>
+                      this.answerQuestion(opt.row, index, question.id)
+                    }
                     selected={
-                      this.state.answers.length && this.state.answers[this.state.answers.length - 1][question.id] == opt.row ? true : false
+                      this.state.answers.length &&
+                      this.state.answers[this.state.answers.length - 1][
+                        question.id
+                      ] == opt.row
+                        ? true
+                        : false
                     }
                   />
                   <Text style={{ flex: 7 }}>{opt.option}</Text>
@@ -145,22 +149,24 @@ export default class LiveExam extends Component {
             <Button
               style={styles.button}
               key={question.id}
-              title="Submit Answer"
-              onPress={() =>this.setState({ index: index + 1 })}
+              title="Next"
+              onPress={() => this.setState({ index: index + 1 })}
             >
-              <Text style={styles.buttonText}>Submit Answer</Text>
+              <Text style={styles.buttonText}>Next</Text>
             </Button>
           </View>
         </React.Fragment>
       );
     } else {
-      return (<Button
-        style={styles.button}
-        title="Next Portion"
-        onPress={this._handlePortionComplete}
+      return (
+        <Button
+          style={styles.button}
+          title="Next Portion"
+          onPress={this._handlePortionComplete}
         >
           <Text style={styles.buttonText}>Next Portion</Text>
-        </Button>);
+        </Button>
+      );
     }
   };
 
@@ -218,18 +224,15 @@ export default class LiveExam extends Component {
       formData.append("exam", exam.id);
       formData.append("portion", this.state.portionIndex + 1);
       formData.append("questions", this.state.answers);
-      let response = await fetch(
-        `https://www.gorporbyken.com/api/exam/save`,
-        {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${authToken}`
-          },
-          body: formData
-        }
-      );
+      let response = await fetch(`https://www.gorporbyken.com/api/exam/save`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${authToken}`
+        },
+        body: formData
+      });
       let responseJson = await response.json();
       console.log("Questions", responseJson);
       // portions: responseJson.success.portions,
@@ -237,7 +240,7 @@ export default class LiveExam extends Component {
       // portionIndex: 0,
       // index: 0,
       if (responseJson.success) {
-        this.setState({ 
+        this.setState({
           isLoading: false
         });
       } else {
@@ -249,7 +252,7 @@ export default class LiveExam extends Component {
     } catch (error) {
       console.log("error", error);
     }
-  }
+  };
 
   render() {
     let questions = this.getQuestion(
@@ -271,11 +274,7 @@ export default class LiveExam extends Component {
           </Text>
         </View>
         <View style={styles.questionView}>
-          {this.state.isLoading ? (
-            <Spinner />
-          ) : 
-            questions
-          }
+          {this.state.isLoading ? <Spinner /> : questions}
         </View>
         <CustomFooter navigation={this.props.navigation} />
       </React.Fragment>

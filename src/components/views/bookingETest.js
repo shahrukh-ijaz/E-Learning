@@ -6,7 +6,7 @@ import Swiper from "react-native-swiper";
 import CustomFooter from "../customComponents/footer";
 import { Header } from "react-native-elements";
 import TimerCountdown from "react-native-timer-countdown";
-import moment from 'moment';
+import moment from "moment";
 
 export default class BookingETest extends Component {
   constructor(props) {
@@ -17,6 +17,7 @@ export default class BookingETest extends Component {
     };
   }
   async componentDidMount() {
+    this.setState({ membershipStatus: await AsyncStorage.getItem("Member") });
     try {
       const authToken = await AsyncStorage.getItem("authToken");
       const response = await fetch("https://www.gorporbyken.com/api/exam", {
@@ -28,7 +29,7 @@ export default class BookingETest extends Component {
         }
       });
       const responseJson = await response.json();
-      console.log(responseJson)
+      console.log(responseJson);
       if (responseJson.success.length) {
         this.setState(state => ({
           ...state,
@@ -95,8 +96,12 @@ export default class BookingETest extends Component {
             <Swiper>
               {exams &&
                 exams.map((object, index) => {
-                  console.log(object)
-                  console.log(moment(`${object.start_date} ${object.start_time}`).diff(moment()))
+                  console.log(object);
+                  console.log(
+                    moment(`${object.start_date} ${object.start_time}`).diff(
+                      moment()
+                    )
+                  );
                   return (
                     <View key={index} style={{ flex: 1 }}>
                       <View style={styles.titleView}>
@@ -111,58 +116,98 @@ export default class BookingETest extends Component {
                             object.start_time
                           }\nEnd Time:${object.end_time}\n`}
                         </Text>
-                      </View >
+                      </View>
                       <View style={styles.buttonView}>
-                      {object.booking ? (moment().diff(moment(`${object.start_date} ${object.start_time}`)) > 0 ? 
-                        <Button
-                          style={styles.button}
-                          onPress={() =>
-                            this.props.navigation.navigate("Level", {
-                              exam: object
-                            })
-                          }
-                        >
-                          <Text style={styles.buttonText}>
-                            <TimerCountdown
-                              initialMilliseconds={moment().diff(moment(`${object.start_date} ${object.start_time}`))}
-                              formatMilliseconds={(milliseconds) => {
-                                const remainingSec = Math.round(milliseconds / 1000);
-                                const seconds = parseInt((remainingSec % 60).toString(), 10);
-                                const minutes = parseInt(((remainingSec / 60) % 60).toString(), 10);
-                                const hours = parseInt((remainingSec / 3600).toString(), 10);
-                                const s = seconds < 10 ? '0' + seconds : seconds;
-                                const m = minutes < 10 ? '0' + minutes : minutes;
-                                let h = hours < 10 ? '0' + hours : hours;
-                                h = h === '00' ? '' : h + ':';
-                                return h + m + ':' + s;
+                        {object.booking ? (
+                          moment().diff(
+                            moment(`${object.start_date} ${object.start_time}`)
+                          ) > 0 ? (
+                            <Button
+                              style={styles.button}
+                              onPress={() => {
+                                console.log(
+                                  object.paid,
+                                  this.state.membershipStatus
+                                );
+                                if (
+                                  object.paid == 1 &&
+                                  this.state.membershipStatus == 1
+                                ) {
+                                  this.props.navigation.navigate("Level", {
+                                    exam: object
+                                  });
+                                } else {
+                                  alert(
+                                    "This is a premium lecture. To buy a premium account proceed to Profile -> Membership."
+                                  );
+                                }
                               }}
-                              allowFontScaling={true}
-                            />
-                          </Text>
-                        </Button> :  <Button
-                          style={styles.button}
-                          onPress={() =>
-                            this.props.navigation.navigate("LiveExam", {
-                              exam: object
-                            })
-                          }
-                        >
-                          <Text style={styles.buttonText}>
-                            Start Exam
-                          </Text>
-                        </Button> ) :
-                        <Button
-                          style={styles.button}
-                          onPress={() =>
-                            this.props.navigation.navigate("Level", {
-                              exam: object
-                            })
-                          }
-                        >
-                          <Text style={styles.buttonText}>
-                            Booking
-                          </Text>
-                        </Button>}
+                            >
+                              <Text style={styles.buttonText}>
+                                <TimerCountdown
+                                  initialMilliseconds={moment().diff(
+                                    moment(
+                                      `${object.start_date} ${
+                                        object.start_time
+                                      }`
+                                    )
+                                  )}
+                                  formatMilliseconds={milliseconds => {
+                                    const remainingSec = Math.round(
+                                      milliseconds / 1000
+                                    );
+                                    const seconds = parseInt(
+                                      (remainingSec % 60).toString(),
+                                      10
+                                    );
+                                    const minutes = parseInt(
+                                      ((remainingSec / 60) % 60).toString(),
+                                      10
+                                    );
+                                    const hours = parseInt(
+                                      (remainingSec / 3600).toString(),
+                                      10
+                                    );
+                                    const s =
+                                      seconds < 10 ? "0" + seconds : seconds;
+                                    const m =
+                                      minutes < 10 ? "0" + minutes : minutes;
+                                    let h = hours < 10 ? "0" + hours : hours;
+                                    h = h === "00" ? "" : h + ":";
+                                    return h + m + ":" + s;
+                                  }}
+                                  allowFontScaling={true}
+                                />
+                              </Text>
+                            </Button>
+                          ) : (
+                            <Button
+                              style={styles.button}
+                              onPress={() =>
+                                this.props.navigation.navigate("LiveExam", {
+                                  exam: object
+                                })
+                              }
+                            >
+                              <Text style={styles.buttonText}>Start Exam</Text>
+                            </Button>
+                          )
+                        ) : (
+                          <Button
+                            style={[styles.button, { backgroundColor: "grey" }]}
+                            onPress={() =>
+                              this.props.navigation.navigate("Level", {
+                                exam: object
+                              })
+                            }
+                          >
+                            <Text
+                              style={[styles.buttonText, { color: "black" }]}
+                            >
+                              Booking
+                            </Text>
+                          </Button>
+                        )}
                       </View>
                       <View style={styles.buttonView} />
                     </View>
