@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Text, View, AsyncStorage, ScrollView } from "react-native";
-import { styles } from "../../styles/exam.styles";
+import { styles } from "../../styles/liveExam.styles";
 import CustomFooter from "../customComponents/footer";
 import {
   Button,
@@ -13,7 +13,7 @@ import {
 } from "native-base";
 import { Header } from "react-native-elements";
 
-export default class Exam extends Component {
+export default class LiveExam extends Component {
   constructor(props) {
     super(props);
     this.state = {

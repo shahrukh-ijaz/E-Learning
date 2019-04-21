@@ -15,6 +15,7 @@ import CustomFooter from "../components/customComponents/footer";
 import Header from "../components/customComponents/header";
 import LessonVideo from "../components/views/lessonVideo";
 import Profile from "../components/views/Profile";
+import LiveExam from "../components/views/LiveExam";
 
 // import Profile from "./src/screens/Profile";
 
@@ -64,6 +65,12 @@ const AuthStack = createStackNavigator(
     },
     Exam: {
       screen: Exam,
+      navigationOptions: {
+        header: null
+      }
+    },
+    LiveExam: {
+      screen: LiveExam,
       navigationOptions: {
         header: null
       }
