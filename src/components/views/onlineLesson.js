@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Content, List, ListItem } from "native-base";
+import { Content, List, ListItem, Spinner, Container } from "native-base";
 import { Text, View, AsyncStorage } from "react-native";
 import { styles } from "../../styles/onlineLesson.styles";
 import CustomFooter from "../customComponents/footer";
@@ -9,11 +9,13 @@ export default class OnlineLesson extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      membershipStatus: 0
+      membershipStatus: 0,
+      isLoading: false
     };
   }
 
   async componentDidMount() {
+    this.setState({ isLoading: true });
     this.setState({ membershipStatus: await AsyncStorage.getItem("Member") });
     try {
       const authToken = await AsyncStorage.getItem("authToken");
@@ -31,7 +33,8 @@ export default class OnlineLesson extends Component {
       if (responseJson.success.length) {
         this.setState(state => ({
           ...state,
-          lessons: responseJson.success
+          lessons: responseJson.success,
+          isLoading: false
         }));
       }
     } catch (error) {
@@ -44,7 +47,16 @@ export default class OnlineLesson extends Component {
       state: { lessons }
     } = this;
 
-    return (
+    return this.state.isLoading ? (
+      <Container
+        style={{
+          alignItems: "center",
+          justifyContent: "center"
+        }}
+      >
+        <Spinner />
+      </Container>
+    ) : (
       <React.Fragment>
         <Header
           containerStyle={{ backgroundColor: "#012060" }}

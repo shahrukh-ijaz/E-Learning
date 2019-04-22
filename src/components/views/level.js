@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { List, ListItem } from "native-base";
+import { List, ListItem, Spinner, Container } from "native-base";
 import { Text, View } from "react-native";
 import { styles } from "../../styles/level.styles";
 import Swiper from "react-native-swiper";
@@ -9,7 +9,9 @@ import { Header } from "react-native-elements";
 export default class Level extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isLoading: false
+    };
   }
 
   render() {
@@ -22,7 +24,16 @@ export default class Level extends Component {
         }
       }
     } = this;
-    return (
+    return this.state.isLoading ? (
+      <Container
+        style={{
+          alignItems: "center",
+          justifyContent: "center"
+        }}
+      >
+        <Spinner />
+      </Container>
+    ) : (
       <React.Fragment>
         <Header
           containerStyle={{ backgroundColor: "#012060" }}

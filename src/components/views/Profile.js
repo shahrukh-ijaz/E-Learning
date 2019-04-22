@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Content, Item, Button, Icon } from "native-base";
+import { Container, Content, Item, Button, Icon, Spinner } from "native-base";
 import {
   StyleSheet,
   Text,
@@ -18,12 +18,14 @@ export default class Profile extends Component {
     this.state = {
       user: {
         email: "",
-        name: ""
+        name: "",
+        isLoading: false
       }
     };
   }
 
   async componentDidMount() {
+    this.setState({ isLoading: true });
     const authToken = await AsyncStorage.getItem("authToken");
     try {
       let response = await fetch(
@@ -40,7 +42,7 @@ export default class Profile extends Component {
       let responseJson = await response.json();
       // console.log("Profile", responseJson);
       if (responseJson.success) {
-        this.setState({ user: responseJson.success });
+        this.setState({ user: responseJson.success, isLoading: false });
         await AsyncStorage.setItem("Member", responseJson.success.paid);
       } else {
         // this.setState(() => ({
@@ -55,7 +57,16 @@ export default class Profile extends Component {
   }
 
   render() {
-    return (
+    return this.state.isLoading ? (
+      <Container
+        style={{
+          alignItems: "center",
+          justifyContent: "center"
+        }}
+      >
+        <Spinner />
+      </Container>
+    ) : (
       <React.Fragment>
         <Header
           containerStyle={{ backgroundColor: "#012060" }}

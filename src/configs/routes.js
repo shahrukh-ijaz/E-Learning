@@ -113,7 +113,7 @@ const AuthStack = createStackNavigator(
     }
   },
   {
-    initialRouteName: "Signin"
+    initialRouteName: "Dashboard"
   }
 );
 

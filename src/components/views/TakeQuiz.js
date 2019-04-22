@@ -2,14 +2,15 @@ import React, { Component } from "react";
 import { Text, View, AsyncStorage } from "react-native";
 import { styles } from "../../styles/quiz.styles";
 import CustomFooter from "../customComponents/footer";
-import { Button, Content, Title } from "native-base";
+import { Button, Content, Container, Spinner } from "native-base";
 import { Header } from "react-native-elements";
 
 export default class TakeQuiz extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      quizes: []
+      quizes: [],
+      isLoading: false
     };
   }
 
@@ -24,6 +25,7 @@ export default class TakeQuiz extends Component {
         }
       }
     } = this;
+    this.setState({ isLoading: true });
     try {
       let response = await fetch(
         "https://www.gorporbyken.com/api/quiz?category=" + category,
@@ -40,6 +42,7 @@ export default class TakeQuiz extends Component {
       // console.log("Quizes", responseJson);
       if (responseJson.success) {
         this.setState({ quizes: responseJson.success });
+        this.setState({ isLoading: false });
       } else {
         // this.setState(() => ({
         //   loginError: "Email or Password doesn't match",
@@ -79,9 +82,20 @@ export default class TakeQuiz extends Component {
             style: { color: "yellow", fontSize: 28 }
           }}
         />
-        <View style={styles.body}>
-          <Content style={styles.content}>{quizes}</Content>
-        </View>
+        {this.state.isLoading ? (
+          <Container
+            style={{
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          >
+            <Spinner />
+          </Container>
+        ) : (
+          <View style={styles.body}>
+            <Content style={styles.content}>{quizes}</Content>
+          </View>
+        )}
         <CustomFooter navigation={this.props.navigation} />
       </React.Fragment>
     );

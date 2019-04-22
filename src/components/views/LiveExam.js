@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Text, View, AsyncStorage, ScrollView } from "react-native";
 import { styles } from "../../styles/liveExam.styles";
 import CustomFooter from "../customComponents/footer";
-import { Button, Radio, Spinner, Item } from "native-base";
+import { Button, Radio, Spinner, Container } from "native-base";
 import { Header } from "react-native-elements";
 
 export default class LiveExam extends Component {
@@ -113,11 +113,12 @@ export default class LiveExam extends Component {
 
   getQuestion = (question, index) => {
     // console.log(question);
+    let qNo = index + 1;
     if (question) {
       return (
         <React.Fragment key={question.id}>
           <Text style={{ fontSize: 16 }}>
-            {"Q." + index + " " + question.question}
+            {"Q." + qNo + " " + question.question}
             {"\n\n Answers: \n"}
           </Text>
           {question.options.map(opt => {
@@ -169,42 +170,6 @@ export default class LiveExam extends Component {
       );
     }
   };
-
-  // generateQuizKey = () => {
-  //   let result = this.evaluateQuiz();
-  //   let { answers, questions } = this.state;
-  //   let keyView = (
-  //     // <View style={{ flexDirection: "column", flex: 5 }}>
-  //     <React.Fragment>
-  //       {result}
-  //       <Item style={{ flexDirection: "row", flex: 1 }}>
-  //         <Text style={{ flex: 4, borderWidth: 1, padding: 5 }}>Question</Text>
-  //         <Text style={{ flex: 1, borderWidth: 1, padding: 5 }}>Answer</Text>
-  //         <Text style={{ flex: 1, borderWidth: 1, padding: 5 }}>Correct</Text>
-  //       </Item>
-  //       {questions.map(function(question, i) {
-  //         return (
-  //           <Item
-  //             key={question.id}
-  //             style={{ flexDirection: "row", flex: 1, borderWidth: 1 }}
-  //           >
-  //             <Text key={question.question} style={{ flex: 4, padding: 5 }}>
-  //               {question.question}
-  //             </Text>
-  //             <Text key={answers[i]} style={{ flex: 1, padding: 5 }}>
-  //               {answers[i]}
-  //             </Text>
-  //             <Text key={question.id} style={{ flex: 1, padding: 5 }}>
-  //               {question.answer}
-  //             </Text>
-  //           </Item>
-  //         );
-  //       })}
-  //     </React.Fragment>
-  //     // </View>
-  //   );
-  //   return keyView;
-  // };
 
   _handlePortionComplete = async () => {
     const authToken = await AsyncStorage.getItem("authToken");
@@ -259,7 +224,16 @@ export default class LiveExam extends Component {
       this.state.questions[this.state.index],
       this.state.index
     );
-    return (
+    return this.state.isLoading ? (
+      <Container
+        style={{
+          alignItems: "center",
+          justifyContent: "center"
+        }}
+      >
+        <Spinner />
+      </Container>
+    ) : (
       <React.Fragment>
         <Header
           containerStyle={{ backgroundColor: "#012060" }}
@@ -273,9 +247,7 @@ export default class LiveExam extends Component {
             Carefuly read these instructions before starting the exam!
           </Text>
         </View>
-        <View style={styles.questionView}>
-          {this.state.isLoading ? <Spinner /> : questions}
-        </View>
+        <View style={styles.questionView}>{questions}</View>
         <CustomFooter navigation={this.props.navigation} />
       </React.Fragment>
     );

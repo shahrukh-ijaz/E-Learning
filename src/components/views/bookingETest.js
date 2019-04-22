@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button } from "native-base";
+import { Button, Spinner, Container } from "native-base";
 import { Text, View, AsyncStorage } from "react-native";
 import { styles } from "../../styles/bookingETest.styles";
 import Swiper from "react-native-swiper";
@@ -13,10 +13,12 @@ export default class BookingETest extends Component {
     super(props);
     this.state = {
       exams: null,
-      bookedExams: null
+      bookedExams: null,
+      isLoading: false
     };
   }
   async componentDidMount() {
+    this.setState({ isLoading: true });
     this.setState({ membershipStatus: await AsyncStorage.getItem("Member") });
     try {
       const authToken = await AsyncStorage.getItem("authToken");
@@ -33,35 +35,9 @@ export default class BookingETest extends Component {
       if (responseJson.success.length) {
         this.setState(state => ({
           ...state,
-          exams: responseJson.success
+          exams: responseJson.success,
+          isLoading: false
         }));
-      }
-    } catch (error) {
-      console.log("errorrrrrrrr", error);
-    }
-    //////////////////////////////////
-    try {
-      const authToken = await AsyncStorage.getItem("authToken");
-      const response = await fetch(
-        "https://www.gorporbyken.com/api/exam/booked",
-        {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/x-www-form-urlencoded",
-            Authorization: `Bearer ${authToken}`
-          }
-        }
-      );
-      const responseJson = await response.json();
-      // console.log("Booked Exam", responseJson);
-      if (responseJson.success.length) {
-        // let exs = this.state.exams;
-        // exs = exs.concat(responseJson.success);
-        // console.log(exs);
-        // await this.setState({
-        //   exams: exs
-        // });
       }
     } catch (error) {
       console.log("errorrrrrrrr", error);
@@ -72,7 +48,16 @@ export default class BookingETest extends Component {
     const {
       state: { exams, bookedExams }
     } = this;
-    return (
+    return this.state.isLoading ? (
+      <Container
+        style={{
+          alignItems: "center",
+          justifyContent: "center"
+        }}
+      >
+        <Spinner />
+      </Container>
+    ) : (
       <React.Fragment>
         <Header
           containerStyle={{ backgroundColor: "#012060" }}

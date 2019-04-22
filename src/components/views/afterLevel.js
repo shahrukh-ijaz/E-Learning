@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button } from "native-base";
+import { Button, Container } from "native-base";
 import { Text, View, AsyncStorage } from "react-native";
 import { styles } from "../../styles/afterLevel.styles";
 import Swiper from "react-native-swiper";
@@ -10,7 +10,9 @@ import { Header } from "react-native-elements";
 export default class AfterLevel extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isLoading: false
+    };
   }
 
   _bookExam = async () => {
@@ -23,6 +25,7 @@ export default class AfterLevel extends Component {
         }
       }
     } = this;
+    this.setState({ isLoading: true });
 
     try {
       var formData = new FormData({ x: "abc" });

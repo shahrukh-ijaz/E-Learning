@@ -1,8 +1,16 @@
 import React, { Component } from "react";
-import { Text, View, AsyncStorage, ScrollView } from "react-native";
+import { Text, View, AsyncStorage } from "react-native";
 import { styles } from "../../styles/exam.styles";
 import CustomFooter from "../customComponents/footer";
-import { Button, Radio, Spinner, List, ListItem, Content } from "native-base";
+import {
+  Button,
+  Radio,
+  Spinner,
+  List,
+  ListItem,
+  Content,
+  Container
+} from "native-base";
 
 import { Header } from "react-native-elements";
 
@@ -45,7 +53,7 @@ export default class Exam extends Component {
         }
       );
       let responseJson = await response.json();
-      // console.log("Questions", responseJson.success.questions);
+      console.log("Questions", responseJson.success.questions);
       if (responseJson.success) {
         this.setState({ questions: responseJson.success.questions });
         console.log(this.state.questions.length);
@@ -94,11 +102,12 @@ export default class Exam extends Component {
 
   getQuestion = (question, index) => {
     // console.log(question);
+    let qNo = index + 1;
     if (question) {
       return (
         <React.Fragment key={question.id}>
           <Text style={{ fontSize: 16 }}>
-            {"Q." + index + " " + question.question}
+            {"Q." + qNo + " " + question.question}
             {"\n\n Answers: \n"}
           </Text>
           {question.options.map(opt => {
@@ -180,7 +189,16 @@ export default class Exam extends Component {
       this.state.questions[this.state.index],
       this.state.index
     );
-    return (
+    return this.state.isLoading ? (
+      <Container
+        style={{
+          alignItems: "center",
+          justifyContent: "center"
+        }}
+      >
+        <Spinner />
+      </Container>
+    ) : (
       <React.Fragment>
         <Header
           containerStyle={{ backgroundColor: "#012060" }}
@@ -195,13 +213,7 @@ export default class Exam extends Component {
           </Text>
         </View>
         <View style={styles.questionView}>
-          {this.state.isLoading ? (
-            <Spinner />
-          ) : this.state.quizCompleted ? (
-            this.generateQuizKey()
-          ) : (
-            questions
-          )}
+          {this.state.quizCompleted ? this.generateQuizKey() : questions}
         </View>
         <CustomFooter navigation={this.props.navigation} />
       </React.Fragment>

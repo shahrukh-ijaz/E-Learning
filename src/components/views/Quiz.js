@@ -2,20 +2,22 @@ import React, { Component } from "react";
 import { Text, View, AsyncStorage } from "react-native";
 import { styles } from "../../styles/quiz.styles";
 import CustomFooter from "../customComponents/footer";
-import { Button, Content } from "native-base";
+import { Button, Content, Container, Spinner } from "native-base";
 import { Header } from "react-native-elements";
 
 export default class Quiz extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      categories: []
+      categories: [],
+      isLoading: false
     };
   }
 
   async componentDidMount() {
     const authToken = await AsyncStorage.getItem("authToken");
     console.log("fetching categories");
+    this.setState({ isLoading: true });
     try {
       let response = await fetch(
         "https://www.gorporbyken.com/api/quiz-category",
@@ -32,6 +34,7 @@ export default class Quiz extends Component {
       // console.log("QuizResponse", responseJson);
       if (responseJson.success) {
         this.setState({ categories: responseJson.success });
+        this.setState({ isLoading: false });
       } else {
         // this.setState(() => ({
         //   loginError: "Email or Password doesn't match",
@@ -69,9 +72,20 @@ export default class Quiz extends Component {
           }}
         />
 
-        <View style={styles.body}>
-          <Content style={styles.content}>{quizCategories}</Content>
-        </View>
+        {this.state.isLoading ? (
+          <Container
+            style={{
+              alignItems: "center",
+              justifyContent: "center"
+            }}
+          >
+            <Spinner />
+          </Container>
+        ) : (
+          <View style={styles.body}>
+            <Content style={styles.content}>{quizCategories}</Content>
+          </View>
+        )}
         <CustomFooter navigation={this.props.navigation} />
       </React.Fragment>
     );
