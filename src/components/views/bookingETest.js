@@ -117,18 +117,18 @@ export default class BookingETest extends Component {
                                   object.paid,
                                   this.state.membershipStatus
                                 );
-                                // if (
-                                //   object.paid == 1 &&
-                                //   this.state.membershipStatus == 1
-                                // ) {
+                                if (
+                                  object.paid == 1 &&
+                                  this.state.membershipStatus == 1
+                                ) {
                                   this.props.navigation.navigate("LiveExam", {
                                     exam: object
                                   });
-                                // } else {
-                                //   alert(
-                                //     "This is a premium lecture. To buy a premium account proceed to Profile -> Membership."
-                                //   );
-                                // }
+                                } else {
+                                  alert(
+                                    "This is a premium lecture. To buy a premium account proceed to Profile -> Membership."
+                                  );
+                                }
                               }}
                             >
                               <Text style={styles.buttonText}>
@@ -192,18 +192,18 @@ export default class BookingETest extends Component {
                           <Button
                             style={[styles.button, { backgroundColor: "grey" }]}
                             onPress={() =>{
-                              // if (
-                              //   object.paid == 1 &&
-                              //   this.state.membershipStatus == 1
-                              // ) {
+                              if (
+                                object.paid == 1 &&
+                                this.state.membershipStatus == 1
+                              ) {
                                 this.props.navigation.navigate("Level", {
                                   exam: object
                                 });
-                              // } else {
-                              //   alert(
-                              //     "This is a premium lecture. To buy a premium account proceed to Profile -> Membership."
-                              //   );
-                              // }
+                              } else {
+                                alert(
+                                  "This is a premium lecture. To buy a premium account proceed to Profile -> Membership."
+                                );
+                              }
                             }
                             }
                           >
