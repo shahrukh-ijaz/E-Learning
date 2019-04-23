@@ -49,7 +49,7 @@ export default class BookingETest extends Component {
 
   render() {
     const {
-      state: { exams, bookedExams }
+      state: { exams }
     } = this;
     return this.state.isLoading ? (
       <Container
@@ -107,8 +107,8 @@ export default class BookingETest extends Component {
                       </View>
                       <View style={styles.buttonView}>
                         {object.booking ? (
-                          moment().diff(
-                            moment(`${object.start_date} ${object.start_time}`)
+                          moment(`${object.start_date} ${object.start_time}`).diff(
+                            moment()
                           ) > 0 ? (
                             <Button
                               style={styles.button}
@@ -117,28 +117,26 @@ export default class BookingETest extends Component {
                                   object.paid,
                                   this.state.membershipStatus
                                 );
-                                if (
-                                  object.paid == 1 &&
-                                  this.state.membershipStatus == 1
-                                ) {
-                                  this.props.navigation.navigate("Level", {
+                                // if (
+                                //   object.paid == 1 &&
+                                //   this.state.membershipStatus == 1
+                                // ) {
+                                  this.props.navigation.navigate("LiveExam", {
                                     exam: object
                                   });
-                                } else {
-                                  alert(
-                                    "This is a premium lecture. To buy a premium account proceed to Profile -> Membership."
-                                  );
-                                }
+                                // } else {
+                                //   alert(
+                                //     "This is a premium lecture. To buy a premium account proceed to Profile -> Membership."
+                                //   );
+                                // }
                               }}
                             >
                               <Text style={styles.buttonText}>
+                              {moment(`${object.start_date} ${object.start_time}`).diff(
+                                    moment())>0?(
                                 <TimerCountdown
-                                  initialMilliseconds={moment().diff(
-                                    moment(
-                                      `${object.start_date} ${
-                                        object.start_time
-                                      }`
-                                    )
+                                  initialMilliseconds={moment(`${object.start_date} ${object.start_time}`).diff(
+                                    moment()
                                   )}
                                   formatMilliseconds={milliseconds => {
                                     const remainingSec = Math.round(
@@ -165,10 +163,12 @@ export default class BookingETest extends Component {
                                     return h + m + ":" + s;
                                   }}
                                   allowFontScaling={true}
-                                />
+                                />)
+                                :"Start Exam"}
                               </Text>
                             </Button>
-                          ) : (
+                          ) : (moment(`${object.end_date} ${object.end_time}`).diff(
+                            moment())>0?
                             <Button
                               style={styles.button}
                               onPress={() =>
@@ -179,20 +179,38 @@ export default class BookingETest extends Component {
                             >
                               <Text style={styles.buttonText}>Start Exam</Text>
                             </Button>
+                            :
+                            <Button
+                              style={styles.button}
+                              onPress={() =>alert("This Exam is finished")
+                              }
+                            >
+                              <Text style={styles.buttonText}>Exam Finished</Text>
+                            </Button>
                           )
                         ) : (
                           <Button
                             style={[styles.button, { backgroundColor: "grey" }]}
-                            onPress={() =>
-                              this.props.navigation.navigate("Level", {
-                                exam: object
-                              })
+                            onPress={() =>{
+                              // if (
+                              //   object.paid == 1 &&
+                              //   this.state.membershipStatus == 1
+                              // ) {
+                                this.props.navigation.navigate("Level", {
+                                  exam: object
+                                });
+                              // } else {
+                              //   alert(
+                              //     "This is a premium lecture. To buy a premium account proceed to Profile -> Membership."
+                              //   );
+                              // }
+                            }
                             }
                           >
                             <Text
                               style={[styles.buttonText, { color: "black" }]}
                             >
-                              Booking
+                              Book Exam
                             </Text>
                           </Button>
                         )}

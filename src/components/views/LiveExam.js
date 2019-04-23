@@ -44,7 +44,7 @@ export default class LiveExam extends Component {
         }
       );
       let responseJson = await examStartResponse.json();
-      console.log("responseJson", responseJson);
+      this.newMethod()("1st request", responseJson);
       if (responseJson.success) {
         console.log("Getting Exam", exam);
         try {
@@ -62,8 +62,7 @@ export default class LiveExam extends Component {
             }
           );
           let responseJson = await response.json();
-          // console.log("Questions", responseJsone);
-          // console.log("Questions"W, responseJson.success.portions[0]);
+          console.log("2nd request", responseJsone);
           if (responseJson.success) {
             this.setState({
               portions: responseJson.success.portions,
@@ -89,8 +88,11 @@ export default class LiveExam extends Component {
         }
       }
     } catch (error) {
+      this.setState({isLoading:false});
+      alert("There is some issue with network. Try later!");
+      this.props.navigation.navigate("Dashboard");
       console.log("error", error);
-      this.props.navigation.navigate("Signin");
+      // this.props.navigation.navigate("Signin");
     }
   }
 
@@ -203,7 +205,7 @@ export default class LiveExam extends Component {
       if (responseJson.success) {
         if (this.state.portionIndex != this.state.portions.length - 1) {
           this.setState({
-            questions: this.state.portions[1].questions,
+            questions: this.state.portions[this.state.portionIndex+1].questions,
             portionIndex: this.state.portionIndex + 1,
             answers: [],
             index: 0,
@@ -212,7 +214,8 @@ export default class LiveExam extends Component {
         } else {
           this.setState({
             finishedExam: true,
-            examResult: responseJson.success
+            examResult: responseJson.success,
+            isLoading: false
           });
           console.log("Exam Result", responseJson);
         }
@@ -223,9 +226,12 @@ export default class LiveExam extends Component {
         // }));
       }
     } catch (error) {
+      alert("There is some issue with server. Please try again later!");
+      this.props.navigation.navigate('Dashboard');
       console.log("error", error);
     }
   };
+
   _calculateResult = () => {
     return (
       <React.Fragment>
@@ -233,10 +239,10 @@ export default class LiveExam extends Component {
           <Text>Exam level: {this.state.examResult.level}</Text>
         ) : null}
         {this.state.examResult.portion1 ? (
-          <Text>Portion 1: Completed</Text>
+          <Text>Portion 1:  {this.state.examResult.portion1==1?"Completed":"Incompleted"}</Text>
         ) : null}
         {this.state.examResult.portion2 ? (
-          <Text>Portion 2: Completed</Text>
+          <Text>Portion 2: {this.state.examResult.portion2==1?"Completed":"Incompleted"}</Text>
         ) : null}
         {this.state.examResult.total ? (
           <Text>Total Marks: {this.state.examResult.total}</Text>
@@ -256,6 +262,10 @@ export default class LiveExam extends Component {
       </React.Fragment>
     );
   };
+
+  newMethod() {
+    return console.log;
+  }
 
   render() {
     let questions = this.getQuestion(

@@ -70,7 +70,7 @@ export default class Signup extends Component {
               // console.log("response", responseJson);
               if (responseJson.success) {
                 this.setState(() => ({ signUpError: null, isLoading: false }));
-                this.props.navigation.navigate("Dashboard");
+                this.props.navigation.navigate("Login");
                 // console.log("token", responseJson.success.token);
               } else {
                 this.setState(() => ({
