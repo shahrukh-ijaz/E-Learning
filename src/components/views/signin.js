@@ -75,7 +75,7 @@ class Signin extends Component {
               loginError: null,
               isLoading: false
             }));
-            this.props.navigation.navigate("Dashboard");
+            this.props.navigation.navigate("App");
             console.log("token", responseJson.success.token);
           } else {
             this.setState(() => ({

@@ -1,5 +1,9 @@
 import React, { Component } from "react";
-import { createStackNavigator, createAppContainer } from "react-navigation";
+import {
+  createStackNavigator,
+  createAppContainer,
+  createSwitchNavigator
+} from "react-navigation";
 
 import Signup from "../components/views/signup";
 import Signin from "../components/views/signin";
@@ -32,7 +36,15 @@ const AuthStack = createStackNavigator(
       navigationOptions: {
         header: null
       }
-    },
+    }
+  },
+  {
+    initialRouteName: "Signin"
+  }
+);
+
+const AppStack = createStackNavigator(
+  {
     Dashboard: {
       screen: Dashboard,
       navigationOptions: {
@@ -117,4 +129,14 @@ const AuthStack = createStackNavigator(
   }
 );
 
-export default createAppContainer(AuthStack);
+const MyNavigator = createSwitchNavigator(
+  {
+    Auth: AuthStack,
+    App: AppStack
+  },
+  {
+    initialRouteName: "Auth"
+  }
+);
+
+export default createAppContainer(MyNavigator);

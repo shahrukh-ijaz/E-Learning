@@ -18,9 +18,10 @@ export default class BookingETest extends Component {
     };
   }
   async componentDidMount() {
-    this.setState({ isLoading: true });
-    this.setState({ membershipStatus: await AsyncStorage.getItem("Member") });
+    let m = await AsyncStorage.getItem("Member");
+    this.setState({ membershipStatus: m, isLoading: true });
     try {
+      console.log("sending Request");
       const authToken = await AsyncStorage.getItem("authToken");
       const response = await fetch("https://www.gorporbyken.com/api/exam", {
         method: "GET",
@@ -41,6 +42,8 @@ export default class BookingETest extends Component {
       }
     } catch (error) {
       console.log("errorrrrrrrr", error);
+      alert("There is some issue with network. Try later!");
+      this.props.navigation.navigate("Dashboard");
     }
   }
 

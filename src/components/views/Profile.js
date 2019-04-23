@@ -19,13 +19,12 @@ export default class Profile extends Component {
       user: {
         email: "",
         name: "",
-        isLoading: false
+        isLoading: true
       }
     };
   }
 
   async componentDidMount() {
-    this.setState({ isLoading: true });
     const authToken = await AsyncStorage.getItem("authToken");
     try {
       let response = await fetch(
@@ -43,7 +42,7 @@ export default class Profile extends Component {
       // console.log("Profile", responseJson);
       if (responseJson.success) {
         this.setState({ user: responseJson.success, isLoading: false });
-        await AsyncStorage.setItem("Member", responseJson.success.paid);
+        AsyncStorage.setItem("Member", responseJson.success.paid);
       } else {
         // this.setState(() => ({
         //   loginError: "Email or Password doesn't match",
