@@ -6,21 +6,49 @@ import {
   Input,
   Button,
   CardItem,
-  Title
+  Title,
+  Icon
 } from "native-base";
 import { Header } from "react-native-elements";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { styles } from "../../styles/dashboard.styles";
 import { AsyncStorage } from "react-native";
 import CustomFooter from "../customComponents/footer";
+import Slideshow from "react-native-image-slider-show";
 
 export default class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
       token: "",
-      name: ""
+      name: "Surname",
+      position: 1,
+      interval: null,
+      dataSource: [
+        { url: require("../../../assets/learn3.jpg") },
+        {
+          url: require("../../../assets/learn2.jpg")
+        },
+        {
+          url: require("../../../assets/learn.jpg")
+        }
+      ]
     };
+  }
+  componentWillMount() {
+    this.setState({
+      interval: setInterval(() => {
+        this.setState({
+          position:
+            this.state.position === this.state.dataSource.length
+              ? 0
+              : this.state.position + 1
+        });
+      }, 2000)
+    });
+  }
+  componentWillUnmount() {
+    clearInterval(this.state.interval);
   }
 
   async componentDidMount() {
@@ -40,15 +68,36 @@ export default class Dashboard extends Component {
             style: { color: "yellow", fontSize: 28 }
           }}
         />
-        <Container style={styles.header}>
-          <Image
-            style={{ width: 165, height: 165 }}
-            source={require("../../../assets/avatar.png")}
+        <Container style={styles.surname}>
+          <Icon
+            name="ios-person"
+            style={{
+              fontSize: 36,
+              paddingHorizontal: 10,
+              borderWidth: 1,
+              borderRadius: 25,
+              marginHorizontal: 10
+            }}
           />
+          <Text
+            style={{
+              fontSize: 26,
+              color: "gray",
+              alignItems: "center",
+              justifyContent: "center",
+              flexDirection: "row"
+            }}
+          >
+            {this.state.name}
+          </Text>
         </Container>
 
-        <Container style={styles.surname}>
-          <Text style={{ fontSize: 20, color: "gray" }}>{this.state.name}</Text>
+        <Container style={styles.header}>
+          <Slideshow
+            dataSource={this.state.dataSource}
+            position={this.state.position}
+            onPositionChanged={position => this.setState({ position })}
+          />
         </Container>
 
         <Container style={styles.body}>
@@ -58,6 +107,10 @@ export default class Dashboard extends Component {
                 style={[styles.button]}
                 onPress={() => this.props.navigation.navigate("BookingETest")}
               >
+                <Image
+                  style={{ height: 50, width: 50, marginHorizontal: 5 }}
+                  source={require("../../../assets/lesson.png")}
+                />
                 <Text style={styles.buttonText}>Booking E-Test</Text>
               </Button>
             </View>
@@ -66,6 +119,10 @@ export default class Dashboard extends Component {
                 style={[styles.button]}
                 onPress={() => this.props.navigation.navigate("OnlineLesson")}
               >
+                <Image
+                  style={{ height: 50, width: 50, marginHorizontal: 5 }}
+                  source={require("../../../assets/booking.png")}
+                />
                 <Text style={styles.buttonText}>Online Lesson</Text>
               </Button>
             </View>
@@ -74,6 +131,10 @@ export default class Dashboard extends Component {
                 style={[styles.button]}
                 onPress={() => this.props.navigation.navigate("Quiz")}
               >
+                <Image
+                  style={{ height: 50, width: 50, marginHorizontal: 5 }}
+                  source={require("../../../assets/quiz.png")}
+                />
                 <Text style={styles.buttonText}>Quiz</Text>
               </Button>
             </View>

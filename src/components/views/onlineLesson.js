@@ -97,15 +97,15 @@ export default class OnlineLesson extends Component {
                             );
                             if (
                               object.paid == 1 &&
-                              this.state.membershipStatus == 1
+                              this.state.membershipStatus != 1
                             ) {
-                              this.props.navigation.navigate("LessonVideo", {
-                                link: videoObject.link
-                              });
-                            } else {
                               alert(
                                 "This is a premium lecture. To buy a premium account proceed to Profile -> Membership."
                               );
+                            } else {
+                              this.props.navigation.navigate("LessonVideo", {
+                                link: videoObject.link
+                              });
                             }
                           }}
                         >

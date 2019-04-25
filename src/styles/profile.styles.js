@@ -18,15 +18,20 @@ export const styles = StyleSheet.create({
     justifyContent: "center"
   },
   content: {
+    borderWidth: 1,
+    borderTopColor: "white",
+
     backgroundColor: "#012060",
     marginTop: 30,
-    marginHorizontal: 30
+    paddingHorizontal: 10
   },
   inputFields: {
-    backgroundColor: "white",
+    backgroundColor: "transparent",
     borderRadius: 7,
     margin: 7,
-    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: "white",
+    paddingHorizontal: 5,
     height: 50
   },
   signupButton: {
@@ -41,7 +46,8 @@ export const styles = StyleSheet.create({
   },
   buttonView: {
     flexDirection: "row",
-    marginBottom: 40
+    marginBottom: 30,
+    marginHorizontal: 10
   },
   button: {
     flex: 1,

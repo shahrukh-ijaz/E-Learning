@@ -83,22 +83,20 @@ export default class Profile extends Component {
         <Container style={styles.container}>
           <Content style={styles.content}>
             <Item style={styles.inputFields}>
-              <Text style={{ fontSize: 20, color: "#012060" }}>Name: </Text>
-              <Text style={{ fontSize: 22, color: "#012060" }}>
+              <Text style={{ fontSize: 20, color: "white" }}>Name: </Text>
+              <Text style={{ fontSize: 22, color: "white" }}>
                 {this.state.user.name}
               </Text>
             </Item>
             <Item style={styles.inputFields}>
-              <Text style={{ fontSize: 20, color: "#012060" }}>Email: </Text>
-              <Text style={{ fontSize: 22, color: "#012060" }}>
+              <Text style={{ fontSize: 20, color: "white" }}>Email: </Text>
+              <Text style={{ fontSize: 22, color: "white" }}>
                 {this.state.user.email}
               </Text>
             </Item>
             <Item style={styles.inputFields}>
-              <Text style={{ fontSize: 20, color: "#012060" }}>
-                Membership:{" "}
-              </Text>
-              <Text style={{ fontSize: 22, color: "#012060" }}>
+              <Text style={{ fontSize: 20, color: "white" }}>Membership: </Text>
+              <Text style={{ fontSize: 22, color: "white" }}>
                 {this.state.user.paid == 0 ? "Free" : "Premium"}
               </Text>
             </Item>

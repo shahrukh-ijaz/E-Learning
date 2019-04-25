@@ -9,7 +9,9 @@ export const styles = StyleSheet.create({
     flex: 4,
     paddingTop: 28,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    backgroundColor: "#FFFFFF",
+    color: "#FFFFFF"
   },
   logo: {
     alignItems: "center",
@@ -29,7 +31,7 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "transparent",
     borderWidth: 2,
-    borderColor: "#012060",
+    borderColor: "#FFFFFF",
     marginHorizontal: 4
   },
   buttonView: {
