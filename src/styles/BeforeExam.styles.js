@@ -9,8 +9,14 @@ export const styles = StyleSheet.create({
     paddingLeft: 30,
     paddingTop: 5
   },
+  timer: {
+    fontSize: 48,
+    color: "#012060"
+  },
   body: {
-    flex: 10
+    flex: 10,
+    alignItems: "center",
+    justifyContent: "center"
   },
   instructionsText: {
     fontSize: 18

@@ -207,11 +207,6 @@ export default class Exam extends Component {
             style: { color: "yellow", fontSize: 28 }
           }}
         />
-        <View style={styles.instructionView}>
-          <Text style={{ fontSize: 16 }}>
-            Carefuly read these instructions before starting the exam!
-          </Text>
-        </View>
         <View style={styles.questionView}>
           {this.state.quizCompleted ? this.generateQuizKey() : questions}
         </View>

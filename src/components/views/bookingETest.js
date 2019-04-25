@@ -69,16 +69,6 @@ export default class BookingETest extends Component {
             style: { color: "yellow", fontSize: 28 }
           }}
         />
-        <View style={styles.instructionsView}>
-          <Text style={styles.instructionsText}>
-            Rule and Conditions For E-Exam{"\n"}
-          </Text>
-          <Text style={styles.instructionsText}>1. xxxxxxxxxx</Text>
-          <Text style={styles.instructionsText}>2. xxxxxxxxxx</Text>
-          <Text style={styles.instructionsText}>3. xxxxxxxxxx</Text>
-          <Text style={styles.instructionsText}>4. xxxxxxxxxx</Text>
-          <Text style={styles.instructionsText}>5. xxxxxxxxxx</Text>
-        </View>
         <View style={styles.body}>
           {exams && (
             <Swiper>
@@ -107,68 +97,61 @@ export default class BookingETest extends Component {
                       </View>
                       <View style={styles.buttonView}>
                         {object.booking ? (
-                          moment(`${object.start_date} ${object.start_time}`).diff(
-                            moment()
-                          ) > 0 ? (
+                          moment(
+                            `${object.start_date} ${object.start_time}`
+                          ).diff(moment()) > 0 ? (
                             <Button
                               style={styles.button}
                               onPress={() => {
-                                console.log(
-                                  object.paid,
-                                  this.state.membershipStatus
-                                );
-                                if (
-                                  object.paid == 1 &&
-                                  this.state.membershipStatus == 1
-                                ) {
-                                  this.props.navigation.navigate("LiveExam", {
-                                    exam: object
-                                  });
-                                } else {
-                                  alert(
-                                    "This is a premium lecture. To buy a premium account proceed to Profile -> Membership."
-                                  );
-                                }
+                                this.props.navigation.navigate("BeforeExam", {
+                                  exam: object
+                                });
                               }}
                             >
                               <Text style={styles.buttonText}>
-                              {moment(`${object.start_date} ${object.start_time}`).diff(
-                                    moment())>0?(
-                                <TimerCountdown
-                                  initialMilliseconds={moment(`${object.start_date} ${object.start_time}`).diff(
-                                    moment()
-                                  )}
-                                  formatMilliseconds={milliseconds => {
-                                    const remainingSec = Math.round(
-                                      milliseconds / 1000
-                                    );
-                                    const seconds = parseInt(
-                                      (remainingSec % 60).toString(),
-                                      10
-                                    );
-                                    const minutes = parseInt(
-                                      ((remainingSec / 60) % 60).toString(),
-                                      10
-                                    );
-                                    const hours = parseInt(
-                                      (remainingSec / 3600).toString(),
-                                      10
-                                    );
-                                    const s =
-                                      seconds < 10 ? "0" + seconds : seconds;
-                                    const m =
-                                      minutes < 10 ? "0" + minutes : minutes;
-                                    let h = hours < 10 ? "0" + hours : hours;
-                                    h = h === "00" ? "" : h + ":";
-                                    return h + m + ":" + s;
-                                  }}
-                                  allowFontScaling={true}
-                                />)
-                                :"Start Exam"}
+                                {moment(
+                                  `${object.start_date} ${object.start_time}`
+                                ).diff(moment()) > 0 ? (
+                                  <TimerCountdown
+                                    initialMilliseconds={moment(
+                                      `${object.start_date} ${
+                                        object.start_time
+                                      }`
+                                    ).diff(moment())}
+                                    formatMilliseconds={milliseconds => {
+                                      const remainingSec = Math.round(
+                                        milliseconds / 1000
+                                      );
+                                      const seconds = parseInt(
+                                        (remainingSec % 60).toString(),
+                                        10
+                                      );
+                                      const minutes = parseInt(
+                                        ((remainingSec / 60) % 60).toString(),
+                                        10
+                                      );
+                                      const hours = parseInt(
+                                        (remainingSec / 3600).toString(),
+                                        10
+                                      );
+                                      const s =
+                                        seconds < 10 ? "0" + seconds : seconds;
+                                      const m =
+                                        minutes < 10 ? "0" + minutes : minutes;
+                                      let h = hours < 10 ? "0" + hours : hours;
+                                      h = h === "00" ? "" : h + ":";
+                                      return h + m + ":" + s;
+                                    }}
+                                    allowFontScaling={true}
+                                  />
+                                ) : (
+                                  "Start Exam"
+                                )}
                               </Text>
                             </Button>
-                          ) : (moment(`${object.end_date} ${object.end_time}`).diff(
-                            moment())>0?
+                          ) : moment(
+                              `${object.end_date} ${object.end_time}`
+                            ).diff(moment()) > 0 ? (
                             <Button
                               style={styles.button}
                               onPress={() =>
@@ -179,33 +162,33 @@ export default class BookingETest extends Component {
                             >
                               <Text style={styles.buttonText}>Start Exam</Text>
                             </Button>
-                            :
+                          ) : (
                             <Button
                               style={styles.button}
-                              onPress={() =>alert("This Exam is finished")
-                              }
+                              onPress={() => alert("This Exam is finished")}
                             >
-                              <Text style={styles.buttonText}>Exam Finished</Text>
+                              <Text style={styles.buttonText}>
+                                Exam Finished
+                              </Text>
                             </Button>
                           )
                         ) : (
                           <Button
                             style={[styles.button, { backgroundColor: "grey" }]}
-                            onPress={() =>{
+                            onPress={() => {
                               if (
                                 object.paid == 1 &&
-                                this.state.membershipStatus == 1
+                                this.state.membershipStatus != 1
                               ) {
-                                this.props.navigation.navigate("Level", {
-                                  exam: object
-                                });
-                              } else {
                                 alert(
                                   "This is a premium lecture. To buy a premium account proceed to Profile -> Membership."
                                 );
+                              } else {
+                                this.props.navigation.navigate("Level", {
+                                  exam: object
+                                });
                               }
-                            }
-                            }
+                            }}
                           >
                             <Text
                               style={[styles.buttonText, { color: "black" }]}

@@ -28,59 +28,30 @@ export default class LiveExam extends Component {
         }
       }
     } = this;
+
     try {
-      var formData = new FormData();
-      formData.append("exam", exam.id);
-      let examStartResponse = await fetch(
-        `https://www.gorporbyken.com/api/exam/start`,
+      let response = await fetch(
+        `https://www.gorporbyken.com/api/exam/details?id=${exam.id}&level=1`,
         {
-          method: "POST",
+          method: "GET",
           headers: {
             Accept: "application/json",
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "application/json",
             Authorization: `Bearer ${authToken}`
-          },
-          body: formData
+          }
         }
       );
-      let responseJson = await examStartResponse.json();
-      this.newMethod()("1st request", responseJson);
+      let responseJson = await response.json();
+      console.log("2nd request", responseJsone);
       if (responseJson.success) {
-        console.log("Getting Exam", exam);
-        try {
-          let response = await fetch(
-            `https://www.gorporbyken.com/api/exam/details?id=${
-              exam.id
-            }&level=1`,
-            {
-              method: "GET",
-              headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${authToken}`
-              }
-            }
-          );
-          let responseJson = await response.json();
-          console.log("2nd request", responseJsone);
-          if (responseJson.success) {
-            this.setState({
-              portions: responseJson.success.portions,
-              questions: responseJson.success.portions[0].questions,
-              portionIndex: 0,
-              index: 0,
-              isLoading: false
-            });
-            console.log(this.state.questions.length);
-          } else {
-            if (responseJson.error == "already completed") {
-              alert("You have already given this exam! Proceed to Dashboard");
-              this.props.navigation.navigate("BookingETest");
-            }
-          }
-        } catch (error) {
-          alert("Error: " + error);
-        }
+        this.setState({
+          portions: responseJson.success.portions,
+          questions: responseJson.success.portions[0].questions,
+          portionIndex: 0,
+          index: 0,
+          isLoading: false
+        });
+        console.log(this.state.questions.length);
       } else {
         if (responseJson.error == "already completed") {
           alert("You have already given this exam! Proceed to Dashboard");
@@ -88,11 +59,7 @@ export default class LiveExam extends Component {
         }
       }
     } catch (error) {
-      this.setState({isLoading:false});
-      alert("There is some issue with network. Try later!");
-      this.props.navigation.navigate("Dashboard");
-      console.log("error", error);
-      // this.props.navigation.navigate("Signin");
+      alert("Error: " + error);
     }
   }
 
@@ -205,7 +172,8 @@ export default class LiveExam extends Component {
       if (responseJson.success) {
         if (this.state.portionIndex != this.state.portions.length - 1) {
           this.setState({
-            questions: this.state.portions[this.state.portionIndex+1].questions,
+            questions: this.state.portions[this.state.portionIndex + 1]
+              .questions,
             portionIndex: this.state.portionIndex + 1,
             answers: [],
             index: 0,
@@ -227,7 +195,7 @@ export default class LiveExam extends Component {
       }
     } catch (error) {
       alert("There is some issue with server. Please try again later!");
-      this.props.navigation.navigate('Dashboard');
+      this.props.navigation.navigate("Dashboard");
       console.log("error", error);
     }
   };
@@ -239,10 +207,16 @@ export default class LiveExam extends Component {
           <Text>Exam level: {this.state.examResult.level}</Text>
         ) : null}
         {this.state.examResult.portion1 ? (
-          <Text>Portion 1:  {this.state.examResult.portion1==1?"Completed":"Incompleted"}</Text>
+          <Text>
+            Portion 1:{" "}
+            {this.state.examResult.portion1 == 1 ? "Completed" : "Incompleted"}
+          </Text>
         ) : null}
         {this.state.examResult.portion2 ? (
-          <Text>Portion 2: {this.state.examResult.portion2==1?"Completed":"Incompleted"}</Text>
+          <Text>
+            Portion 2:{" "}
+            {this.state.examResult.portion2 == 1 ? "Completed" : "Incompleted"}
+          </Text>
         ) : null}
         {this.state.examResult.total ? (
           <Text>Total Marks: {this.state.examResult.total}</Text>
