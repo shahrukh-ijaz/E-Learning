@@ -103,9 +103,18 @@ export default class BookingETest extends Component {
                             <Button
                               style={styles.button}
                               onPress={() => {
-                                this.props.navigation.navigate("BeforeExam", {
-                                  exam: object
-                                });
+                                {
+                                  moment(
+                                    `${object.start_date} ${object.start_time}`
+                                  ).diff(moment()) > 0
+                                    ? this.props.navigation.navigate(
+                                        "BeforeExam",
+                                        {
+                                          exam: object
+                                        }
+                                      )
+                                    : null;
+                                }
                               }}
                             >
                               <Text style={styles.buttonText}>
@@ -154,11 +163,11 @@ export default class BookingETest extends Component {
                             ).diff(moment()) > 0 ? (
                             <Button
                               style={styles.button}
-                              onPress={() =>
-                                this.props.navigation.navigate("LiveExam", {
+                              onPress={() => {
+                                this.props.navigation.navigate("BeforeExam", {
                                   exam: object
-                                })
-                              }
+                                });
+                              }}
                             >
                               <Text style={styles.buttonText}>Start Exam</Text>
                             </Button>

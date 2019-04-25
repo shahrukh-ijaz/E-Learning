@@ -11,7 +11,8 @@ export default class BeforeExam extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: true
+      isLoading: true,
+      exam: null
     };
   }
 
@@ -26,6 +27,7 @@ export default class BeforeExam extends Component {
         }
       }
     } = this;
+    this.setState({ exam: exam });
     try {
       var formData = new FormData();
       formData.append("exam", exam.id);
@@ -43,8 +45,9 @@ export default class BeforeExam extends Component {
       );
       let responseJson = await examStartResponse.json();
       if (responseJson.success) {
-        console.log("Getting Exam", exam);
-        this.props.navigation.navigate("LiveExam");
+        // console.log("Getting Exam", exam);
+        //this.props.navigation.navigate("LiveExam");
+        this.setState({ isLoading: false });
       } else {
         if (responseJson.error == "already completed") {
           alert("You have already given this exam! Proceed to Dashboard");
@@ -84,7 +87,7 @@ export default class BeforeExam extends Component {
               <Text style={styles.timer}>Exam starts in {"\n"}</Text>
               <Text style={styles.timer}>
                 <TimerCountdown
-                  initialMilliseconds={1000 * 30}
+                  initialMilliseconds={1000 * 60 * 5}
                   formatMilliseconds={milliseconds => {
                     const remainingSec = Math.round(milliseconds / 1000);
                     const seconds = parseInt(
@@ -105,7 +108,12 @@ export default class BeforeExam extends Component {
                     h = h === "00" ? "" : h + ":";
                     return h + m + ":" + s;
                   }}
-                  onExpire={() => alert("Exam Starting!")}
+                  onExpire={() => {
+                    alert("Exam Started!");
+                    this.props.navigation.navigate("BeforeExam", {
+                      exam: this.state.exam
+                    });
+                  }}
                   allowFontScaling={true}
                 />
               </Text>
