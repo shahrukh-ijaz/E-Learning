@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Korpor Application",
-    "slug": "korpor_application",
+    "name": "Gorpor By KEN",
+    "slug": "Gorpor_application",
     "privacy": "public",
     "sdkVersion": "32.0.0",
     "platforms": ["ios", "android"],
@@ -21,7 +21,7 @@
       "supportsTablet": true
     },
     "android": {
-      "package": "com.easofts.gorpor"
+      "package": "com.easofts.gorporbyken"
     }
   }
 }

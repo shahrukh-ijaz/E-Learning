@@ -41,6 +41,7 @@ export default class Profile extends Component {
       let responseJson = await response.json();
       // console.log("Profile", responseJson);
       if (responseJson.success) {
+        await AsyncStorage.setItem("userName", responseJson.success.name);
         this.setState({ user: responseJson.success, isLoading: false });
         AsyncStorage.setItem("Member", responseJson.success.paid);
       } else {
@@ -101,18 +102,22 @@ export default class Profile extends Component {
               </Text>
             </Item>
           </Content>
-          <View style={styles.buttonView}>
-            <Button
-              style={[styles.button]}
-              onPress={() => Linking.openURL("https://gorporbyken.com/payment")}
-            >
-              <Text style={styles.buttonText}>
-                <Icon style={styles.buttonText} name="ios-cash" />
-                {"  "}
-                Get Premium!
-              </Text>
-            </Button>
-          </View>
+          {this.state.user.paid ? (
+            <View style={styles.buttonView}>
+              <Button
+                style={[styles.button]}
+                onPress={() =>
+                  Linking.openURL("https://gorporbyken.com/payment")
+                }
+              >
+                <Text style={styles.buttonText}>
+                  <Icon style={styles.buttonText} name="ios-cash" />
+                  {"  "}
+                  Get Premium!
+                </Text>
+              </Button>
+            </View>
+          ) : null}
         </Container>
         <CustomFooter navigation={this.props.navigation} />
       </React.Fragment>

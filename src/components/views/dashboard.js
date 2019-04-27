@@ -21,7 +21,7 @@ export default class Dashboard extends Component {
     super(props);
     this.state = {
       token: "",
-      name: "Surname",
+      name: "",
       position: 1,
       interval: null,
       dataSource: [

@@ -59,6 +59,10 @@ class Signin extends Component {
               let responseJson = await response.json();
               // console.log("Profile", responseJson);
               if (responseJson.success) {
+                await AsyncStorage.setItem(
+                  "userName",
+                  responseJson.success.name
+                );
                 await AsyncStorage.setItem("Member", responseJson.success.paid);
               } else {
                 // this.setState(() => ({
@@ -76,7 +80,6 @@ class Signin extends Component {
               isLoading: false
             }));
             this.props.navigation.navigate("App");
-            console.log("token", responseJson.success.token);
           } else {
             this.setState(() => ({
               loginError: "Email or Password doesn't match",

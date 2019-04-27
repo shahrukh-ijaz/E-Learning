@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View, AsyncStorage } from "react-native";
+import { Text, View, AsyncStorage, Image, ScrollView } from "react-native";
 import { styles } from "../../styles/exam.styles";
 import CustomFooter from "../customComponents/footer";
 import {
@@ -56,7 +56,7 @@ export default class Exam extends Component {
       console.log("Questions", responseJson.success.questions);
       if (responseJson.success) {
         this.setState({ questions: responseJson.success.questions });
-        console.log(this.state.questions.length);
+        // console.log(this.state.questions.length);
         this.setState({
           totalQuestions: this.state.questions.length - 1,
           index: 0,
@@ -80,7 +80,7 @@ export default class Exam extends Component {
     await this.setState({
       answers: ans
     });
-    console.log(ans);
+    // console.log(ans);
     // console.log(this.state);
   };
 
@@ -90,7 +90,7 @@ export default class Exam extends Component {
     let marks = 0;
     for (i = 0; i < this.state.answers.length; i++) {
       if (questions[i].answer == answers[i]) {
-        marks++;
+        marks = marks + parseInt(questions[i].marks, 10);
       }
     }
     if (this.state.index == this.state.totalQuestions) {
@@ -106,10 +106,32 @@ export default class Exam extends Component {
     if (question) {
       return (
         <React.Fragment key={question.id}>
-          <Text style={{ fontSize: 16 }}>
-            {"Q." + qNo + " " + question.question}
-            {"\n\n Answers: \n"}
+          {question.is_image ? (
+            <Image
+              source={{
+                uri: "https://www.gorporbyken.com" + question.question
+              }}
+              style={{ height: 375, width: 250 }}
+              resizeMode="contain"
+            />
+          ) : (
+            <Text style={{ fontSize: 16 }}>
+              {"Q." + qNo + " " + question.question + "\n"}
+            </Text>
+          )}
+          <Text
+            onPress={() => alert(question.explanation)}
+            style={{
+              marginVertical: 5,
+              color: "grey",
+              fontSize: 14,
+              alignContent: "flex-end",
+              textDecorationStyle: "solid"
+            }}
+          >
+            See Explanation
           </Text>
+          <Text style={{ fontSize: 16 }}>{"Answers: \n"}</Text>
           {question.options.map(opt => {
             return (
               <React.Fragment key={opt.id}>
@@ -172,12 +194,22 @@ export default class Exam extends Component {
                   <Text key={question.question}>
                     Question: {question.question}
                   </Text>
-                  <Text key={answers[i]}>Answer: {answers[i]}</Text>
-                  <Text key={question.id}>Correct: {question.answer}</Text>
+                  <Text key={answers[i]}>Answer: {parseInt(answers[i])}</Text>
+                  <Text key={question.id}>
+                    Correct: {parseInt(question.answer)}
+                  </Text>
                 </ListItem>
               );
             })}
           </List>
+          <View style={styles.buttonView}>
+            <Button
+              style={styles.button}
+              onPress={() => this.props.navigation.navigate("Dashboard")}
+            >
+              <Text style={styles.buttonText}> Close</Text>
+            </Button>
+          </View>
         </Content>
       </View>
     );
@@ -207,9 +239,11 @@ export default class Exam extends Component {
             style: { color: "yellow", fontSize: 28 }
           }}
         />
-        <View style={styles.questionView}>
-          {this.state.quizCompleted ? this.generateQuizKey() : questions}
-        </View>
+        <ScrollView>
+          <View style={styles.questionView}>
+            {this.state.quizCompleted ? this.generateQuizKey() : questions}
+          </View>
+        </ScrollView>
         <CustomFooter navigation={this.props.navigation} />
       </React.Fragment>
     );
