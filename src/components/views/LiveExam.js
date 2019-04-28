@@ -79,10 +79,32 @@ export default class LiveExam extends Component {
     if (question) {
       return (
         <React.Fragment key={question.id}>
-          <Text style={{ fontSize: 16 }}>
-            {"Q." + qNo + " " + question.question}
-            {"\n\n Answers: \n"}
+          {question.is_image ? (
+            <Image
+              source={{
+                uri: "https://www.gorporbyken.com" + question.question
+              }}
+              style={{ height: 375, width: 250 }}
+              resizeMode="contain"
+            />
+          ) : (
+            <Text style={{ fontSize: 16 }}>
+              {"Q." + qNo + " " + question.question + "\n"}
+            </Text>
+          )}
+          <Text
+            onPress={() => alert(question.explanation)}
+            style={{
+              marginVertical: 5,
+              color: "grey",
+              fontSize: 14,
+              alignContent: "flex-end",
+              textDecorationStyle: "solid"
+            }}
+          >
+            See Explanation
           </Text>
+          <Text style={{ fontSize: 16 }}>{"Answers: \n"}</Text>
           {question.options.map(opt => {
             return (
               <React.Fragment key={opt.id}>
