@@ -6,11 +6,13 @@ import {
   View,
   Image,
   AsyncStorage,
-  Linking
+  Linking,
+  TouchableOpacity
 } from "react-native";
 import { styles } from "../../styles/profile.styles";
 import CustomFooter from "../customComponents/footer";
 import { Header } from "react-native-elements";
+import { ImagePicker, Permissions } from 'expo';
 
 export default class Profile extends Component {
   constructor(props) {
@@ -19,8 +21,10 @@ export default class Profile extends Component {
       user: {
         email: "",
         name: "",
-        isLoading: true
-      }
+        isLoading: true,
+        photo: null
+      },
+      hasCameraPermission: false
     };
   }
 
@@ -40,6 +44,8 @@ export default class Profile extends Component {
       );
       let responseJson = await response.json();
       // console.log("Profile", responseJson);
+      // console.log("responseJson.success",responseJson.success);
+
       if (responseJson.success) {
         await AsyncStorage.setItem("userName", responseJson.success.name);
         this.setState({ user: responseJson.success, isLoading: false });
@@ -55,6 +61,49 @@ export default class Profile extends Component {
       this.props.navigation.navigate("Signin");
     }
   }
+
+  _requestCameraPermission = async () => {
+    const status = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    console.log("status",status.status);
+    this.setState({
+      hasCameraPermission: status.status === 'granted'
+    })
+  }
+
+  _changeProfile = async () => {
+    console.log("image picker");
+    await this._requestCameraPermission();
+      console.log("hasCameraPermission",this.state.hasCameraPermission)
+      let result = await ImagePicker.launchImageLibraryAsync();
+  
+      console.log(result);
+  
+      if (!result.cancelled) {
+        this.setState({
+          photo: result.uri
+        }, async () => {
+          var formData = new FormData();
+          formData.append("image", {type: result.type,uri: result.uri});
+          console.log("formData", formData);
+          const authToken = await AsyncStorage.getItem("authToken");
+          const response = await fetch(
+            "https://www.gorporbyken.com/api/user/update-profle-photo",
+            {
+              method: "POST",
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "multipart/form-data",
+                Authorization: `Bearer ${authToken}`
+              },
+              body: formData
+            }
+          );
+          const responseJson = await response.json();
+          console.log("responseJson", responseJson);
+        });
+      }
+    
+  };
 
   render() {
     return this.state.isLoading ? (
@@ -76,10 +125,12 @@ export default class Profile extends Component {
           }}
         />
         <Container style={styles.header}>
-          <Image
-            style={{ width: 200, height: 200, borderRadius: 100 }}
-            source={require("../../../assets/avatar.png")}
-          />
+          <TouchableOpacity onPress={this._changeProfile}>
+            <Image
+              style={{ width: 200, height: 200, borderRadius: 100 }}
+              source={{uri:this.state.photo}}
+            />
+          </TouchableOpacity>
         </Container>
         <Container style={styles.container}>
           <Content style={styles.content}>
@@ -100,6 +151,18 @@ export default class Profile extends Component {
               <Text style={{ fontSize: 22, color: "white" }}>
                 {this.state.user.paid == 0 ? "Free" : "Premium"}
               </Text>
+            </Item>
+            <Item style={styles.inputFields}>
+            <Button
+                style={[styles.button]}
+                onPress={() =>
+                  this.props.navigation.navigate('ChangePassword')
+                }
+              >
+                <Text style={styles.buttonText}>
+                  Change Password
+                </Text>
+              </Button>
             </Item>
           </Content>
           {this.state.user.paid ? (
