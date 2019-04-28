@@ -19,6 +19,7 @@ import CustomFooter from "../components/customComponents/footer";
 import Header from "../components/customComponents/header";
 import LessonVideo from "../components/views/lessonVideo";
 import Profile from "../components/views/Profile";
+import ChangePassword from "../components/views/ChangePassword";
 import LiveExam from "../components/views/LiveExam";
 import BeforeExam from "../components/views/BeforeExam";
 
@@ -126,6 +127,12 @@ const AppStack = createStackNavigator(
     },
     BeforeExam: {
       screen: BeforeExam,
+      navigationOptions: {
+        header: null
+      }
+    },
+    ChangePassword:{
+      screen: ChangePassword,
       navigationOptions: {
         header: null
       }

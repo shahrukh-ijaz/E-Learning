@@ -4,11 +4,11 @@ import { Left } from "native-base";
 export const styles = StyleSheet.create({
   container: {
     backgroundColor: "#012060",
-    flex: 6
+    flex: 7
   },
   header: {
     backgroundColor: "#012060",
-    flex: 4,
+    flex: 3,
     paddingTop: 28,
     alignItems: "center",
     justifyContent: "center"
