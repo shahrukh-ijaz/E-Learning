@@ -131,7 +131,7 @@ const AppStack = createStackNavigator(
         header: null
       }
     },
-    ChangePassword:{
+    ChangePassword: {
       screen: ChangePassword,
       navigationOptions: {
         header: null
@@ -149,7 +149,7 @@ const MyNavigator = createSwitchNavigator(
     App: AppStack
   },
   {
-    initialRouteName: "App"
+    initialRouteName: "Auth"
   }
 );
 
