@@ -17,7 +17,7 @@ import {
   Linking,
   TouchableOpacity
 } from "react-native";
-import { styles } from "../../styles/profile.styles";
+import { styles } from "../../styles/confirmpassword.styles";
 import CustomFooter from "../customComponents/footer";
 import { Header } from "react-native-elements";
 import { ImagePicker, Permissions } from "expo";
@@ -89,34 +89,34 @@ export default class ChangePassword extends Component {
         <Container style={styles.container}>
           <Content style={styles.content}>
             <Item style={styles.inputFields}>
-              <Text style={{ fontSize: 20, color: "white" }}>
+              {/* <Text style={{ fontSize: 20, color: "white" }}>
                 Old Password:{" "}
-              </Text>
+              </Text> */}
               <Input
                 secureTextEntry={true}
-                style={{ fontSize: 20, color: "white" }}
+                style={{ fontSize: 20, color: "#012060" }}
                 placeholder="Old Password"
                 onChangeText={oldPassword => this.setState({ oldPassword })}
               />
             </Item>
             <Item style={styles.inputFields}>
-              <Text style={{ fontSize: 20, color: "white" }}>
+              {/* <Text style={{ fontSize: 20, color: "white" }}>
                 New Password:{" "}
-              </Text>
+              </Text> */}
               <Input
                 secureTextEntry={true}
-                style={{ fontSize: 20, color: "white" }}
+                style={{ fontSize: 20, color: "#012060" }}
                 placeholder="New Password"
                 onChangeText={newPassword => this.setState({ newPassword })}
               />
             </Item>
             <Item style={styles.inputFields}>
-              <Text style={{ fontSize: 20, color: "white" }}>
+              {/* <Text style={{ fontSize: 20, color: "#012060" }}>
                 Confirm Password:{" "}
-              </Text>
+              </Text> */}
               <Input
                 secureTextEntry={true}
-                style={{ fontSize: 20, color: "white" }}
+                style={{ fontSize: 20, color: "#012060" }}
                 placeholder="Confirm Password"
                 onChangeText={confirmPassword =>
                   this.setState({ confirmPassword })

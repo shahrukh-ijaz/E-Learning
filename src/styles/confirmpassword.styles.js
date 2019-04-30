@@ -3,7 +3,8 @@ import { Left } from "native-base";
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 6
+    flex: 10,
+    backgroundColor: "#012060"
   },
   header: {
     backgroundColor: "#012060",
@@ -16,15 +17,17 @@ export const styles = StyleSheet.create({
     justifyContent: "center"
   },
   content: {
-    marginTop: 15,
-    marginHorizontal: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#012060",
-    marginBottom: 15
+    padding: 30,
+    marginVertical: 30,
+    marginHorizontal: 15,
+    backgroundColor: "white",
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#012060"
   },
   inputFields: {
-    backgroundColor: "transparent",
     margin: 4,
+    backgroundColor: "white",
     paddingHorizontal: 5,
     height: 40,
     flexDirection: "row",
@@ -43,19 +46,20 @@ export const styles = StyleSheet.create({
   },
   buttonView: {
     flexDirection: "row",
+    marginTop: 20,
     marginBottom: 30,
     marginHorizontal: 10
   },
   button: {
     flex: 1,
     borderRadius: 8,
-    backgroundColor: "white",
+    backgroundColor: "#012060",
     alignItems: "center",
     justifyContent: "center"
   },
   buttonText: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#012060"
+    color: "white"
   }
 });
