@@ -7,12 +7,11 @@ export const styles = StyleSheet.create({
   },
   header: {
     flex: 3,
-    backgroundColor: "gray",
+    backgroundColor: "#012060",
     flexDirection: "row",
     flexWrap: "wrap",
     alignItems: "center",
-    justifyContent: "center",
-    paddingTop: 30
+    justifyContent: "center"
   },
   content: {
     marginTop: 30,
@@ -25,7 +24,8 @@ export const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 8,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    height: 60
   },
   buttonView: {
     flexDirection: "row",
@@ -33,15 +33,17 @@ export const styles = StyleSheet.create({
   },
   surname: {
     flex: 1,
-    backgroundColor: "white",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    flexDirection: "row"
   },
   body: {
-    flex: 6
+    flex: 4
   },
   buttonText: {
     color: "white",
-    fontSize: 18
+    fontSize: 18,
+    marginLeft: 10,
+    flex: 4
   }
 });

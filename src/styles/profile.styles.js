@@ -1,11 +1,13 @@
 import { StyleSheet, Text, View } from "react-native";
 import { Left } from "native-base";
-import { red } from "ansi-colors";
 
 export const styles = StyleSheet.create({
+  container: {
+    flex: 6
+  },
   header: {
+    backgroundColor: "#012060",
     flex: 4,
-    paddingTop: 28,
     alignItems: "center",
     justifyContent: "center"
   },
@@ -13,20 +15,19 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center"
   },
-  body: {
-    flex: 5,
-    backgroundColor: "green"
-  },
   content: {
-    marginTop: 30,
-    marginHorizontal: 30
+    marginTop: 15,
+    marginHorizontal: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#012060",
+    marginBottom: 15
   },
-  footer: {
-    flex: 1
-  },
-  button: {
-    flex: 1,
-    borderRadius: 8,
+  inputFields: {
+    backgroundColor: "transparent",
+    margin: 4,
+    paddingHorizontal: 5,
+    height: 40,
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "center"
   },
@@ -41,19 +42,20 @@ export const styles = StyleSheet.create({
     marginHorizontal: 4
   },
   buttonView: {
-    flexDirection: "row"
+    flexDirection: "row",
+    marginBottom: 30,
+    marginHorizontal: 10
   },
-  inputFields: {
-    borderRadius: 7
-  },
-  forgotPasswordView: {
+  button: {
     flex: 1,
-    alignItems: "flex-end",
-    justifyContent: "flex-end"
+    borderRadius: 8,
+    backgroundColor: "white",
+    alignItems: "center",
+    justifyContent: "center"
   },
-  forgotPasswordText: {
-    fontSize: 14,
-    marginTop: 8,
-    color: "gray"
+  buttonText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#012060"
   }
 });
