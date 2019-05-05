@@ -1,5 +1,13 @@
 import React, { Component } from "react";
-import { Text, View, AsyncStorage, Image, ScrollView } from "react-native";
+import {
+  Text,
+  View,
+  AsyncStorage,
+  ScrollView,
+  Dimensions,
+  Modal,
+  TouchableOpacity
+} from "react-native";
 import { styles } from "../../styles/exam.styles";
 import CustomFooter from "../customComponents/footer";
 import {
@@ -12,12 +20,14 @@ import {
   Container
 } from "native-base";
 
+import HTML from "react-native-render-html";
 import { Header } from "react-native-elements";
 
 export default class Exam extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      modalVisible: false,
       questions: [],
       answers: [],
       index: null,
@@ -25,6 +35,10 @@ export default class Exam extends Component {
       quizCompleted: false,
       isLoading: false
     };
+  }
+
+  setModalVisible(visible) {
+    this.setState({ modalVisible: visible });
   }
 
   async componentDidMount() {
@@ -106,7 +120,33 @@ export default class Exam extends Component {
     if (question) {
       return (
         <React.Fragment key={question.id}>
-          {question.is_image ? (
+          <Modal
+            animationType="slide"
+            transparent={false}
+            visible={this.state.modalVisible}
+            onRequestClose={() => {}}
+          >
+            <View style={{ marginTop: 22 }}>
+              <Text>Explanation</Text>
+              <View>
+                <HTML
+                  html={question.explanation}
+                  imagesMaxWidth={Dimensions.get("window").width}
+                />
+                <View style={styles.buttonView}>
+                  <Button
+                    onPress={() => {
+                      this.setModalVisible(!this.state.modalVisible);
+                    }}
+                    style={styles.button}
+                  >
+                    <Text style={styles.buttonText}>Hide Explanation</Text>
+                  </Button>
+                </View>
+              </View>
+            </View>
+          </Modal>
+          {/* {question.is_image ? (
             <Image
               source={{
                 uri: "https://www.gorporbyken.com" + question.question
@@ -118,9 +158,18 @@ export default class Exam extends Component {
             <Text style={{ fontSize: 16 }}>
               {"Q." + qNo + " " + question.question + "\n"}
             </Text>
-          )}
+          )} */}
+          <HTML
+            html={question.question}
+            imagesMaxWidth={Dimensions.get("window").width}
+          />
           <Text
-            onPress={() => alert(question.explanation)}
+            onPress={() => {
+              // var str = question.explanation;
+              // str.replace(/<(?:.|\n)*?>/gm, "");
+              // Alert.alert("Explanation", str);
+              this.setModalVisible(true);
+            }}
             style={{
               marginVertical: 5,
               color: "grey",
@@ -145,7 +194,17 @@ export default class Exam extends Component {
                       this.state.answers[index] == opt.row ? true : false
                     }
                   />
-                  <Text style={{ flex: 7 }}>{opt.option}</Text>
+                  <View style={{ flex: 7 }}>
+                    <TouchableOpacity
+                      onPress={() => this.answerQuestion(opt.row, index)}
+                    >
+                      <HTML
+                        html={opt.option}
+                        imagesMaxWidth={Dimensions.get("window").width}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                  {/* <Text style={{ flex: 7 }}>{opt.option}</Text> */}
                 </View>
               </React.Fragment>
             );
@@ -191,9 +250,10 @@ export default class Exam extends Component {
                     justifyContent: "space-between"
                   }}
                 >
-                  <Text key={question.question}>
-                    Question: {question.question}
-                  </Text>
+                  <HTML
+                    html={question.question}
+                    imagesMaxWidth={Dimensions.get("window").width}
+                  />
                   <Text key={answers[i]}>Answer: {parseInt(answers[i])}</Text>
                   <Text key={question.id}>
                     Correct: {parseInt(question.answer)}

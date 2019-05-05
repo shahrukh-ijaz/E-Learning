@@ -1,14 +1,24 @@
 import React, { Component } from "react";
-import { Text, View, AsyncStorage, ScrollView } from "react-native";
+import {
+  Text,
+  View,
+  AsyncStorage,
+  Dimensions,
+  Alert,
+  Modal,
+  TouchableOpacity
+} from "react-native";
 import { styles } from "../../styles/liveExam.styles";
 import CustomFooter from "../customComponents/footer";
-import { Button, Radio, Spinner, Container, Title } from "native-base";
+import { Button, Radio, Spinner, Container } from "native-base";
 import { Header } from "react-native-elements";
+import HTML from "react-native-render-html";
 
 export default class LiveExam extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      modalVisible: false,
       questions: [],
       answers: [],
       index: null,
@@ -54,7 +64,10 @@ export default class LiveExam extends Component {
         console.log(this.state.questions.length);
       } else {
         if (responseJson.error == "already completed") {
-          alert("You have already given this exam! Proceed to Dashboard");
+          Alert.alert(
+            "Exam Completed",
+            "You have already given this exam! Proceed to Dashboard"
+          );
           this.props.navigation.navigate("BookingETest");
         }
       }
@@ -79,21 +92,44 @@ export default class LiveExam extends Component {
     if (question) {
       return (
         <React.Fragment key={question.id}>
-          {question.is_image ? (
-            <Image
-              source={{
-                uri: "https://www.gorporbyken.com" + question.question
-              }}
-              style={{ height: 375, width: 250 }}
-              resizeMode="contain"
-            />
-          ) : (
-            <Text style={{ fontSize: 16 }}>
-              {"Q." + qNo + " " + question.question + "\n"}
-            </Text>
-          )}
+          <Modal
+            animationType="slide"
+            transparent={false}
+            visible={this.state.modalVisible}
+            onRequestClose={() => {}}
+          >
+            <View style={{ marginTop: 22 }}>
+              <Text>Explanation</Text>
+              <View>
+                <HTML
+                  html={question.explanation}
+                  imagesMaxWidth={Dimensions.get("window").width}
+                />
+                <View style={styles.buttonView}>
+                  <Button
+                    onPress={() => {
+                      this.setModalVisible(!this.state.modalVisible);
+                    }}
+                    style={styles.button}
+                  >
+                    <Text style={styles.buttonText}>Hide Explanation</Text>
+                  </Button>
+                </View>
+              </View>
+            </View>
+          </Modal>
+          <HTML
+            style={{ flex: 7 }}
+            html={question.question}
+            imagesMaxWidth={Dimensions.get("window").width}
+          />
           <Text
-            onPress={() => alert(question.explanation)}
+            onPress={() => {
+              this.setModalVisible(true);
+              // var str = question.explanation;
+              // str.replace(/<(?:.|\n)*?>/gm, "");
+              // Alert.alert("Explanation", str);
+            }}
             style={{
               marginVertical: 5,
               color: "grey",
@@ -125,7 +161,17 @@ export default class LiveExam extends Component {
                         : false
                     }
                   />
-                  <Text style={{ flex: 7 }}>{opt.option}</Text>
+                  <View style={{ flex: 7 }}>
+                    <TouchableOpacity
+                      onPress={() => this.answerQuestion(opt.row, index)}
+                    >
+                      <HTML
+                        html={opt.option}
+                        imagesMaxWidth={Dimensions.get("window").width}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                  {/* <Text style={{ flex: 7 }}>{opt.option}</Text> */}
                 </View>
               </React.Fragment>
             );
@@ -258,10 +304,6 @@ export default class LiveExam extends Component {
       </React.Fragment>
     );
   };
-
-  newMethod() {
-    return console.log;
-  }
 
   render() {
     let questions = this.getQuestion(

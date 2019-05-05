@@ -29,7 +29,6 @@ export default class Profile extends Component {
   }
 
   async componentDidMount() {
-    this.setState({ isLoading: true });
     const authToken = await AsyncStorage.getItem("authToken");
     try {
       let response = await fetch(
