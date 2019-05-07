@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, Spinner, Container } from "native-base";
-import { Text, View, AsyncStorage } from "react-native";
+import { Text, View, AsyncStorage, Alert } from "react-native";
 import { styles } from "../../styles/bookingETest.styles";
 import Swiper from "react-native-swiper";
 import CustomFooter from "../customComponents/footer";
@@ -104,9 +104,7 @@ export default class BookingETest extends Component {
                               style={styles.button}
                               onPress={() => {
                                 {
-                                  this.props.navigation.navigate("BeforeExam", {
-                                    exam: object
-                                  });
+                                  Alert.alert("Exam", "Exam not started yet");
                                 }
                               }}
                             >
@@ -144,7 +142,7 @@ export default class BookingETest extends Component {
                               </Text>
                             </Button>
                           ) : moment(
-                              `${object.end_date} ${object.end_time}`
+                              `${object.start_date} ${object.end_time}`
                             ).diff(moment()) > 0 ? (
                             <Button
                               style={styles.button}
