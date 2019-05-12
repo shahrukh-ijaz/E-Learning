@@ -9,13 +9,21 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10
   },
+  timer: {
+    fontSize: 28,
+    color: "#012060"
+  },
+  body: {
+    flex: 9,
+    borderWidth: 1,
+    margin: 10,
+    paddingTop: 15,
+    paddingHorizontal: 30
+  },
   questionView: {
-    flex: 6,
+    // flex: 9,
     margin: 5,
-    padding: 20,
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
-    flexDirection: "column"
+    padding: 20
   },
   button: {
     flex: 1,

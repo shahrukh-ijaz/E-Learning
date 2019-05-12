@@ -126,7 +126,7 @@ export default class Exam extends Component {
             visible={this.state.modalVisible}
             onRequestClose={() => {}}
           >
-            <View style={{ marginTop: 22 }}>
+            <View style={{ marginTop: 22, marginHorizontal: 30 }}>
               <Text>Explanation</Text>
               <View>
                 <HTML
@@ -165,9 +165,6 @@ export default class Exam extends Component {
           />
           <Text
             onPress={() => {
-              // var str = question.explanation;
-              // str.replace(/<(?:.|\n)*?>/gm, "");
-              // Alert.alert("Explanation", str);
               this.setModalVisible(true);
             }}
             style={{
@@ -299,10 +296,8 @@ export default class Exam extends Component {
             style: { color: "yellow", fontSize: 28 }
           }}
         />
-        <ScrollView>
-          <View style={styles.questionView}>
-            {this.state.quizCompleted ? this.generateQuizKey() : questions}
-          </View>
+        <ScrollView style={styles.questionView}>
+          {this.state.quizCompleted ? this.generateQuizKey() : questions}
         </ScrollView>
         <CustomFooter navigation={this.props.navigation} />
       </React.Fragment>

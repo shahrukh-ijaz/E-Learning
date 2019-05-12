@@ -12,10 +12,7 @@ export const styles = StyleSheet.create({
   questionView: {
     flex: 9,
     margin: 5,
-    padding: 20,
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
-    flexDirection: "column"
+    padding: 20
   },
   button: {
     flex: 1,

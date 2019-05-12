@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Spinner, Container } from "native-base";
+import { Button, Spinner, Container, Item } from "native-base";
 import { Text, View, AsyncStorage } from "react-native";
 import { styles } from "../../styles/BeforeExam.styles";
 import CustomFooter from "../customComponents/footer";
@@ -12,10 +12,46 @@ export default class BeforeExam extends Component {
     super(props);
     this.state = {
       isLoading: true,
-      exam: null
+      exam: null,
+      rules: []
     };
   }
 
+  async componentWillMount() {
+    console.log("getting rules");
+    let authToken = await AsyncStorage.getItem("authToken");
+    try {
+      let examStartResponse = await fetch(
+        `https://www.gorporbyken.com/api/exam/rules`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: `Bearer ${authToken}`
+          }
+        }
+      );
+      let responseJson = await examStartResponse.json();
+      // console.log(responseJson);
+      if (responseJson.success) {
+        // console.log("Rules", responseJson.success);
+        //this.props.navigation.navigate("LiveExam");
+        this.setState({ rules: responseJson.success, isLoading: false });
+      } else {
+        if (responseJson.error == "already completed") {
+          alert("You have already given this exam! Proceed to Dashboard");
+          this.props.navigation.navigate("BookingETest");
+        }
+      }
+    } catch (error) {
+      this.setState({ isLoading: false });
+      alert("There is some issue with network. Try later!");
+      this.props.navigation.navigate("Dashboard");
+      console.log("error", error);
+      // this.props.navigation.navigate("Signin");
+    }
+  }
   async componentDidMount() {
     let authToken = await AsyncStorage.getItem("authToken");
     const {
@@ -27,6 +63,7 @@ export default class BeforeExam extends Component {
         }
       }
     } = this;
+    console.log(exam);
     this.setState({ exam: exam });
     try {
       var formData = new FormData();
@@ -63,6 +100,13 @@ export default class BeforeExam extends Component {
     }
   }
   render() {
+    const rules = this.state.rules.map(function(rule) {
+      return (
+        <Item key={rule.id}>
+          <Text style={{ fontSize: 20 }}>{rule.rule}</Text>
+        </Item>
+      );
+    });
     return (
       <React.Fragment>
         <Header
@@ -84,10 +128,14 @@ export default class BeforeExam extends Component {
             </Container>
           ) : (
             <React.Fragment>
+              <View style={{ marginHorizontal: 10 }}>
+                <Text style={{ fontSize: 26 }}>Rules:</Text>
+                {rules}
+              </View>
               <Text style={styles.timer}>Exam starts in {"\n"}</Text>
               <Text style={styles.timer}>
                 <TimerCountdown
-                  initialMilliseconds={1000 * 60 * 5}
+                  initialMilliseconds={1000 * 10}
                   formatMilliseconds={milliseconds => {
                     const remainingSec = Math.round(milliseconds / 1000);
                     const seconds = parseInt(
@@ -110,7 +158,7 @@ export default class BeforeExam extends Component {
                   }}
                   onExpire={() => {
                     alert("Exam Started!");
-                    this.props.navigation.navigate("BeforeExam", {
+                    this.props.navigation.navigate("LiveExam", {
                       exam: this.state.exam
                     });
                   }}
