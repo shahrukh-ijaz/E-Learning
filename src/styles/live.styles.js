@@ -9,6 +9,10 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10
   },
+  timer: {
+    fontSize: 28,
+    color: "#012060"
+  },
   body: {
     flex: 9,
     borderWidth: 1,

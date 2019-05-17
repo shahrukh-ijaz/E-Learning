@@ -15,10 +15,7 @@ export const styles = StyleSheet.create({
   },
   body: {
     flex: 9,
-    borderWidth: 1,
-    margin: 10,
-    paddingTop: 15,
-    paddingHorizontal: 30
+    paddingTop: 15
   },
   questionView: {
     // flex: 9,

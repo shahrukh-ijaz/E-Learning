@@ -91,10 +91,10 @@ export default class OnlineLesson extends Component {
                         <ListItem
                           key={key}
                           onPress={() => {
-                            console.log(
-                              object.paid,
-                              this.state.membershipStatus
-                            );
+                            // console.log(
+                            //   object.paid,
+                            //   this.state.membershipStatus
+                            // );
                             if (
                               object.paid == 1 &&
                               this.state.membershipStatus != 1

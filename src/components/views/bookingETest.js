@@ -99,7 +99,7 @@ export default class BookingETest extends Component {
                         {object.booking ? (
                           moment(
                             `${object.start_date} ${object.start_time}`
-                          ).diff(moment()) < 0 ? (
+                          ).diff(moment()) > 0 ? (
                             <Button
                               style={styles.button}
                               onPress={() => {

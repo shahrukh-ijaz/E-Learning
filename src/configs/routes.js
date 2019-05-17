@@ -20,7 +20,7 @@ import Header from "../components/customComponents/header";
 import LessonVideo from "../components/views/lessonVideo";
 import Profile from "../components/views/Profile";
 import ChangePassword from "../components/views/ChangePassword";
-import LiveExam from "../components/views/LiveExam";
+import Live from "../components/views/Live";
 import BeforeExam from "../components/views/BeforeExam";
 
 // import Profile from "./src/screens/Profile";
@@ -83,8 +83,8 @@ const AppStack = createStackNavigator(
         header: null
       }
     },
-    LiveExam: {
-      screen: LiveExam,
+    Live: {
+      screen: Live,
       navigationOptions: {
         header: null
       }
@@ -149,7 +149,7 @@ const MyNavigator = createSwitchNavigator(
     App: AppStack
   },
   {
-    initialRouteName: "App"
+    initialRouteName: "Auth"
   }
 );
 

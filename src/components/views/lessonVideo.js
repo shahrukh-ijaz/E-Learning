@@ -22,7 +22,8 @@ export default class LessonVideo extends Component {
       <WebView
         style={{ flex: 1 }}
         javaScriptEnabled={true}
-        source={{ uri: `https://www.gorporbyken.com${link}` }}
+        domStorageEnabled={true}
+        source={{ uri: link }}
       />
       // <VideoPlayer
       //   videoProps={{

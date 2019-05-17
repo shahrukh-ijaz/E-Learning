@@ -33,7 +33,8 @@ export default class Exam extends Component {
       index: null,
       totalQuestions: null,
       quizCompleted: false,
-      isLoading: false
+      isLoading: false,
+      answered: false
     };
   }
 
@@ -92,7 +93,8 @@ export default class Exam extends Component {
     let ans = this.state.answers;
     ans[index] = answer;
     await this.setState({
-      answers: ans
+      answers: ans,
+      answered: true
     });
     // console.log(ans);
     // console.log(this.state);
@@ -120,6 +122,9 @@ export default class Exam extends Component {
     if (question) {
       return (
         <React.Fragment key={question.id}>
+          <Text style={{ fontSize: 22, color: "#012060" }}>
+            Progress: {index + "/" + this.state.questions.length}{" "}
+          </Text>
           <Modal
             animationType="slide"
             transparent={false}
@@ -212,9 +217,11 @@ export default class Exam extends Component {
               key={question.id}
               title="Submit Answer"
               onPress={() =>
-                index < this.state.totalQuestions
-                  ? this.setState({ index: index + 1 })
-                  : this.setState({ quizCompleted: true })
+                this.state.answered
+                  ? index < this.state.totalQuestions
+                    ? this.setState({ index: index + 1, answered: false })
+                    : this.setState({ quizCompleted: true })
+                  : null
               }
             >
               <Text style={styles.buttonText}>Next</Text>
@@ -296,9 +303,11 @@ export default class Exam extends Component {
             style: { color: "yellow", fontSize: 28 }
           }}
         />
-        <ScrollView style={styles.questionView}>
-          {this.state.quizCompleted ? this.generateQuizKey() : questions}
-        </ScrollView>
+        <View style={styles.body}>
+          <ScrollView style={styles.questionView}>
+            {this.state.quizCompleted ? this.generateQuizKey() : questions}
+          </ScrollView>
+        </View>
         <CustomFooter navigation={this.props.navigation} />
       </React.Fragment>
     );

@@ -8,15 +8,17 @@ import {
   Modal,
   TouchableOpacity
 } from "react-native";
-import { styles } from "../../styles/liveExam.styles";
+import { styles } from "../../styles/live.styles";
 import CustomFooter from "../customComponents/footer";
 import { Button, Radio, Spinner, Container } from "native-base";
 import { Header } from "react-native-elements";
 import HTML from "react-native-render-html";
 import { ScrollView } from "react-native-gesture-handler";
 import TimerCountdown from "react-native-timer-countdown";
+import LiveExam from "./LiveExam";
+import moment from "moment";
 
-export default class LiveExam extends Component {
+export default class Live extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,19 +29,32 @@ export default class LiveExam extends Component {
       totalQuestions: null,
       isLoading: true,
       portionTime: 1,
-      answered: false
+      startTime: null,
+      timeFinished: false
     };
   }
 
-  static getDerivedStateFromProps(props) {
-    props.timeFinished ? () => this._handlePortionComplete() : null;
-    return {};
-  }
-
+  updateTime = newTime => {
+    let x = moment(this.state.startTime).diff(moment());
+    console.log("Diff", x);
+    x = x / (1000 * 60);
+    console.log("Diff", x);
+    x = parseInt(this.state.portionTime + x);
+    console.log("Diff", x);
+    this.setState({
+      portionTime: parseInt(newTime) + x
+    });
+  };
   async componentDidMount() {
     let authToken = await AsyncStorage.getItem("authToken");
     const {
-      props: { exam }
+      props: {
+        navigation: {
+          state: {
+            params: { exam }
+          }
+        }
+      }
     } = this;
 
     try {
@@ -61,6 +76,7 @@ export default class LiveExam extends Component {
           portions: responseJson.success.portions,
           questions: responseJson.success.portions[0].questions,
           portionTime: responseJson.success.portions[0].time,
+          startTime: moment(),
           portionIndex: 0,
           index: 0,
           isLoading: false
@@ -93,10 +109,10 @@ export default class LiveExam extends Component {
       };
     }
     this.setState({
-      answers: ans,
-      answered: true
+      answers: ans
     });
-    // console.log(ans);\
+    console.log(ans);
+    // console.log(this.state);
   };
 
   getQuestion = (question, index) => {
@@ -105,10 +121,7 @@ export default class LiveExam extends Component {
     if (question) {
       return (
         <React.Fragment key={question.id}>
-          <Text style={{ fontSize: 22, color: "#012060" }}>
-            Progress: {index + "/" + this.state.questions.length}{" "}
-          </Text>
-          {/* <Modal
+          <Modal
             animationType="slide"
             transparent={false}
             visible={this.state.modalVisible}
@@ -133,12 +146,12 @@ export default class LiveExam extends Component {
                 </View>
               </View>
             </View>
-          </Modal> */}
+          </Modal>
           <HTML
             html={question.question}
             imagesMaxWidth={Dimensions.get("window").width}
           />
-          {/* <Text
+          <Text
             onPress={() => {
               this.setModalVisible(true);
             }}
@@ -151,7 +164,7 @@ export default class LiveExam extends Component {
             }}
           >
             See Explanation
-          </Text> */}
+          </Text>
           <Text style={{ fontSize: 16 }}>{"Answers: \n"}</Text>
           {question.options.map(opt => {
             return (
@@ -195,11 +208,7 @@ export default class LiveExam extends Component {
               style={styles.button}
               key={question.id}
               title="Next"
-              onPress={() =>
-                this.state.answered
-                  ? this.setState({ index: index + 1, answered: false })
-                  : null
-              }
+              onPress={() => this.setState({ index: index + 1 })}
             >
               <Text style={styles.buttonText}>Next</Text>
             </Button>
@@ -224,7 +233,13 @@ export default class LiveExam extends Component {
   _handlePortionComplete = async () => {
     const authToken = await AsyncStorage.getItem("authToken");
     const {
-      props: { exam }
+      props: {
+        navigation: {
+          state: {
+            params: { exam }
+          }
+        }
+      }
     } = this;
     // console.log(id, type);
     this.setState({ isLoading: true });
@@ -252,16 +267,15 @@ export default class LiveExam extends Component {
       console.log(responseJson);
       if (responseJson.success) {
         if (this.state.portionIndex != this.state.portions.length - 1) {
-          let p = this.state.portionIndex;
           this.setState({
             questions: this.state.portions[this.state.portionIndex + 1]
               .questions,
+            portionTime: this.state.portions[this.state.portionIndex + 1].time,
             portionIndex: this.state.portionIndex + 1,
             answers: [],
             index: 0,
             isLoading: false
           });
-          this.props.updateTime(this.state.portions[p + 1].time);
         } else {
           this.setState({
             finishedExam: true,
@@ -277,10 +291,9 @@ export default class LiveExam extends Component {
         // }));
       }
     } catch (error) {
-      console.log("error", error);
       alert("There is some issue with server. Please try again later!");
-      // this.props.navigation.navigate("Dashboard");
-      // console.log("error", error);
+      this.props.navigation.navigate("Dashboard");
+      console.log("error", error);
     }
   };
 
@@ -347,28 +360,80 @@ export default class LiveExam extends Component {
         <Spinner />
       </Container>
     ) : (
-      <View style={styles.body}>
-        {this.state.finishedExam ? (
-          <React.Fragment>
-            <View
-              style={{
-                flexDirection: "column",
-                flex: 1,
-                marginHorizontal: 10,
-                justifyContent: "center",
-                alignItems: "center"
-              }}
-            >
-              <Text style={{ fontSize: 18 }}>Exam Result</Text>
-              {this._calculateResult()}
-            </View>
-          </React.Fragment>
-        ) : (
-          <React.Fragment>
-            <ScrollView style={styles.questionView}>{questions}</ScrollView>
-          </React.Fragment>
-        )}
-      </View>
+      <React.Fragment>
+        <Header
+          containerStyle={{ backgroundColor: "#012060" }}
+          centerComponent={{
+            text: "GOR. POR. By KEN",
+            style: { color: "yellow", fontSize: 28, flex: 1 }
+          }}
+        />
+        <View style={styles.body}>
+          {this.state.finishedExam ? (
+            <React.Fragment>
+              <View
+                style={{
+                  flexDirection: "column",
+                  flex: 1,
+                  marginHorizontal: 10,
+                  justifyContent: "center",
+                  alignItems: "center"
+                }}
+              >
+                <Text style={{ fontSize: 18 }}>Exam Result</Text>
+                {this._calculateResult()}
+              </View>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>
+              <Text style={styles.timer}>
+                Time Remaining:
+                <TimerCountdown
+                  initialMilliseconds={1000 * 60 * this.state.portionTime}
+                  formatMilliseconds={milliseconds => {
+                    const remainingSec = Math.round(milliseconds / 1000);
+                    const seconds = parseInt(
+                      (remainingSec % 60).toString(),
+                      10
+                    );
+                    const minutes = parseInt(
+                      ((remainingSec / 60) % 60).toString(),
+                      10
+                    );
+                    const hours = parseInt(
+                      (remainingSec / 3600).toString(),
+                      10
+                    );
+                    const s = seconds < 10 ? "0" + seconds : seconds;
+                    const m = minutes < 10 ? "0" + minutes : minutes;
+                    let h = hours < 10 ? "0" + hours : hours;
+                    h = h === "00" ? "" : h + ":";
+                    return h + m + ":" + s;
+                  }}
+                  onExpire={() => {
+                    Alert.alert(
+                      "Portion Time Finished",
+                      "Time Finished. Starting Next Potion!"
+                    );
+                    this._handlePortionComplete();
+                    this.setState({
+                      timeFinished: true
+                    });
+                  }}
+                  allowFontScaling={true}
+                />
+              </Text>
+              <LiveExam
+                updateTime={this.updateTime}
+                exam={this.props.navigation.state.params.exam}
+                timeFinished={this.state.timeFinished}
+                navigation={this.props.navigation}
+              />
+            </React.Fragment>
+          )}
+        </View>
+        <CustomFooter navigation={this.props.navigation} />
+      </React.Fragment>
     );
   }
 }

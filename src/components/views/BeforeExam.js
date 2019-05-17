@@ -36,7 +36,7 @@ export default class BeforeExam extends Component {
       // console.log(responseJson);
       if (responseJson.success) {
         // console.log("Rules", responseJson.success);
-        //this.props.navigation.navigate("LiveExam");
+        //this.props.navigation.navigate("Live");
         this.setState({ rules: responseJson.success, isLoading: false });
       } else {
         if (responseJson.error == "already completed") {
@@ -83,7 +83,7 @@ export default class BeforeExam extends Component {
       let responseJson = await examStartResponse.json();
       if (responseJson.success) {
         // console.log("Getting Exam", exam);
-        //this.props.navigation.navigate("LiveExam");
+        //this.props.navigation.navigate("Live");
         this.setState({ isLoading: false });
       } else {
         if (responseJson.error == "already completed") {
@@ -158,7 +158,7 @@ export default class BeforeExam extends Component {
                   }}
                   onExpire={() => {
                     alert("Exam Started!");
-                    this.props.navigation.navigate("LiveExam", {
+                    this.props.navigation.navigate("Live", {
                       exam: this.state.exam
                     });
                   }}
