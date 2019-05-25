@@ -103,14 +103,25 @@ export default class Exam extends Component {
   evaluateQuiz = () => {
     let questions = this.state.questions;
     let answers = this.state.answers;
+    let total = 0;
     let marks = 0;
+    let result;
     for (i = 0; i < this.state.answers.length; i++) {
+      total = total + parseInt(questions[i].marks, 10);
       if (questions[i].answer == answers[i]) {
         marks = marks + parseInt(questions[i].marks, 10);
       }
     }
+    result = marks / total;
     if (this.state.index == this.state.totalQuestions) {
-      return <Text>You obtained {marks} marks</Text>;
+      return (
+        <React.Fragment>
+          <Text style={result >= 0.5 ? styles.pass : styles.fail}>
+            Result: {result >= 0.5 ? "Pass" : "Fail"}
+          </Text>
+          <Text>You obtained {marks} marks</Text>
+        </React.Fragment>
+      );
     } else {
       return null;
     }
@@ -251,17 +262,29 @@ export default class Exam extends Component {
                     flexDirection: "column",
                     flex: 1,
                     borderWidth: 1,
-                    justifyContent: "space-between"
+                    justifyContent: "space-between",
+                    marginTop: 10
                   }}
                 >
                   <HTML
                     html={question.question}
                     imagesMaxWidth={Dimensions.get("window").width}
                   />
-                  <Text key={answers[i]}>Answer: {parseInt(answers[i])}</Text>
+                  <Text key={answers[i]}>Answer:</Text>
+                  <HTML
+                    html={question.options[parseInt(answers[i])].option}
+                    imagesMaxWidth={Dimensions.get("window").width}
+                  />
+
+                  <Text key={question.id}>Correct:</Text>
+                  <HTML
+                    html={question.options[parseInt(question.answer)].option}
+                    imagesMaxWidth={Dimensions.get("window").width}
+                  />
+                  {/* <Text key={answers[i]}>Answer: {parseInt(answers[i])}</Text>
                   <Text key={question.id}>
                     Correct: {parseInt(question.answer)}
-                  </Text>
+                  </Text> */}
                 </ListItem>
               );
             })}

@@ -9,6 +9,14 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10
   },
+  pass: {
+    color: "green",
+    fontSize: 18
+  },
+  fail: {
+    color: "red",
+    fontSize: 18
+  },
   body: {
     flex: 9,
     borderWidth: 1,

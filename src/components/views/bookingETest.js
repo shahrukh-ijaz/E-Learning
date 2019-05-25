@@ -90,9 +90,9 @@ export default class BookingETest extends Component {
                           Round For {`${object.name}\n`}
                         </Text>
                         <Text style={styles.text}>
-                          {`Date: ${new Date(object.start_date)}\nStart Time: ${
-                            object.start_time
-                          }\nEnd Time:${object.end_time}\n`}
+                          {`Start Time: ${object.start_time}\nEnd Time:${
+                            object.end_time
+                          }\n`}
                         </Text>
                       </View>
                       <View style={styles.buttonView}>
@@ -111,7 +111,7 @@ export default class BookingETest extends Component {
                               <Text style={styles.buttonText}>
                                 <TimerCountdown
                                   initialMilliseconds={moment(
-                                    `${object.start_date} ${object.start_time}`
+                                    object.start_time
                                   ).diff(moment())}
                                   formatMilliseconds={milliseconds => {
                                     const remainingSec = Math.round(
@@ -141,9 +141,7 @@ export default class BookingETest extends Component {
                                 />
                               </Text>
                             </Button>
-                          ) : moment(
-                              `${object.start_date} ${object.end_time}`
-                            ).diff(moment()) > 0 ? (
+                          ) : moment(object.end_time).diff(moment()) > 0 ? (
                             <Button
                               style={styles.button}
                               onPress={() => {
