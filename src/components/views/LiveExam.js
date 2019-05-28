@@ -285,6 +285,9 @@ export default class LiveExam extends Component {
   };
 
   _calculateResult = () => {
+    const {
+      props: { exam }
+    } = this;
     return (
       <React.Fragment>
         {this.state.examResult.result ? (
@@ -326,6 +329,27 @@ export default class LiveExam extends Component {
             title="Proceed to Dashboard"
           >
             <Text style={styles.buttonText}>Proceed to Dashboard</Text>
+          </Button>
+        </View>
+        <View style={styles.buttonView}>
+          <Button
+            style={styles.button}
+            onPress={
+              () => {}
+              // this.props.navigation.navigate("LiveSummary", { exam: exam })
+            }
+            title="Proceed to Dashboard"
+          >
+            <Text style={styles.buttonText}>Detailed Summary</Text>
+          </Button>
+        </View>
+        <View style={styles.buttonView}>
+          <Button
+            style={styles.button}
+            onPress={() => {}}
+            title="Proceed to Dashboard"
+          >
+            <Text style={styles.buttonText}>Check Solution</Text>
           </Button>
         </View>
       </React.Fragment>

@@ -22,6 +22,7 @@ import Profile from "../components/views/Profile";
 import ChangePassword from "../components/views/ChangePassword";
 import Live from "../components/views/Live";
 import BeforeExam from "../components/views/BeforeExam";
+import LiveSummary from "../components/views/LiveSummary";
 
 // import Profile from "./src/screens/Profile";
 
@@ -133,6 +134,12 @@ const AppStack = createStackNavigator(
     },
     ChangePassword: {
       screen: ChangePassword,
+      navigationOptions: {
+        header: null
+      }
+    },
+    LiveSummary: {
+      screen: LiveSummary,
       navigationOptions: {
         header: null
       }

@@ -85,11 +85,12 @@ export default class Exam extends Component {
       }
     } catch (error) {
       console.log("error", error);
-      this.props.navigation.navigate("Signin");
+      // this.props.navigation.navigate("Signin");
     }
   }
 
   answerQuestion = async (answer, index) => {
+    // console.log(answer, index);
     let ans = this.state.answers;
     ans[index] = answer;
     await this.setState({
@@ -103,6 +104,7 @@ export default class Exam extends Component {
   evaluateQuiz = () => {
     let questions = this.state.questions;
     let answers = this.state.answers;
+    // console.log(answers);
     let total = 0;
     let marks = 0;
     let result;
@@ -202,14 +204,14 @@ export default class Exam extends Component {
                     id={opt.row + question.id}
                     key={opt.id}
                     style={{ flex: 1 }}
-                    onPress={() => this.answerQuestion(opt.row, index)}
+                    onPress={() => this.answerQuestion(opt.row - 1, index)}
                     selected={
-                      this.state.answers[index] == opt.row ? true : false
+                      this.state.answers[index] == opt.row - 1 ? true : false
                     }
                   />
                   <View style={{ flex: 7 }}>
                     <TouchableOpacity
-                      onPress={() => this.answerQuestion(opt.row, index)}
+                      onPress={() => this.answerQuestion(opt.row - 1, index)}
                     >
                       <HTML
                         html={opt.option}

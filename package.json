@@ -18,6 +18,7 @@
     "react-native-render-html": "^4.1.2",
     "react-native-swiper": "^1.5.14",
     "react-native-timer-countdown": "^4.1.0",
+    "react-native-vimeo": "^0.3.0",
     "react-navigation": "^3.6.0",
     "react-redux": "^6.0.1"
   },
