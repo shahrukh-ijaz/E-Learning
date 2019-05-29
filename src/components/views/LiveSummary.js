@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import { Button, Spinner, Container, Item } from "native-base";
-import { Text, View, AsyncStorage } from "react-native";
+import { Button, Spinner, Container, Item, Body } from "native-base";
+import { Text, View, AsyncStorage, Dimensions } from "react-native";
 import { styles } from "../../styles/LiveSummary.styles";
-import CustomFooter from "../customComponents/footer";
 import { Header } from "react-native-elements";
-import TimerCountdown from "react-native-timer-countdown";
-import moment from "moment";
+import HTML from "react-native-render-html";
+import { ScrollView } from "react-native-gesture-handler";
 
 export default class LiveSummary extends Component {
   constructor(props) {
@@ -13,7 +12,9 @@ export default class LiveSummary extends Component {
     this.state = {
       isLoading: true,
       exam: null,
-      rules: []
+      portion1: [],
+      portion2: [],
+      score: {}
     };
   }
 
@@ -34,24 +35,27 @@ export default class LiveSummary extends Component {
       var formData = new FormData();
       formData.append("exam", exam.id);
       let examStartResponse = await fetch(
-        `https://www.gorporbyken.com/api/exam/score`,
+        `https://www.gorporbyken.com/api/exam/score?exam=` + exam.id,
         {
-          method: "POST",
+          method: "GET",
           headers: {
             Accept: "application/json",
-            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${authToken}`
-          },
-          body: {
-            exam: exam.id
           }
         }
       );
       let responseJson = await examStartResponse.json();
       if (responseJson.success) {
         console.log(responseJson);
-        //this.props.navigation.navigate("Live");
+        this.setState({
+          portion1: responseJson.success.portion1,
+          portion2: responseJson.success.portion2,
+          score: responseJson.success.score,
+          isLoading: false
+        });
+      } else {
         this.setState({ isLoading: false });
+        console.log(examStartResponse);
       }
     } catch (error) {
       this.setState({ isLoading: false });
@@ -63,14 +67,8 @@ export default class LiveSummary extends Component {
       // this.props.navigation.navigate("Signin");
     }
   }
+
   render() {
-    const rules = this.state.rules.map(function(rule) {
-      return (
-        <Item key={rule.id}>
-          <Text style={{ fontSize: 20 }}>{rule.rule}</Text>
-        </Item>
-      );
-    });
     return (
       <React.Fragment>
         <Header
@@ -81,59 +79,156 @@ export default class LiveSummary extends Component {
           }}
         />
         <View style={styles.body}>
-          {this.state.isLoading ? (
-            <Container
+          <ScrollView style={{ flex: 10 }}>
+            <View
               style={{
                 alignItems: "center",
                 justifyContent: "center"
               }}
             >
-              <Spinner />
-            </Container>
-          ) : (
-            <React.Fragment>
-              <View style={{ marginHorizontal: 10 }}>
-                <Text style={{ fontSize: 26 }}>Rules:</Text>
-                {rules}
-              </View>
-              <Text style={styles.timer}>Exam starts in {"\n"}</Text>
-              <Text style={styles.timer}>
-                <TimerCountdown
-                  initialMilliseconds={1000 * 10}
-                  formatMilliseconds={milliseconds => {
-                    const remainingSec = Math.round(milliseconds / 1000);
-                    const seconds = parseInt(
-                      (remainingSec % 60).toString(),
-                      10
-                    );
-                    const minutes = parseInt(
-                      ((remainingSec / 60) % 60).toString(),
-                      10
-                    );
-                    const hours = parseInt(
-                      (remainingSec / 3600).toString(),
-                      10
-                    );
-                    const s = seconds < 10 ? "0" + seconds : seconds;
-                    const m = minutes < 10 ? "0" + minutes : minutes;
-                    let h = hours < 10 ? "0" + hours : hours;
-                    h = h === "00" ? "" : h + ":";
-                    return h + m + ":" + s;
+              {this.state.isLoading ? (
+                <Container
+                  style={{
+                    alignItems: "center",
+                    justifyContent: "center"
                   }}
-                  onExpire={() => {
-                    alert("Exam Started!");
-                    this.props.navigation.navigate("Live", {
-                      exam: this.state.exam
-                    });
-                  }}
-                  allowFontScaling={true}
-                />
-              </Text>
-            </React.Fragment>
-          )}
+                >
+                  <Spinner />
+                </Container>
+              ) : (
+                <React.Fragment>
+                  <Body style={{ marginTop: 10 }}>
+                    <Text style={{ color: "#012060", fontSize: 22 }}>
+                      Poriton 1
+                    </Text>
+                  </Body>
+                  {this.state.portion1.map(por => {
+                    return (
+                      <View id={por.id} style={{ paddingTop: 10 }}>
+                        <Text style={{ fontSize: 18 }}>Question</Text>
+                        <HTML
+                          html={por.question}
+                          imagesMaxWidth={Dimensions.get("window").width}
+                        />
+                        <Text>Correct: {this.state.score[por.id].answer}</Text>
+                        <Text>
+                          Attempted: {this.state.score[por.id].attempted}
+                        </Text>
+                        <Text>
+                          True/False:{" "}
+                          <Text
+                            style={
+                              this.state.score[por.id].true == 0
+                                ? { color: "red" }
+                                : { color: "green" }
+                            }
+                          >
+                            {this.state.score[por.id].true == 0
+                              ? "false"
+                              : "true"}
+                          </Text>
+                        </Text>
+                      </View>
+                    );
+                  })}
+                  <Body style={{ marginTop: 10 }}>
+                    <Text style={{ color: "#012060", fontSize: 22 }}>
+                      Poriton 2
+                    </Text>
+                  </Body>
+                  {this.state.portion2.map(por => {
+                    return (
+                      <View id={por.id} style={{ paddingTop: 10 }}>
+                        <Text style={{ fontSize: 18 }}>Question</Text>
+                        <HTML
+                          html={por.question}
+                          imagesMaxWidth={Dimensions.get("window").width}
+                        />
+                        <Text>Correct: {this.state.score[por.id].answer}</Text>
+                        <Text>
+                          Attempted: {this.state.score[por.id].attempted}
+                        </Text>
+                        <Text>
+                          True/False:{" "}
+                          <Text
+                            style={
+                              this.state.score[por.id].true == 0
+                                ? { color: "red" }
+                                : { color: "green" }
+                            }
+                          >
+                            {this.state.score[por.id].true == 0
+                              ? "false"
+                              : "true"}
+                          </Text>
+                        </Text>
+                      </View>
+                    );
+                  })}
+                </React.Fragment>
+              )}
+            </View>
+          </ScrollView>
+        </View>
+
+        <View style={styles.buttonView}>
+          <Button
+            style={styles.button}
+            onPress={() => this.props.navigation.navigate("Dashboard")}
+          >
+            <Text style={styles.buttonText}>Proceed to Dashboard</Text>
+          </Button>
         </View>
         {/* <CustomFooter navigation={this.props.navigation} /> */}
       </React.Fragment>
     );
   }
 }
+
+// {
+//   id: 2267,
+//   question:
+//     '<p>What is the value of expression if x=3?</p><p><img alt="\\frac{x}{x^{2}}" src="https://latex.codecogs.com/gif.latex?%5Cfrac%7Bx%7D%7Bx%5E%7B2%7D%7D" /></p>',
+//   answer: "1",
+//   answer_row: "2",
+//   is_image: "0",
+//   explanation: "<p>This is the description</p>",
+//   statement: null,
+//   marks: "10",
+//   parent: "9",
+//   parent_type: "exam",
+//   created_at: "2019-05-28 22:19:37",
+//   updated_at: "2019-05-28 22:19:37"
+// }
+// score: {
+//   "2267": {
+//     id: 156,
+//     user: 4,
+//     exam: 12,
+//     exam_name: "Testing",
+//     portion: 1,
+//     level: 1,
+//     booking: 28,
+//     question: 2267,
+//     answer: 2,
+//     attempted: 2,
+//     true: 1,
+//     created_at: "2019-05-28 23:17:07",
+//     updated_at: "2019-05-28 23:17:07"
+//   },
+//   "2268": {
+//     id: 157,
+//     user: 4,
+//     exam: 12,
+//     exam_name: "Testing",
+//     portion: 1,
+//     level: 1,
+//     booking: 28,
+//     question: 2268,
+//     answer: 2,
+//     attempted: 2,
+//     true: 1,
+//     created_at: "2019-05-28 23:17:07",
+//     updated_at: "2019-05-28 23:17:07"
+//   }
+// }

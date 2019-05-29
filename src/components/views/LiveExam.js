@@ -6,7 +6,8 @@ import {
   Dimensions,
   Alert,
   Modal,
-  TouchableOpacity
+  TouchableOpacity,
+  Linking
 } from "react-native";
 import { styles } from "../../styles/liveExam.styles";
 import CustomFooter from "../customComponents/footer";
@@ -108,50 +109,10 @@ export default class LiveExam extends Component {
           <Text style={{ fontSize: 22, color: "#012060" }}>
             Progress: {index + "/" + this.state.questions.length}{" "}
           </Text>
-          {/* <Modal
-            animationType="slide"
-            transparent={false}
-            visible={this.state.modalVisible}
-            onRequestClose={() => {}}
-          >
-            <View style={{ marginTop: 22, marginHorizontal: 30 }}>
-              <Text>Explanation</Text>
-              <View>
-                <HTML
-                  html={question.explanation}
-                  imagesMaxWidth={Dimensions.get("window").width}
-                />
-                <View style={styles.buttonView}>
-                  <Button
-                    onPress={() => {
-                      this.setModalVisible(!this.state.modalVisible);
-                    }}
-                    style={styles.button}
-                  >
-                    <Text style={styles.buttonText}>Hide Explanation</Text>
-                  </Button>
-                </View>
-              </View>
-            </View>
-          </Modal> */}
           <HTML
             html={question.question}
             imagesMaxWidth={Dimensions.get("window").width}
           />
-          {/* <Text
-            onPress={() => {
-              this.setModalVisible(true);
-            }}
-            style={{
-              marginVertical: 5,
-              color: "grey",
-              fontSize: 14,
-              alignContent: "flex-end",
-              textDecorationStyle: "solid"
-            }}
-          >
-            See Explanation
-          </Text> */}
           <Text style={{ fontSize: 16 }}>{"Answers: \n"}</Text>
           {question.options.map(opt => {
             return (
@@ -269,6 +230,7 @@ export default class LiveExam extends Component {
             isLoading: false
           });
           console.log("Exam Result", responseJson);
+          this.props.stop();
         }
       } else {
         // this.setState(() => ({
@@ -278,7 +240,7 @@ export default class LiveExam extends Component {
       }
     } catch (error) {
       console.log("error", error);
-      alert("There is some issue with server. Please try again later!");
+      // alert("There is some issue with server. Please try again later!");
       // this.props.navigation.navigate("Dashboard");
       // console.log("error", error);
     }
@@ -334,9 +296,8 @@ export default class LiveExam extends Component {
         <View style={styles.buttonView}>
           <Button
             style={styles.button}
-            onPress={
-              () => {}
-              // this.props.navigation.navigate("LiveSummary", { exam: exam })
+            onPress={() =>
+              this.props.navigation.navigate("LiveSummary", { exam: exam })
             }
             title="Proceed to Dashboard"
           >
@@ -346,7 +307,9 @@ export default class LiveExam extends Component {
         <View style={styles.buttonView}>
           <Button
             style={styles.button}
-            onPress={() => {}}
+            onPress={() => {
+              Linking.openURL(exam.solution);
+            }}
             title="Proceed to Dashboard"
           >
             <Text style={styles.buttonText}>Check Solution</Text>

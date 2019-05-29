@@ -14,9 +14,7 @@ export const styles = StyleSheet.create({
     color: "#012060"
   },
   body: {
-    flex: 10,
-    alignItems: "center",
-    justifyContent: "center"
+    flex: 10
   },
   instructionsText: {
     fontSize: 18

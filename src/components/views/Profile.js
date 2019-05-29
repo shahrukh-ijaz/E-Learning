@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Container, Content, Item, Button, Icon, Spinner } from "native-base";
+import Ionicons from "react-native-vector-icons/Ionicons";
 import {
   StyleSheet,
   Text,
@@ -138,6 +139,23 @@ export default class Profile extends Component {
           centerComponent={{
             text: "GOR. POR. By KEN",
             style: { color: "yellow", fontSize: 28 }
+          }}
+          rightComponent={
+            <Text
+              style={{ flex: 1, paddingTop: 15 }}
+              onPress={async () => {
+                await AsyncStorage.removeItem("authToken");
+                this.props.navigation.navigate("Auth");
+              }}
+            >
+              <Icon name="ios-power" style={{ color: "red" }} />
+            </Text>
+          }
+        />
+        <View
+          style={{
+            flexDirection: "row",
+            backgroundColor: "#012060"
           }}
         />
         <Container style={styles.header}>

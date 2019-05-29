@@ -30,7 +30,8 @@ export default class Live extends Component {
       isLoading: true,
       portionTime: 1,
       startTime: null,
-      timeFinished: false
+      timeFinished: false,
+      examFinished: false
     };
   }
 
@@ -56,6 +57,10 @@ export default class Live extends Component {
         }
       }
     } = this;
+
+    _stop = () => {
+      this.setState({ examFinished: true });
+    };
 
     try {
       let response = await fetch(
@@ -291,8 +296,8 @@ export default class Live extends Component {
         // }));
       }
     } catch (error) {
-      alert("There is some issue with server. Please try again later!");
-      this.props.navigation.navigate("Dashboard");
+      // alert("There is some issue with server. Please try again later!");
+      // this.props.navigation.navigate("Dashboard");
       console.log("error", error);
     }
   };
@@ -386,48 +391,51 @@ export default class Live extends Component {
             </React.Fragment>
           ) : (
             <React.Fragment>
-              <Text style={styles.timer}>
-                Time Remaining:
-                <TimerCountdown
-                  initialMilliseconds={1000 * 60 * this.state.portionTime}
-                  formatMilliseconds={milliseconds => {
-                    const remainingSec = Math.round(milliseconds / 1000);
-                    const seconds = parseInt(
-                      (remainingSec % 60).toString(),
-                      10
-                    );
-                    const minutes = parseInt(
-                      ((remainingSec / 60) % 60).toString(),
-                      10
-                    );
-                    const hours = parseInt(
-                      (remainingSec / 3600).toString(),
-                      10
-                    );
-                    const s = seconds < 10 ? "0" + seconds : seconds;
-                    const m = minutes < 10 ? "0" + minutes : minutes;
-                    let h = hours < 10 ? "0" + hours : hours;
-                    h = h === "00" ? "" : h + ":";
-                    return h + m + ":" + s;
-                  }}
-                  onExpire={() => {
-                    Alert.alert(
-                      "Portion Time Finished",
-                      "Time Finished. Starting Next Potion!"
-                    );
-                    this._handlePortionComplete();
-                    this.setState({
-                      timeFinished: true
-                    });
-                  }}
-                  allowFontScaling={true}
-                />
-              </Text>
+              {!this.state.examFinished ? (
+                <Text style={styles.timer}>
+                  Time Remaining:
+                  <TimerCountdown
+                    initialMilliseconds={1000 * 60 * this.state.portionTime}
+                    formatMilliseconds={milliseconds => {
+                      const remainingSec = Math.round(milliseconds / 1000);
+                      const seconds = parseInt(
+                        (remainingSec % 60).toString(),
+                        10
+                      );
+                      const minutes = parseInt(
+                        ((remainingSec / 60) % 60).toString(),
+                        10
+                      );
+                      const hours = parseInt(
+                        (remainingSec / 3600).toString(),
+                        10
+                      );
+                      const s = seconds < 10 ? "0" + seconds : seconds;
+                      const m = minutes < 10 ? "0" + minutes : minutes;
+                      let h = hours < 10 ? "0" + hours : hours;
+                      h = h === "00" ? "" : h + ":";
+                      return h + m + ":" + s;
+                    }}
+                    onExpire={() => {
+                      Alert.alert(
+                        "Portion Time Finished",
+                        "Time Finished. Starting Next Potion!"
+                      );
+                      this._handlePortionComplete();
+                      this.setState({
+                        timeFinished: true
+                      });
+                    }}
+                    allowFontScaling={true}
+                  />
+                </Text>
+              ) : null}
               <LiveExam
                 updateTime={this.updateTime}
                 exam={this.props.navigation.state.params.exam}
                 timeFinished={this.state.timeFinished}
                 navigation={this.props.navigation}
+                stop={this._stop}
               />
             </React.Fragment>
           )}

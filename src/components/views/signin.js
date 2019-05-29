@@ -13,7 +13,13 @@ class Signin extends Component {
       password: ""
     };
   }
-
+  componentDidMount = async () => {
+    let token = await AsyncStorage.getItem("authToken");
+    // console.log(token);
+    if (token != undefined) {
+      this.props.navigation.navigate("App");
+    }
+  };
   _signin = async () => {
     if (this.state.email.trim() === "") {
       this.setState(() => ({ emailError: "Email is required." }));
