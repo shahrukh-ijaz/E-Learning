@@ -22,15 +22,23 @@ export default class Profile extends Component {
       user: {
         email: "",
         name: "",
-        isLoading: true,
         photo: null
       },
-      hasCameraPermission: false
+      hasCameraPermission: false,
+      isLoading: true
     };
   }
 
   async componentDidMount() {
     const authToken = await AsyncStorage.getItem("authToken");
+    const name = await AsyncStorage.getItem("userName");
+    this.setState({
+      user: {
+        ...this.state.user,
+        name: name
+      },
+      isLoading: false
+    });
     try {
       let response = await fetch(
         "https://www.gorporbyken.com/api/user/details",
@@ -144,7 +152,8 @@ export default class Profile extends Component {
             <Text
               style={{ flex: 1, paddingTop: 15 }}
               onPress={async () => {
-                await AsyncStorage.removeItem("authToken");
+                this.setState({ isLoading: true });
+                await AsyncStorage.clear();
                 this.props.navigation.navigate("Auth");
               }}
             >

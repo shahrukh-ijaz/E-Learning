@@ -42,9 +42,7 @@ export default class CustomFooter extends Component {
           </Button>
           <Footer>
             <FooterTab style={{ backgroundColor: "white" }}>
-              <Button
-                onPress={() => this.props.navigation.navigate("Dashboard")}
-              >
+              <Button onPress={() => this.props.navigation.navigate("Result")}>
                 <Icon name="ios-stats" />
                 <Text>Report</Text>
               </Button>

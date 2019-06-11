@@ -17,11 +17,13 @@ import {
   List,
   ListItem,
   Content,
-  Container
+  Container,
+  Icon
 } from "native-base";
 
 import HTML from "react-native-render-html";
 import { Header } from "react-native-elements";
+import { ProgressBar, Colors } from "react-native-paper";
 
 export default class Exam extends Component {
   constructor(props) {
@@ -68,7 +70,7 @@ export default class Exam extends Component {
         }
       );
       let responseJson = await response.json();
-      console.log("Questions", responseJson.success.questions);
+      // console.log("Questions", responseJson.success.questions);
       if (responseJson.success) {
         this.setState({ questions: responseJson.success.questions });
         // console.log(this.state.questions.length);
@@ -135,9 +137,11 @@ export default class Exam extends Component {
     if (question) {
       return (
         <React.Fragment key={question.id}>
-          <Text style={{ fontSize: 22, color: "#012060" }}>
-            Progress: {index + "/" + this.state.questions.length}{" "}
-          </Text>
+          <ProgressBar
+            style={{ marginHorizontal: 20 }}
+            progress={(index + 1) / this.state.questions.length}
+            color={"#012060"}
+          />
           <Modal
             animationType="slide"
             transparent={false}
@@ -156,7 +160,7 @@ export default class Exam extends Component {
                     onPress={() => {
                       this.setModalVisible(!this.state.modalVisible);
                     }}
-                    style={styles.button}
+                    style={styles.nextButton}
                   >
                     <Text style={styles.buttonText}>Hide Explanation</Text>
                   </Button>
@@ -164,19 +168,7 @@ export default class Exam extends Component {
               </View>
             </View>
           </Modal>
-          {/* {question.is_image ? (
-            <Image
-              source={{
-                uri: "https://www.gorporbyken.com" + question.question
-              }}
-              style={{ height: 375, width: 250 }}
-              resizeMode="contain"
-            />
-          ) : (
-            <Text style={{ fontSize: 16 }}>
-              {"Q." + qNo + " " + question.question + "\n"}
-            </Text>
-          )} */}
+          <Text style={{ fontSize: 18 }}>Question:</Text>
           <HTML
             html={question.question}
             imagesMaxWidth={Dimensions.get("window").width}
@@ -199,16 +191,19 @@ export default class Exam extends Component {
           {question.options.map(opt => {
             return (
               <React.Fragment key={opt.id}>
-                <View style={{ flexDirection: "row" }}>
-                  <Radio
-                    id={opt.row + question.id}
-                    key={opt.id}
-                    style={{ flex: 1 }}
-                    onPress={() => this.answerQuestion(opt.row - 1, index)}
-                    selected={
-                      this.state.answers[index] == opt.row - 1 ? true : false
-                    }
-                  />
+                <View
+                  style={[
+                    {
+                      flexDirection: "row",
+                      margin: 5,
+                      borderRadius: 5,
+                      padding: 5
+                    },
+                    this.state.answers[index] == opt.row - 1
+                      ? { borderWidth: 2, borderColor: "#012060", opacity: 1 }
+                      : { borderWidth: 2, borderColor: "grey", opacity: 0.7 }
+                  ]}
+                >
                   <View style={{ flex: 7 }}>
                     <TouchableOpacity
                       onPress={() => this.answerQuestion(opt.row - 1, index)}
@@ -237,7 +232,11 @@ export default class Exam extends Component {
                   : null
               }
             >
-              <Text style={styles.buttonText}>Next</Text>
+              <Icon
+                name="md-arrow-forward"
+                style={{ color: "white", fontSize: 20 }}
+              />
+              {/* <Text style={styles.buttonText}>Next</Text> */}
             </Button>
           </View>
         </React.Fragment>
@@ -269,6 +268,7 @@ export default class Exam extends Component {
                   }}
                 >
                   <HTML
+                    style={{ borderWidth: 1 }}
                     html={question.question}
                     imagesMaxWidth={Dimensions.get("window").width}
                   />

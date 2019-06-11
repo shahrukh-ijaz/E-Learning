@@ -121,7 +121,8 @@ export default class BeforeExam extends Component {
             <Container
               style={{
                 alignItems: "center",
-                justifyContent: "center"
+                justifyContent: "center",
+                backgroundColor: "white"
               }}
             >
               <Spinner />

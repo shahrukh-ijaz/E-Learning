@@ -254,7 +254,7 @@ export default class Live extends Component {
       formData.append("portion", this.state.portionIndex + 1);
       for (i = 0; i < this.state.answers.length; i++) {
         formData.append(
-          "questions[" + this.state.questions[i].id + "]",
+          "question[" + this.state.questions[i].id + "]",
           this.state.answers[i][this.state.questions[i].id]
         );
       }

@@ -8,7 +8,7 @@ class Signin extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false,
+      isLoading: true,
       email: "",
       password: ""
     };
@@ -18,6 +18,8 @@ class Signin extends Component {
     // console.log(token);
     if (token != undefined) {
       this.props.navigation.navigate("App");
+    } else {
+      this.setState({ isLoading: false });
     }
   };
   _signin = async () => {

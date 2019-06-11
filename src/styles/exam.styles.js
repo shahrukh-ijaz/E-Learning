@@ -26,17 +26,20 @@ export const styles = StyleSheet.create({
   questionView: {
     // flex: 9,
     margin: 5,
-    padding: 20
+    paddingHorizontal: 10
   },
   button: {
-    flex: 1,
-    borderRadius: 8,
+    height: 60,
+    width: 60,
+    borderRadius: 30,
     alignItems: "center",
     justifyContent: "center"
   },
   buttonView: {
     flexDirection: "row",
-    marginVertical: 6
+    marginVertical: 6,
+    alignItems: "center",
+    justifyContent: "flex-end"
   },
   buttonText: {
     color: "white",

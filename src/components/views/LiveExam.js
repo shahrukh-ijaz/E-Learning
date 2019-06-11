@@ -5,17 +5,14 @@ import {
   AsyncStorage,
   Dimensions,
   Alert,
-  Modal,
   TouchableOpacity,
   Linking
 } from "react-native";
 import { styles } from "../../styles/liveExam.styles";
-import CustomFooter from "../customComponents/footer";
-import { Button, Radio, Spinner, Container } from "native-base";
-import { Header } from "react-native-elements";
+import { Icon, Button, Radio, Spinner, Container } from "native-base";
 import HTML from "react-native-render-html";
 import { ScrollView } from "react-native-gesture-handler";
-import TimerCountdown from "react-native-timer-countdown";
+import { ProgressBar } from "react-native-paper";
 
 export default class LiveExam extends Component {
   constructor(props) {
@@ -106,9 +103,12 @@ export default class LiveExam extends Component {
     if (question) {
       return (
         <React.Fragment key={question.id}>
-          <Text style={{ fontSize: 22, color: "#012060" }}>
-            Progress: {index + "/" + this.state.questions.length}{" "}
-          </Text>
+          <ProgressBar
+            style={{ marginHorizontal: 20 }}
+            progress={(index + 1) / this.state.questions.length}
+            color={"#012060"}
+          />
+          <Text style={{ fontSize: 18 }}>Question:</Text>
           <HTML
             html={question.question}
             imagesMaxWidth={Dimensions.get("window").width}
@@ -117,7 +117,19 @@ export default class LiveExam extends Component {
           {question.options.map(opt => {
             return (
               <React.Fragment key={opt.id}>
-                <View style={{ flexDirection: "row" }}>
+                <View
+                  style={[
+                    {
+                      flexDirection: "row",
+                      margin: 5,
+                      borderRadius: 5,
+                      padding: 5
+                    },
+                    this.state.answers[index] == opt.row - 1
+                      ? { borderWidth: 2, borderColor: "#012060", opacity: 1 }
+                      : { borderWidth: 2, borderColor: "grey", opacity: 0.7 }
+                  ]}
+                >
                   <Radio
                     id={opt.row + question.id}
                     key={opt.id}
@@ -162,7 +174,11 @@ export default class LiveExam extends Component {
                   : null
               }
             >
-              <Text style={styles.buttonText}>Next</Text>
+              <Icon
+                name="md-arrow-forward"
+                style={{ color: "white", fontSize: 20 }}
+              />
+              {/* <Text style={styles.buttonText}>Next</Text> */}
             </Button>
           </View>
         </React.Fragment>
@@ -171,7 +187,7 @@ export default class LiveExam extends Component {
       return (
         <View style={styles.buttonView}>
           <Button
-            style={styles.button}
+            style={styles.nextButton}
             title="Next Portion"
             onPress={() => this._handlePortionComplete()}
           >
@@ -195,7 +211,7 @@ export default class LiveExam extends Component {
       formData.append("portion", this.state.portionIndex + 1);
       for (i = 0; i < this.state.answers.length; i++) {
         formData.append(
-          "questions[" + this.state.questions[i].id + "]",
+          "question[" + this.state.questions[i].id + "]",
           this.state.answers[i][this.state.questions[i].id]
         );
       }
@@ -253,40 +269,28 @@ export default class LiveExam extends Component {
     return (
       <React.Fragment>
         {this.state.examResult.result ? (
-          <Text style={{ fontSize: 20 }}>
-            Exam Result: {this.state.examResult.result}
-          </Text>
-        ) : null}
-        {this.state.examResult.level ? (
-          <Text style={{ fontSize: 20 }}>
-            Exam level: {this.state.examResult.level}
-          </Text>
-        ) : null}
-        {this.state.examResult.portion1 ? (
-          <Text style={{ fontSize: 20 }}>
-            Portion 1:{" "}
-            {this.state.examResult.portion1 == 1 ? "Completed" : "Incompleted"}
-          </Text>
-        ) : null}
-        {this.state.examResult.portion2 ? (
-          <Text style={{ fontSize: 20 }}>
-            Portion 2:{" "}
-            {this.state.examResult.portion2 == 1 ? "Completed" : "Incompleted"}
+          <Text style={{ fontSize: 20, color: "#012060" }}>
+            Exam Result:{" "}
+            {this.state.examResult.result == "Pass" ? (
+              <Text style={{ color: "green" }}>Pass</Text>
+            ) : (
+              <Text style={{ color: "red" }}>Fail</Text>
+            )}
           </Text>
         ) : null}
         {this.state.examResult.total ? (
-          <Text style={{ fontSize: 20 }}>
+          <Text style={{ fontSize: 20, color: "#012060" }}>
             Total Marks: {this.state.examResult.total}
           </Text>
         ) : null}
         {this.state.examResult.score ? (
-          <Text style={{ fontSize: 20 }}>
+          <Text style={{ fontSize: 20, color: "#012060" }}>
             Obtained Marks: {this.state.examResult.score}
           </Text>
         ) : null}
         <View style={styles.buttonView}>
           <Button
-            style={styles.button}
+            style={styles.nextButton}
             onPress={() => this.props.navigation.navigate("Dashboard")}
             title="Proceed to Dashboard"
           >
@@ -295,7 +299,7 @@ export default class LiveExam extends Component {
         </View>
         <View style={styles.buttonView}>
           <Button
-            style={styles.button}
+            style={styles.nextButton}
             onPress={() =>
               this.props.navigation.navigate("LiveSummary", { exam: exam })
             }
@@ -306,7 +310,7 @@ export default class LiveExam extends Component {
         </View>
         <View style={styles.buttonView}>
           <Button
-            style={styles.button}
+            style={styles.nextButton}
             onPress={() => {
               Linking.openURL(exam.solution);
             }}
@@ -346,7 +350,6 @@ export default class LiveExam extends Component {
                 alignItems: "center"
               }}
             >
-              <Text style={{ fontSize: 18 }}>Exam Result</Text>
               {this._calculateResult()}
             </View>
           </React.Fragment>

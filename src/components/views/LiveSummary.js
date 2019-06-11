@@ -83,14 +83,16 @@ export default class LiveSummary extends Component {
             <View
               style={{
                 alignItems: "center",
-                justifyContent: "center"
+                justifyContent: "center",
+                backgroundColor: "white"
               }}
             >
               {this.state.isLoading ? (
                 <Container
                   style={{
                     alignItems: "center",
-                    justifyContent: "center"
+                    justifyContent: "center",
+                    backgroundColor: "#white"
                   }}
                 >
                   <Spinner />
@@ -105,16 +107,20 @@ export default class LiveSummary extends Component {
                   {this.state.portion1.map(por => {
                     return (
                       <View id={por.id} style={{ paddingTop: 10 }}>
-                        <Text style={{ fontSize: 18 }}>Question</Text>
+                        <Text style={{ fontSize: 18, alignSelf: "center" }}>
+                          Question
+                        </Text>
                         <HTML
                           html={por.question}
                           imagesMaxWidth={Dimensions.get("window").width}
                         />
-                        <Text>Correct: {this.state.score[por.id].answer}</Text>
-                        <Text>
+                        <Text style={{ alignSelf: "center" }}>
+                          Correct: {this.state.score[por.id].answer}
+                        </Text>
+                        <Text style={{ alignSelf: "center" }}>
                           Attempted: {this.state.score[por.id].attempted}
                         </Text>
-                        <Text>
+                        <Text style={{ alignSelf: "center" }}>
                           True/False:{" "}
                           <Text
                             style={
@@ -139,16 +145,20 @@ export default class LiveSummary extends Component {
                   {this.state.portion2.map(por => {
                     return (
                       <View id={por.id} style={{ paddingTop: 10 }}>
-                        <Text style={{ fontSize: 18 }}>Question</Text>
+                        <Text style={{ fontSize: 18, alignSelf: "center" }}>
+                          Question
+                        </Text>
                         <HTML
                           html={por.question}
                           imagesMaxWidth={Dimensions.get("window").width}
                         />
-                        <Text>Correct: {this.state.score[por.id].answer}</Text>
-                        <Text>
+                        <Text style={{ alignSelf: "center" }}>
+                          Correct: {this.state.score[por.id].answer}
+                        </Text>
+                        <Text style={{ alignSelf: "center" }}>
                           Attempted: {this.state.score[por.id].attempted}
                         </Text>
-                        <Text>
+                        <Text style={{ alignSelf: "center" }}>
                           True/False:{" "}
                           <Text
                             style={
