@@ -67,10 +67,10 @@ export default class Signup extends Component {
                 }
               );
               let responseJson = await response.json();
-              // console.log("response", responseJson);
               if (responseJson.success) {
-                this.setState(() => ({ signUpError: null, isLoading: false }));
-                this.props.navigation.navigate("Login");
+                console.log("response", responseJson);
+                // this.setState({ signUpError: null});
+                this.props.navigation.navigate("Signin");
                 // console.log("token", responseJson.success.token);
               } else {
                 this.setState(() => ({
