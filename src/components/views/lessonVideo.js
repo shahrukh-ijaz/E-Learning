@@ -40,22 +40,17 @@ export default class LessonVideo extends Component {
         }
       }
     } = this;
-    console.log("links", link);
+    var vimeoLink = link.slice(link.lastIndexOf('/') + 1)
+    console.log("links", vimeoLink);
     return (
       <View
         style={{ flex: 1, alignContent: "center", justifyContent: "center" }}
       >
-        <Video
-          source={{
-            uri: link
-          }}
-          rate={1.0}
-          volume={1.0}
-          isMuted={false}
-          useNativeControls={true}
-          resizeMode="contain"
-          shouldPlay
-          style={{ width, height: 300 }}
+        <WebView
+          style={{ flex: 1, marginTop: 25 }}
+          javaScriptEnabled={true}
+          domStorageEnabled={true}
+          source={{ uri: 'https://player.vimeo.com/video/' + vimeoLink }}
         />
       </View>
       // <View style={styles.container}>
