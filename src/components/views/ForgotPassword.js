@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { WebView } from "react-native";
-import { View, Dimensions } from "react-native";
+import { View } from "react-native";
 
-export default class LessonVideo extends Component {
+export default class ForgotPassword extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -12,18 +12,6 @@ export default class LessonVideo extends Component {
   }
 
   render() {
-    const { width } = Dimensions.get("window");
-    const {
-      props: {
-        navigation: {
-          state: {
-            params: { link }
-          }
-        }
-      }
-    } = this;
-    var vimeoLink = link.slice(link.lastIndexOf("/") + 1);
-    console.log("links", vimeoLink);
     return (
       <View
         style={{ flex: 1, alignContent: "center", justifyContent: "center" }}
@@ -32,7 +20,7 @@ export default class LessonVideo extends Component {
           style={{ flex: 1, marginTop: 25 }}
           javaScriptEnabled={true}
           domStorageEnabled={true}
-          source={{ uri: "https://player.vimeo.com/video/" + vimeoLink }}
+          source={{ uri: "https://www.gorporbyken.com/password/reset" }}
         />
       </View>
     );

@@ -24,6 +24,7 @@ import Live from "../components/views/Live";
 import BeforeExam from "../components/views/BeforeExam";
 import LiveSummary from "../components/views/LiveSummary";
 import Result from "../components/views/Result";
+import ForgotPassword from "../components/views/ForgotPassword";
 
 // import Profile from "./src/screens/Profile";
 
@@ -37,6 +38,12 @@ const AuthStack = createStackNavigator(
     },
     Signin: {
       screen: Signin,
+      navigationOptions: {
+        header: null
+      }
+    },
+    ForgotPassword: {
+      screen: ForgotPassword,
       navigationOptions: {
         header: null
       }

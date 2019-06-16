@@ -11,6 +11,7 @@ import {
 } from "native-base";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { styles } from "../../styles/signup.styles";
+import Toast from "react-native-root-toast";
 
 export default class Signup extends Component {
   constructor(props) {
@@ -20,7 +21,8 @@ export default class Signup extends Component {
       name: "",
       email: "",
       password: "",
-      password_confirmation: ""
+      password_confirmation: "",
+      visible: false
     };
   }
 
@@ -70,13 +72,46 @@ export default class Signup extends Component {
               if (responseJson.success) {
                 console.log("response", responseJson);
                 // this.setState({ signUpError: null});
+                this.setState({ visible: true, message: "Signup Successful!" });
+
+                let toast = Toast.show(this.state.message, {
+                  duration: Toast.durations.SHORT,
+                  position: Toast.positions.BOTTOM,
+                  shadow: true,
+                  animation: true,
+                  hideOnPress: true,
+                  delay: 2
+                });
+
+                // You can manually hide the Toast, or it will automatically disappear after a `duration` ms timeout.
+                setTimeout(function() {
+                  Toast.hide(toast);
+                }, 3000);
+
                 this.props.navigation.navigate("Signin");
                 // console.log("token", responseJson.success.token);
               } else {
                 this.setState(() => ({
-                  signUpError: responseJson.error,
-                  isLoading: false
+                  signUpError: "",
+                  isLoading: false,
+                  visible: true,
+                  message:
+                    "Signup Failed! This email is already registered. Try to signup from website http://www.gorporbyken.com/register"
                 }));
+
+                let toast = Toast.show(this.state.message, {
+                  duration: Toast.durations.SHORT,
+                  position: Toast.positions.BOTTOM,
+                  shadow: true,
+                  animation: true,
+                  hideOnPress: true,
+                  delay: 2
+                });
+
+                // You can manually hide the Toast, or it will automatically disappear after a `duration` ms timeout.
+                setTimeout(function() {
+                  Toast.hide(toast);
+                }, 6000);
               }
             } catch (error) {
               console.log("error", error);

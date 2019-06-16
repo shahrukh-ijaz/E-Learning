@@ -150,7 +150,7 @@ export default class Exam extends Component {
           >
             <View style={{ marginTop: 22, marginHorizontal: 30 }}>
               <Text>Explanation</Text>
-              <View>
+              <ScrollView>
                 <HTML
                   html={question.explanation}
                   imagesMaxWidth={Dimensions.get("window").width}
@@ -165,7 +165,7 @@ export default class Exam extends Component {
                     <Text style={styles.buttonText}>Hide Explanation</Text>
                   </Button>
                 </View>
-              </View>
+              </ScrollView>
             </View>
           </Modal>
           <Text style={{ fontSize: 18 }}>Question:</Text>
@@ -224,12 +224,14 @@ export default class Exam extends Component {
               style={styles.button}
               key={question.id}
               title="Submit Answer"
-              onPress={() =>
-                this.state.answered
-                  ? index < this.state.totalQuestions
+              onPress={
+                () =>
+                  // this.state.answered
+                  // ?
+                  index < this.state.totalQuestions
                     ? this.setState({ index: index + 1, answered: false })
                     : this.setState({ quizCompleted: true })
-                  : null
+                // : null
               }
             >
               <Icon

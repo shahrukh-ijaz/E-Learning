@@ -157,10 +157,17 @@ class Signin extends Component {
               </View>
 
               <View
-                style={styles.inputFields}
                 style={styles.forgotPasswordView}
+                onPress={() => this.props.navigation.navigate("ForgotPassword")}
               >
-                <Text style={styles.forgotPasswordText}>Forgot Password ?</Text>
+                <Text
+                  onPress={() =>
+                    this.props.navigation.navigate("ForgotPassword")
+                  }
+                  style={styles.forgotPasswordText}
+                >
+                  Forgot Password ?
+                </Text>
               </View>
             </Content>
           </Container>

@@ -49,7 +49,8 @@ export const styles = StyleSheet.create({
   forgotPasswordView: {
     flex: 1,
     alignItems: "flex-end",
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
+    marginTop: 10
   },
   forgotPasswordText: {
     fontSize: 14,
