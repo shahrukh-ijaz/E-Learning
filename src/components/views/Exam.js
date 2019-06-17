@@ -228,9 +228,19 @@ export default class Exam extends Component {
                 () =>
                   // this.state.answered
                   // ?
-                  index < this.state.totalQuestions
-                    ? this.setState({ index: index + 1, answered: false })
-                    : this.setState({ quizCompleted: true })
+                  {
+                    if (this.state.answers.length != index) {
+                      let ans = this.state.answers;
+                      ans[index] = null;
+                      this.setState({
+                        answers: ans,
+                        answered: true
+                      });
+                    }
+                    index < this.state.totalQuestions
+                      ? this.setState({ index: index + 1, answered: false })
+                      : this.setState({ quizCompleted: true });
+                  }
                 // : null
               }
             >
@@ -275,11 +285,12 @@ export default class Exam extends Component {
                     imagesMaxWidth={Dimensions.get("window").width}
                   />
                   <Text key={answers[i]}>Answer:</Text>
-                  <HTML
-                    html={question.options[parseInt(answers[i])].option}
-                    imagesMaxWidth={Dimensions.get("window").width}
-                  />
-
+                  {answers[i] != null ? (
+                    <HTML
+                      html={question.options[parseInt(answers[i])].option}
+                      imagesMaxWidth={Dimensions.get("window").width}
+                    />
+                  ) : null}
                   <Text key={question.id}>Correct:</Text>
                   <HTML
                     html={question.options[parseInt(question.answer)].option}
